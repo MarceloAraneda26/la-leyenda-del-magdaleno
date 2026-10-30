@@ -11,6 +11,7 @@
     return v * v * (3 - 2 * v);
   };
 
+  M.rigOut = {};
   M.character = function (id, x, y, height, pose = {}) {
     const image = M.images?.[id];
     const bounds = M.bounds?.[id];
@@ -24,6 +25,13 @@
     const cycle = time * 12;
     const stride = Math.sin(cycle) * speed;
     const size = pose.giant || 1;
+    // Pose de definitiva (src/powers.js). Registra manos y herramienta en coordenadas de pantalla.
+    const rig = pose.rig || null;
+    const crouch = rig ? rig.crouch : 0;
+    const splay = .7 * crouch;
+    const base = g.getTransform();
+    const out = rig ? (M.rigOut[id] = { front: null, back: null, tool: {}, head: null }) : null;
+    const toBase = (lx, ly) => { const p = base.inverse().multiply(g.getTransform()).transformPoint(new DOMPoint(lx, ly)); return { x: p.x, y: p.y }; };
     const attack = pose.attack ?? (pose.punch ? .45 : -1);
     const extension = attack < 0 ? 0 : attack < .2 ? -.15 * smooth(attack / .2) : attack < .5 ? smooth((attack - .2) / .3) : 1 - smooth((attack - .5) / .5);
 
@@ -36,11 +44,13 @@
     g.restore();
     g.save();
     g.globalAlpha = pose.alpha ?? 1;
-    g.translate(Math.round(x), Math.round(y));
-    g.scale(size, size * (1 - M.clamp(pose.landing || 0, 0, 1) * .045));
-    g.rotate(pose.hurt ? -.075 * direction : .028 * direction * speed + .035 * direction * Math.max(0, extension));
+    g.translate(Math.round(x), Math.round(y - (rig ? rig.lift : 0)));
+    g.scale(size, size * (1 - M.clamp(pose.landing || 0, 0, 1) * .045 - crouch * .04));
+    g.rotate(pose.hurt ? -.075 * direction : .028 * direction * speed + .035 * direction * Math.max(0, extension) + (rig ? rig.lean * direction : 0));
     const bounce = pose.air ? 0 : -Math.abs(Math.sin(cycle)) * 1.5 * speed;
-    g.translate(0, bounce);
+    // Al flexionar, las piernas se acortan: el cuerpo baja lo mismo para que los pies sigan en el suelo.
+    const drop = pose.air ? 0 : (.18 + .13) * height * (1 - Math.cos(splay));
+    g.translate(0, bounce + drop);
 
     if (boss) {
       const compression = pose.punch ? .985 : 1 + Math.sin(time * 2) * .002;
@@ -93,13 +103,14 @@
         if (pose.rising === false) { hipAngle *= .55; kneeAngle *= .5; }
       }
       if (attack >= 0) hipAngle *= .35;
+      if (crouch && !pose.air) { hipAngle += sign * splay; kneeAngle -= sign * 2 * splay; }
       const upper = left ? [.18, .62, .51, .835] : [.49, .62, .82, .835];
       const upperMask = left ? [[.22,.62],[.51,.62],[.51,.835],[.18,.835]] : [[.49,.62],[.78,.62],[.82,.835],[.49,.835]];
       joint(hip, root, hipAngle, () => {
         piece(upper, hip, upperMask);
         joint(knee, hip, kneeAngle, () => {
           piece(left ? [0,.79,.51,.955] : [.49,.79,1,.955], knee);
-          joint(ankle, knee, pose.air ? .08 * sign : -(hipAngle + kneeAngle) * .8, () => {
+          joint(ankle, knee, pose.air ? .08 * sign : -(hipAngle + kneeAngle) * (crouch ? 1 : .8), () => {
             piece(left ? [0,.925,.51,1] : [.49,.925,1,1], ankle);
           });
         });
@@ -122,11 +133,23 @@
       if (pose.cast) { shoulderAngle = sign * .95; elbowAngle = sign * .38; }
       if (pose.win) { shoulderAngle = sign * (2.25 + Math.sin(time * 4) * .06); elbowAngle = -sign * .18; }
       if (pose.hurt) { shoulderAngle = sign * .18; elbowAngle = sign * .35; }
+      if (rig) { const angles = front ? rig.front : rig.back; shoulderAngle = -direction * angles[0]; elbowAngle = -direction * angles[1]; }
       const upperMask = left ? [[0,.30],[.29,.30],[.26,.515],[0,.515]] : [[.71,.30],[1,.30],[1,.515],[.74,.515]];
       const lowerMask = left ? [[0,.48],[.255,.48],[.20,.72],[0,.72]] : [[.745,.48],[1,.48],[1,.72],[.80,.72]];
       joint(shoulder, root, shoulderAngle, () => {
         piece(left ? [0,.30,.29,.52] : [.71,.30,1,.52], shoulder, upperMask);
-        joint(elbow, shoulder, elbowAngle, () => piece(left ? [0,.48,.255,.72] : [.745,.48,1,.72], elbow, lowerMask));
+        joint(elbow, shoulder, elbowAngle, () => {
+          piece(left ? [0,.48,.255,.72] : [.745,.48,1,.72], elbow, lowerMask);
+          if (!rig) return;
+          // La herramienta comparte la transformación de la mano: no puede separarse de ella.
+          const hx = ((left ? .13 : .87) - elbow[0]) * width, hy = (.70 - elbow[1]) * height;
+          out[front ? 'front' : 'back'] = toBase(hx, hy);
+          if (rig.tool && front && M.drawTool) {
+            g.save(); g.translate(hx, hy); g.scale(direction, 1);
+            M.drawTool(rig.tool, height / 94, (name, lx, ly) => { out.tool[name] = toBase(lx, ly); });
+            g.restore();
+          }
+        });
       });
     }
     const backIsLeft = direction > 0;
@@ -136,8 +159,12 @@
     piece([.22,.29,.78,.65], root);
     g.restore();
     arm(!backIsLeft, true);
-    joint([.5,.28], root, pose.hurt ? .055 * direction : .012 * stride, () => piece([0,0,1,.31], [.5,.28]));
+    joint([.5,.28], root, pose.hurt ? .055 * direction : .012 * stride, () => {
+      piece([0,0,1,.31], [.5,.28]);
+      if (out) out.head = toBase(0, -.13 * height);
+    });
     g.restore();
+    if (rig && M.afterRig) M.afterRig(id, rig, out);
     if (extension > .65) {
       const px = x + direction * (height * .33 + 12);
       F(px, y - height * .64, 8, 3, '#ffe8b4');
@@ -307,8 +334,7 @@
     const session=M.session;
     if(M.state!=='play'||!session||M.celebrating||session.friends.length<2)return;
     const p=session.player;
-    let lift=94*(p.ult>0&&session.hero==='tobi'?2:1);
-    if(p.ult>0&&session.hero==='pulga')lift+=Math.sin((1-p.ult/1.2)*Math.PI)*110;
+    const lift=94*(p.rig?.scale||1)+(p.rig?.lift||0);
     const x=p.x-M.cam,y=p.y-lift-11;
     poly([[x-5,y-5],[x+5,y-5],[x,y]],'#64d5be');
   };

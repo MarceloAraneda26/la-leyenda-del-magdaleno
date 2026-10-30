@@ -79,6 +79,21 @@ Estado: implementada y probada en la versión 0.4.
 - [x] Reproductor con descargas y guía para jugar en celular.
 - [x] Exportación estática y configuración de GitHub Pages y Vercel.
 
+## Etapa 6: definitivas
+
+Estado: implementada y medida en la versión 0.5.
+
+- [x] Puntos de agarre: martillo, balón y dispositivo comparten la transformación de la mano.
+- [x] Secuencia común de preparación, acción, impacto y recuperación, con evento de daño propio por poder.
+- [x] Ruzio y Pulga: contacto del martillo y aterrizaje de la clavada en el mismo paso del daño.
+- [x] Tobi, Marcelo y Pallo: poses propias, transferencia de peso, uso del objeto y recuperación.
+- [x] Efectos y sonidos propios, estela del golpe y pausa de impacto breve.
+- [x] Ayudas de rescate con la misma secuencia del poder.
+- [x] Vista de animaciones con definitiva real, avance cuadro a cuadro y ambos sentidos.
+- [x] Auditoría automática con criterios de aceptación en ambos sentidos.
+- [ ] Capturar de nuevo el tráiler con las animaciones corregidas.
+- [ ] Revisar la lectura de los poderes en un celular físico.
+
 ## Siguiente ciclo de acabado
 
 - [ ] Evaluar dificultad y ritmo mediante partidas humanas y ajustar el balance.

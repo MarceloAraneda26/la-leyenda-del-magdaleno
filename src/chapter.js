@@ -87,8 +87,10 @@
     const aid=M.session?.rescues?.find(rescue=>rescue.hero===id&&rescue.done&&rescue.open<1);
     if(aid&&!M.celebrating&&['play','dialogue'].includes(M.state)){
       x=(aid.col+3)*T-44-M.cam;y=450;
-      pose={...pose,walk:false,speed:0,dir:1,cast:id==='marcelo'||id==='pallo',attack:id==='ruzio'||id==='tobi'?aid.open:-1};
-      if(id==='pulga'){y-=Math.sin(aid.open*Math.PI)*110;pose.air=true;pose.rising=aid.open<.5;pose.cast=true;}
+      // La ayuda reutiliza la secuencia y la herramienta de la definitiva; Tobi empuja el bloque.
+      const rig=M.powerPose(id,aid.open*(id==='tobi'?1:M.powers[id].duration),'aid');
+      if(id==='pulga')y-=rig.jump*110;
+      pose={...pose,walk:false,speed:0,dir:1,cast:false,attack:-1,air:rig.air,rising:rig.rising,giant:1,rig};
     }
     character(id,x,y,height,pose);
   };

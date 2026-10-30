@@ -1,10 +1,10 @@
 # La Leyenda del Magdaleno
 
-## Versión jugable 0.4 del capítulo 1
+## Versión jugable 0.5 del capítulo 1
 
 Una aventura de plataformas en pixel art: elige a uno de los cinco amigos, reúne al grupo y llega a la botillería escondida en la montaña para conseguir el Coñac Magdaleno.
 
-La versión 0.4 adapta los menús, diálogos y controles a celulares en vertical y horizontal. Incluye instalación opcional, recursos disponibles sin conexión y un tráiler de 30 segundos en dos formatos. La revisión 0.4.1 retira el desenlace del tráiler y documenta las brechas de los poderes, que todavía requieren pulido visual. [Ver tráiler sin desenlace](trailer.html?v=0.4.1) · [Análisis de animaciones](ANALISIS_ANIMACIONES.md) · [Jugar en celular](movil.html) · [Publicar](PUBLICAR.md).
+La versión 0.4 adapta los menús, diálogos y controles a celulares en vertical y horizontal. Incluye instalación opcional, recursos disponibles sin conexión y un tráiler de 30 segundos en dos formatos. La revisión 0.4.1 retira el desenlace del tráiler. La 0.5 corrige las definitivas: cada poder tiene preparación, acción, impacto y recuperación; las herramientas siguen la mano y el daño ocurre en el contacto o el aterrizaje. El tráiler todavía muestra las animaciones anteriores. [Ver tráiler sin desenlace](trailer.html?v=0.4.1) · [Análisis de animaciones](ANALISIS_ANIMACIONES.md) · [Jugar en celular](movil.html) · [Publicar](PUBLICAR.md).
 
 ## Cómo jugar
 
@@ -94,6 +94,7 @@ Esta es una primera versión jugable. Los escenarios reproducen la dirección vi
 - src/core.js: entrada, colisiones, carga de imágenes y audio.
 - src/render.js: escenarios, enemigos y animación por piezas.
 - src/visuals.js: articulaciones, detalle de escenarios y señales visuales de la versión 0.2.
+- src/powers.js: secuencias de las cinco definitivas, herramientas en la mano, instante de impacto, efectos y sonidos propios.
 - animaciones.html y src/animation-preview.js: vista comparativa de movimientos, con pausa y velocidad.
 - src/game.js: campaña, combate, rescates, jefes, pausa y guardado.
 - src/chapter.js: desvíos, escalones, peligros y apertura animada de pasos.

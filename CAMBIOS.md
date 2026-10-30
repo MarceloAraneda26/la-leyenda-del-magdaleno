@@ -1,5 +1,26 @@
 # Cambios de versión
 
+## 0.5: definitivas corregidas
+
+Aplica el plan de [ANALISIS_ANIMACIONES.md](ANALISIS_ANIMACIONES.md).
+
+- Base común nueva en `src/powers.js`: cada definitiva es una secuencia de poses clave con preparación, acción, impacto y recuperación, interpolada con aceleración y frenado.
+- El daño ocurre en el instante de impacto propio de cada poder, no en un porcentaje común.
+- Martillo, balón y dispositivo se dibujan con la misma transformación de la mano: no pueden separarse de ella. Pasan por detrás de la cabeza por orden de capas.
+- Ruzio levanta el martillo por detrás, lo descarga con aceleración y la cabeza toca el suelo en el mismo paso del daño. La onda nace en el punto de contacto y alcanza a cada objetivo según su distancia.
+- Pulga salta de verdad: su posición física sube hasta 110 px, se adapta al espacio libre sobre la cabeza y el daño ocurre al aterrizar, con el balón contra el suelo.
+- Tobi se agacha, crece por pasos de 1/16 con aceleración y frenado, levanta ambos brazos, salta y golpea al aterrizar.
+- Marcelo sujeta el dispositivo, la pantalla se carga y el pulso nace del aparato. La otra mano queda en la cadera.
+- Pallo se concentra, apunta y el hechizo nace de su palma. Si cura, el hilo vuelve en verde con la vida recuperada; si no acierta, vuelve en gris.
+- Efectos y sonidos propios por poder, estela del golpe y pausa de impacto breve en los golpes pesados.
+- Las ayudas de rescate reutilizan la misma secuencia y herramienta; Tobi empuja el bloque.
+- Vista de animaciones con «Definitiva» real, avance cuadro a cuadro, velocidad hasta 0,1×, ambos sentidos y marcadores de agarre e impacto.
+- Auditoría automática con criterios de aceptación y secuencias nuevas en `auditoria_animaciones`.
+
+Cambian los tiempos de impacto: Marcelo 0,42 s, Ruzio 0,56 s, Pulga 0,92 s, Tobi 0,92 s y Pallo 0,44 s. La clavada de Pulga golpea más tarde que antes (0,65 s), porque ahora espera el aterrizaje. Daño, radio, costo y duración total se mantienen. El esquema de guardado sigue siendo 1.
+
+El tráiler 0.4.1 todavía muestra las animaciones anteriores.
+
 ## 0.4.1: revisión de animaciones y tráiler sin desenlace
 
 - Análisis de brechas de los poderes, con secuencias y mediciones obtenidas del motor real.

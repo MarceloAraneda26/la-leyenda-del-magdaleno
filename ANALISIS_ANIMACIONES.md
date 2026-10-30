@@ -1,6 +1,39 @@
 # Análisis de poderes y herramientas
 
-Estado analizado: versión 0.4.0. Este informe diagnostica el sistema actual; todavía no representa una corrección de las animaciones.
+Estado analizado: versión 0.4.0. La versión 0.5.0 aplicó la corrección; su resultado está en la sección siguiente. El diagnóstico original se conserva más abajo como referencia.
+
+## Resultado de la corrección 0.5
+
+La base común está en `src/powers.js`. Cada definitiva es una secuencia de poses clave (preparación, acción, impacto y recuperación) con su propio instante de impacto. Las herramientas se dibujan con la transformación de la mano y el daño se dispara en ese instante.
+
+Medición con `node tools/audit-animation.cjs`: motor real a 60 pasos por segundo, render en cada paso, hacia la derecha y hacia la izquierda. Resultado completo en [mediciones_v05.json](auditoria_animaciones/mediciones_v05.json).
+
+| Amigo | Impacto y daño | Contacto o evidencia | Agarre | Mayor salto de pose fuera del golpe |
+|---|---|---|---|---|
+| Marcelo | 0,433 s | El pulso nace del dispositivo (0 px) | 0 px | 0,20 rad |
+| Ruzio | 0,567 s | Cabeza del martillo a 2,9 px del suelo; 57 px en el paso anterior | 0 px | 0,29 rad |
+| Pulga | 0,933 s | Posición física en el suelo; balón a 0,7 y 2,7 px del suelo según el sentido (12 y 14 px en el paso anterior); salto real de 110 px | 0 px | 0,30 rad |
+| Tobi | 0,933 s | Aterriza del salto (elevación 0) a escala 2 | sin objeto | 0,19 rad |
+| Pallo | 0,450 s | El hechizo nace de la palma (0 px) | 0 px | 0,19 rad |
+
+Criterios propuestos que ahora se cumplen:
+
+- Agarre a menos de 2 px de la mano durante toda la acción.
+- Contacto o aterrizaje y daño en el mismo paso de 60 Hz, sin contacto en el paso anterior.
+- Entrada desde el reposo y vuelta a él sin saltos mayores a 0,3 rad por paso, salvo el golpe mismo.
+- La herramienta pasa por detrás de la cabeza por orden de capas; no la atraviesa.
+- La secuencia se mide en ambos sentidos. En el visor también se revisa con avance cuadro a cuadro y a tamaño reducido.
+
+Secuencias nuevas: [Ruzio](auditoria_animaciones/ruzio_secuencia_v05.png), [Pulga](auditoria_animaciones/pulga_secuencia_v05.png), [Tobi](auditoria_animaciones/tobi_secuencia_v05.png), [Marcelo](auditoria_animaciones/marcelo_secuencia_v05.png) y [Pallo](auditoria_animaciones/pallo_secuencia_v05.png).
+
+Límites que siguen abiertos:
+
+- Los cuerpos parten del mismo sprite frontal. Las poses nuevas rotan recortes, sin manos ni torsos dibujados a mano. El gesto se lee, pero no reemplaza un pase de pixel art por personaje.
+- Tobi golpea al aterrizar: sus puños bajan hasta la cintura, sin tocar el suelo, porque las proporciones frontales no lo permiten sin doblar el torso.
+- El tráiler 0.4.1 muestra las animaciones anteriores. Conviene capturarlo de nuevo.
+- La revisión de legibilidad en un celular físico sigue pendiente.
+
+## Diagnóstico de la versión 0.4.0
 
 El problema principal es la falta de coordinación entre cuerpo, objeto y efecto. Hay interpolación y articulaciones, pero las herramientas no siguen las manos y el daño no siempre coincide con el gesto que lo debería producir. Aumentar los cuadros por segundo no resolvería estas brechas.
 

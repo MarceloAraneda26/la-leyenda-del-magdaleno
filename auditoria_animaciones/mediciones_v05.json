@@ -1,0 +1,315 @@
+{
+  "source": "Motor real 0.5 a 60 pasos por segundo, render en cada paso, fondo aislado. Derecha e izquierda.",
+  "status": "passed",
+  "errors": [],
+  "criteria": [
+    {
+      "hero": "marcelo",
+      "name": "Daño en el paso previsto",
+      "ok": true,
+      "detail": "0.433 s"
+    },
+    {
+      "hero": "marcelo",
+      "name": "El efecto nace del objeto o la mano (≤ 2 px)",
+      "ok": true,
+      "detail": "0 / 0 px"
+    },
+    {
+      "hero": "marcelo",
+      "name": "Agarre a menos de 2 px de la mano",
+      "ok": true,
+      "detail": "0 px"
+    },
+    {
+      "hero": "marcelo",
+      "name": "Sin saltos de pose fuera del golpe (≤ 0,3 rad por paso)",
+      "ok": true,
+      "detail": "0.201 rad"
+    },
+    {
+      "hero": "ruzio",
+      "name": "Daño en el paso previsto",
+      "ok": true,
+      "detail": "0.567 s"
+    },
+    {
+      "hero": "ruzio",
+      "name": "Contacto con el suelo en el paso del daño (≤ 4 px) y sin contacto en el paso anterior",
+      "ok": true,
+      "detail": "2.9 / 2.9 px"
+    },
+    {
+      "hero": "ruzio",
+      "name": "Agarre a menos de 2 px de la mano",
+      "ok": true,
+      "detail": "0 px"
+    },
+    {
+      "hero": "ruzio",
+      "name": "Sin saltos de pose fuera del golpe (≤ 0,3 rad por paso)",
+      "ok": true,
+      "detail": "0.288 rad"
+    },
+    {
+      "hero": "pulga",
+      "name": "Daño en el paso previsto",
+      "ok": true,
+      "detail": "0.933 s"
+    },
+    {
+      "hero": "pulga",
+      "name": "Contacto con el suelo en el paso del daño (≤ 4 px) y sin contacto en el paso anterior",
+      "ok": true,
+      "detail": "0.7 / 2.7 px"
+    },
+    {
+      "hero": "pulga",
+      "name": "Posición física en el suelo al impactar",
+      "ok": true,
+      "detail": "salto real 110 px"
+    },
+    {
+      "hero": "pulga",
+      "name": "Agarre a menos de 2 px de la mano",
+      "ok": true,
+      "detail": "0 px"
+    },
+    {
+      "hero": "pulga",
+      "name": "Sin saltos de pose fuera del golpe (≤ 0,3 rad por paso)",
+      "ok": true,
+      "detail": "0.299 rad"
+    },
+    {
+      "hero": "tobi",
+      "name": "Daño en el paso previsto",
+      "ok": true,
+      "detail": "0.933 s"
+    },
+    {
+      "hero": "tobi",
+      "name": "Aterriza del salto en el impacto",
+      "ok": true,
+      "detail": "escala 2"
+    },
+    {
+      "hero": "tobi",
+      "name": "Agarre a menos de 2 px de la mano",
+      "ok": true,
+      "detail": "0 px"
+    },
+    {
+      "hero": "tobi",
+      "name": "Sin saltos de pose fuera del golpe (≤ 0,3 rad por paso)",
+      "ok": true,
+      "detail": "0.193 rad"
+    },
+    {
+      "hero": "pallo",
+      "name": "Daño en el paso previsto",
+      "ok": true,
+      "detail": "0.45 s"
+    },
+    {
+      "hero": "pallo",
+      "name": "El efecto nace del objeto o la mano (≤ 2 px)",
+      "ok": true,
+      "detail": "0 / 0 px"
+    },
+    {
+      "hero": "pallo",
+      "name": "Agarre a menos de 2 px de la mano",
+      "ok": true,
+      "detail": "0 px"
+    },
+    {
+      "hero": "pallo",
+      "name": "Sin saltos de pose fuera del golpe (≤ 0,3 rad por paso)",
+      "ok": true,
+      "detail": "0.189 rad"
+    }
+  ],
+  "characters": [
+    {
+      "hero": "marcelo",
+      "duration": 0.8,
+      "impact": 0.42,
+      "strikeStart": 0.38,
+      "right": {
+        "impactSeconds": 0.433,
+        "designedImpact": 0.42,
+        "impactFrame": 26,
+        "expectedFrame": 26,
+        "contactGapPx": null,
+        "gapPreviousFramePx": null,
+        "physicalYAtImpact": 450,
+        "maxPhysicalJumpPx": 0,
+        "liftAtImpact": 0,
+        "scaleAtImpact": 1,
+        "effectOriginErrorPx": 0,
+        "maxGripErrorPx": 0,
+        "maxPoseJumpOutsideStrikeRad": 0.201
+      },
+      "left": {
+        "impactSeconds": 0.433,
+        "designedImpact": 0.42,
+        "impactFrame": 26,
+        "expectedFrame": 26,
+        "contactGapPx": null,
+        "gapPreviousFramePx": null,
+        "physicalYAtImpact": 450,
+        "maxPhysicalJumpPx": 0,
+        "liftAtImpact": 0,
+        "scaleAtImpact": 1,
+        "effectOriginErrorPx": 0,
+        "maxGripErrorPx": 0,
+        "maxPoseJumpOutsideStrikeRad": 0.201
+      }
+    },
+    {
+      "hero": "ruzio",
+      "duration": 1,
+      "impact": 0.56,
+      "strikeStart": 0.45,
+      "right": {
+        "impactSeconds": 0.567,
+        "designedImpact": 0.56,
+        "impactFrame": 34,
+        "expectedFrame": 34,
+        "contactGapPx": 2.9,
+        "gapPreviousFramePx": 57.3,
+        "physicalYAtImpact": 450,
+        "maxPhysicalJumpPx": 0,
+        "liftAtImpact": 0,
+        "scaleAtImpact": 1,
+        "effectOriginErrorPx": null,
+        "maxGripErrorPx": 0,
+        "maxPoseJumpOutsideStrikeRad": 0.288
+      },
+      "left": {
+        "impactSeconds": 0.567,
+        "designedImpact": 0.56,
+        "impactFrame": 34,
+        "expectedFrame": 34,
+        "contactGapPx": 2.9,
+        "gapPreviousFramePx": 57.3,
+        "physicalYAtImpact": 450,
+        "maxPhysicalJumpPx": 0,
+        "liftAtImpact": 0,
+        "scaleAtImpact": 1,
+        "effectOriginErrorPx": null,
+        "maxGripErrorPx": 0,
+        "maxPoseJumpOutsideStrikeRad": 0.288
+      }
+    },
+    {
+      "hero": "pulga",
+      "duration": 1.2,
+      "impact": 0.92,
+      "strikeStart": 0.72,
+      "right": {
+        "impactSeconds": 0.933,
+        "designedImpact": 0.92,
+        "impactFrame": 56,
+        "expectedFrame": 56,
+        "contactGapPx": 0.7,
+        "gapPreviousFramePx": 11.6,
+        "physicalYAtImpact": 450,
+        "maxPhysicalJumpPx": 110,
+        "liftAtImpact": 0,
+        "scaleAtImpact": 1,
+        "effectOriginErrorPx": null,
+        "maxGripErrorPx": 0,
+        "maxPoseJumpOutsideStrikeRad": 0.299
+      },
+      "left": {
+        "impactSeconds": 0.933,
+        "designedImpact": 0.92,
+        "impactFrame": 56,
+        "expectedFrame": 56,
+        "contactGapPx": 2.7,
+        "gapPreviousFramePx": 14.2,
+        "physicalYAtImpact": 450,
+        "maxPhysicalJumpPx": 110,
+        "liftAtImpact": 0,
+        "scaleAtImpact": 1,
+        "effectOriginErrorPx": null,
+        "maxGripErrorPx": 0,
+        "maxPoseJumpOutsideStrikeRad": 0.299
+      }
+    },
+    {
+      "hero": "tobi",
+      "duration": 1.5,
+      "impact": 0.92,
+      "strikeStart": 0.76,
+      "right": {
+        "impactSeconds": 0.933,
+        "designedImpact": 0.92,
+        "impactFrame": 56,
+        "expectedFrame": 56,
+        "contactGapPx": null,
+        "gapPreviousFramePx": null,
+        "physicalYAtImpact": 450,
+        "maxPhysicalJumpPx": 0,
+        "liftAtImpact": 0,
+        "scaleAtImpact": 2,
+        "effectOriginErrorPx": null,
+        "maxGripErrorPx": 0,
+        "maxPoseJumpOutsideStrikeRad": 0.193
+      },
+      "left": {
+        "impactSeconds": 0.933,
+        "designedImpact": 0.92,
+        "impactFrame": 56,
+        "expectedFrame": 56,
+        "contactGapPx": null,
+        "gapPreviousFramePx": null,
+        "physicalYAtImpact": 450,
+        "maxPhysicalJumpPx": 0,
+        "liftAtImpact": 0,
+        "scaleAtImpact": 2,
+        "effectOriginErrorPx": null,
+        "maxGripErrorPx": 0,
+        "maxPoseJumpOutsideStrikeRad": 0.193
+      }
+    },
+    {
+      "hero": "pallo",
+      "duration": 0.9,
+      "impact": 0.44,
+      "strikeStart": 0.4,
+      "right": {
+        "impactSeconds": 0.45,
+        "designedImpact": 0.44,
+        "impactFrame": 27,
+        "expectedFrame": 27,
+        "contactGapPx": null,
+        "gapPreviousFramePx": null,
+        "physicalYAtImpact": 450,
+        "maxPhysicalJumpPx": 0,
+        "liftAtImpact": 0,
+        "scaleAtImpact": 1,
+        "effectOriginErrorPx": 0,
+        "maxGripErrorPx": 0,
+        "maxPoseJumpOutsideStrikeRad": 0.189
+      },
+      "left": {
+        "impactSeconds": 0.45,
+        "designedImpact": 0.44,
+        "impactFrame": 27,
+        "expectedFrame": 27,
+        "contactGapPx": null,
+        "gapPreviousFramePx": null,
+        "physicalYAtImpact": 450,
+        "maxPhysicalJumpPx": 0,
+        "liftAtImpact": 0,
+        "scaleAtImpact": 1,
+        "effectOriginErrorPx": 0,
+        "maxGripErrorPx": 0,
+        "maxPoseJumpOutsideStrikeRad": 0.189
+      }
+    }
+  ]
+}
