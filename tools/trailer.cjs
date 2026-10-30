@@ -45,8 +45,8 @@ function encoder(name,size,audio){
       {start:14.5,end:17,id:'tobi',hero:'tobi',zone:1,col:59,title:['UN AMIGO.','TAMAÑO BESTIAL.'],sub:'Tobi · Coloso de la Ruta'},
       {start:17,end:19.5,id:'pallo',hero:'pallo',zone:2,col:65,title:['LA JUNTA','TAMBIÉN TE CUIDA.'],sub:'Pallo · Sutura Arcana'},
       {start:19.5,end:22.5,id:'police',hero:'marcelo',zone:1,col:108,title:['¿PERMISO PARA','TENER VIDA?'],sub:'El papeleo acaba de subir de nivel.'},
-      {start:22.5,end:25.5,id:'shop',hero:'ruzio',zone:2,col:118,title:['LA ÚLTIMA PRUEBA.'],sub:'El Matahombres los está esperando.'},
-      {start:25.5,end:28,id:'friends',hero:'marcelo',zone:2,col:117,title:['EL COÑAC ES LEYENDA.','LA AMISTAD, TAMBIÉN.'],sub:'Una aventura para llegar juntos.'},
+      {start:22.5,end:25.5,id:'road',hero:'ruzio',zone:1,col:85,title:['LA RUTINA','NO SE VA A RENDIR.'],sub:'El camino también tiene asuntos pendientes.'},
+      {start:25.5,end:28,id:'mystery',hero:'marcelo',zone:2,col:35,title:['¿QUÉ NOS ESPERA','EN LA MONTAÑA?'],sub:'Llega para descubrirlo.'},
       {start:28,end:30,id:'end',title:['LA LEYENDA','DEL MAGDALENO'],sub:'JUEGA EN PC Y CELULAR'}
     ];let previous=-1;
     function setup(scene){
@@ -57,11 +57,10 @@ function encoder(name,size,audio){
       M.progress.flags.tutorial_escalones=true;M.progress.flags.tutorial_plataforma=true;M.banner=0;M.notice=null;
       if(scene.id==='city')s.enemies=[M.makeEnemy('bill','trailer-bill',10),M.makeEnemy('folder','trailer-folder',13)];
       else if(['ruzio','pulga','tobi','pallo'].includes(scene.id)){s.enemies=[M.makeEnemy('folder','trailer-hit',scene.col+1.7),M.makeEnemy('bill','trailer-hit-2',scene.col+3.1)];if(scene.id==='pallo')p.hp=45;}
-      if(scene.id==='police'||scene.id==='shop'){
-        const b=s.boss;b.active=true;b.st='idle';b.tm=.15;b.hp=b.id==='carabinero'?190:400;b.pattern=scene.id==='shop'?1:0;p.x=b.x-135;
-        s.friends=['marcelo','ruzio','pulga','tobi'];if(scene.id==='shop')s.friends.push('pallo');s.fichas=[...s.friends];
-      }else if(scene.id==='friends'){
-        s.friends=[...M.order];s.fichas=[...M.order];M.celebrating=true;s.boss.dead=true;M.prepareCelebration();
+      if(scene.id==='road')s.enemies=[M.makeEnemy('clock','trailer-clock',88),M.makeEnemy('alarm','trailer-alarm',90)];
+      if(scene.id==='police'){
+        const b=s.boss;b.active=true;b.st='idle';b.tm=.15;b.hp=190;b.pattern=0;p.x=b.x-135;
+        s.friends=['marcelo','ruzio','pulga','tobi'];s.fichas=[...s.friends];
       }else s.boss=null;
       for(const id of s.friends)if(id!==s.hero)s.followers[id]={x:p.x-60-s.friends.indexOf(id)*30,y:450,vx:0};
       M.cam=M.clamp(p.x-350,0,s.cols*M.T-M.W);
@@ -74,10 +73,12 @@ function encoder(name,size,audio){
       const time=frame/30,index=scenes.findIndex(s=>time>=s.start&&time<s.end),scene=scenes[index],local=time-scene.start;
       if(index!==previous){setup(scene);previous=index;}
       if(M.session&&!M.celebrating){
-        a.key('KeyZ',!['pallo','pulga','tobi','ruzio'].includes(scene.id));a.key('ArrowRight',scene.id==='city'||((scene.id==='police'||scene.id==='shop')&&local<.25));
+        a.key('KeyZ',!['pallo','pulga','tobi','ruzio'].includes(scene.id));a.key('ArrowRight',scene.id==='city'||scene.id==='mystery'||scene.id==='road'||(scene.id==='police'&&local<.25));
         a.key('Space',scene.id==='city'&&((local>.28&&local<.58)||(local>1.03&&local<1.36)||(local>2.3&&local<2.62)));
         a.key('KeyV',local>.3&&local<.4&&scene.id!=='city');a.step(2);if(M.state==='dialogue')a.dismiss();
       }else{M.time+=1/30;M.render();}
+      if(M.celebrating||M.state==='ending'||M.session?.boss?.id==='matahombres'||M.progress?.flags.completed)throw new Error('El tráiler intentó mostrar el desenlace.');
+      if(M.session?.zone===2&&M.cam+M.W>=(M.session.cols-15)*M.T)throw new Error('El tráiler intentó mostrar la localización final.');
       M.notice=null;M.prompt='';M.render();
       const g=wide.getContext('2d');g.imageSmoothingEnabled=false;g.drawImage(game,0,0);
       if(scene.id==='roster'){g.fillStyle='#091626';g.fillRect(0,0,960,540);team(g,230,422,125,204);}
@@ -112,5 +113,5 @@ function encoder(name,size,audio){
     if(frame%150===0)console.log('Tráiler: '+Math.round(frame/(FPS*DURATION)*100)+'%');
   }
   const scenes=await page.evaluate(()=>window.trailerScenes);wide.stdin.end();vertical.stdin.end();await Promise.all([wide.done,vertical.done]);await browser.close();
-  fs.writeFileSync(path.join(OUT,'montaje.json'),JSON.stringify({duration:DURATION,fps:FPS,footage:'Escenas preparadas dentro del motor del juego, con sus sprites y animaciones reales.',music:'Chiptune original sintetizado para este montaje.',scenes},null,2));console.log('Tráileres exportados en '+OUT);
+  fs.writeFileSync(path.join(OUT,'montaje.json'),JSON.stringify({duration:DURATION,fps:FPS,noEndingSpoilers:true,footage:'Escenas preparadas dentro del motor del juego, con sus sprites y animaciones reales.',music:'Chiptune original sintetizado para este montaje.',scenes},null,2));console.log('Tráileres sin desenlace exportados en '+OUT);
 })().catch(error=>{console.error(error);process.exit(1);});

@@ -1,0 +1,432 @@
+{
+  "source": "Motor real a 60 pasos por segundo. Escena aislada sin modificar poses ni reglas del poder.",
+  "characters": [
+    {
+      "hero": "marcelo",
+      "duration": 0.8,
+      "impact": {
+        "frame": 26,
+        "seconds": 0.43333333333333335,
+        "visualFootY": 450,
+        "physicalFootY": 450,
+        "scale": 1
+      },
+      "samples": [
+        {
+          "fraction": 0,
+          "frame": 0,
+          "seconds": 0,
+          "physicalY": 450,
+          "ultimate": 0.8,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.12,
+          "frame": 6,
+          "seconds": 0.1,
+          "physicalY": 450,
+          "ultimate": 0.6999999999999997,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.26,
+          "frame": 12,
+          "seconds": 0.2,
+          "physicalY": 450,
+          "ultimate": 0.5999999999999994,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.4,
+          "frame": 19,
+          "seconds": 0.31666666666666665,
+          "physicalY": 450,
+          "ultimate": 0.4833333333333325,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.53,
+          "frame": 25,
+          "seconds": 0.4166666666666667,
+          "physicalY": 450,
+          "ultimate": 0.3833333333333325,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.66,
+          "frame": 32,
+          "seconds": 0.5333333333333333,
+          "physicalY": 450,
+          "ultimate": 0.2666666666666659,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.82,
+          "frame": 39,
+          "seconds": 0.65,
+          "physicalY": 450,
+          "ultimate": 0.14999999999999925,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.99,
+          "frame": 48,
+          "seconds": 0.8,
+          "physicalY": 450,
+          "ultimate": 0,
+          "damageApplied": true
+        },
+        {
+          "fraction": 1.08,
+          "frame": 52,
+          "seconds": 0.8666666666666667,
+          "physicalY": 450,
+          "ultimate": 0,
+          "damageApplied": true
+        }
+      ]
+    },
+    {
+      "hero": "ruzio",
+      "duration": 1,
+      "impact": {
+        "frame": 32,
+        "seconds": 0.5333333333333333,
+        "visualFootY": 450,
+        "physicalFootY": 450,
+        "scale": 1,
+        "hammerHeadCenterY": 353.83932978162363,
+        "hammerHeadAboveFloor": 96.16067021837637
+      },
+      "samples": [
+        {
+          "fraction": 0,
+          "frame": 0,
+          "seconds": 0,
+          "physicalY": 450,
+          "ultimate": 1,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.12,
+          "frame": 7,
+          "seconds": 0.11666666666666667,
+          "physicalY": 450,
+          "ultimate": 0.883333333333333,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.26,
+          "frame": 16,
+          "seconds": 0.26666666666666666,
+          "physicalY": 450,
+          "ultimate": 0.7333333333333325,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.4,
+          "frame": 24,
+          "seconds": 0.4,
+          "physicalY": 450,
+          "ultimate": 0.5999999999999988,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.53,
+          "frame": 32,
+          "seconds": 0.5333333333333333,
+          "physicalY": 450,
+          "ultimate": 0.4666666666666652,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.66,
+          "frame": 40,
+          "seconds": 0.6666666666666666,
+          "physicalY": 450,
+          "ultimate": 0.33333333333333187,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.82,
+          "frame": 49,
+          "seconds": 0.8166666666666667,
+          "physicalY": 450,
+          "ultimate": 0.1833333333333319,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.99,
+          "frame": 59,
+          "seconds": 0.9833333333333333,
+          "physicalY": 450,
+          "ultimate": 0.01666666666666527,
+          "damageApplied": true
+        },
+        {
+          "fraction": 1.08,
+          "frame": 65,
+          "seconds": 1.0833333333333333,
+          "physicalY": 450,
+          "ultimate": 0,
+          "damageApplied": true
+        }
+      ]
+    },
+    {
+      "hero": "pulga",
+      "duration": 1.2,
+      "impact": {
+        "frame": 39,
+        "seconds": 0.65,
+        "visualFootY": 340.9410652488809,
+        "physicalFootY": 450,
+        "scale": 1
+      },
+      "samples": [
+        {
+          "fraction": 0,
+          "frame": 0,
+          "seconds": 0,
+          "physicalY": 450,
+          "ultimate": 1.2,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.12,
+          "frame": 9,
+          "seconds": 0.15,
+          "physicalY": 450,
+          "ultimate": 1.0500000000000005,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.26,
+          "frame": 19,
+          "seconds": 0.31666666666666665,
+          "physicalY": 450,
+          "ultimate": 0.8833333333333336,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.4,
+          "frame": 29,
+          "seconds": 0.48333333333333334,
+          "physicalY": 450,
+          "ultimate": 0.7166666666666665,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.53,
+          "frame": 38,
+          "seconds": 0.6333333333333333,
+          "physicalY": 450,
+          "ultimate": 0.566666666666666,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.66,
+          "frame": 48,
+          "seconds": 0.8,
+          "physicalY": 450,
+          "ultimate": 0.3999999999999992,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.82,
+          "frame": 59,
+          "seconds": 0.9833333333333333,
+          "physicalY": 450,
+          "ultimate": 0.2166666666666659,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.99,
+          "frame": 71,
+          "seconds": 1.1833333333333333,
+          "physicalY": 450,
+          "ultimate": 0.016666666666665938,
+          "damageApplied": true
+        },
+        {
+          "fraction": 1.08,
+          "frame": 78,
+          "seconds": 1.3,
+          "physicalY": 450,
+          "ultimate": 0,
+          "damageApplied": true
+        }
+      ]
+    },
+    {
+      "hero": "tobi",
+      "duration": 1.5,
+      "impact": {
+        "frame": 48,
+        "seconds": 0.8,
+        "visualFootY": 450,
+        "physicalFootY": 450,
+        "scale": 2
+      },
+      "samples": [
+        {
+          "fraction": 0,
+          "frame": 0,
+          "seconds": 0,
+          "physicalY": 450,
+          "ultimate": 1.5,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.12,
+          "frame": 11,
+          "seconds": 0.18333333333333332,
+          "physicalY": 450,
+          "ultimate": 1.3166666666666673,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.26,
+          "frame": 23,
+          "seconds": 0.38333333333333336,
+          "physicalY": 450,
+          "ultimate": 1.116666666666668,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.4,
+          "frame": 36,
+          "seconds": 0.6,
+          "physicalY": 450,
+          "ultimate": 0.9000000000000015,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.53,
+          "frame": 48,
+          "seconds": 0.8,
+          "physicalY": 450,
+          "ultimate": 0.7000000000000008,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.66,
+          "frame": 59,
+          "seconds": 0.9833333333333333,
+          "physicalY": 450,
+          "ultimate": 0.5166666666666669,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.82,
+          "frame": 74,
+          "seconds": 1.2333333333333334,
+          "physicalY": 450,
+          "ultimate": 0.26666666666666694,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.99,
+          "frame": 89,
+          "seconds": 1.4833333333333334,
+          "physicalY": 450,
+          "ultimate": 0.016666666666666993,
+          "damageApplied": true
+        },
+        {
+          "fraction": 1.08,
+          "frame": 97,
+          "seconds": 1.6166666666666667,
+          "physicalY": 450,
+          "ultimate": 0,
+          "damageApplied": true
+        }
+      ]
+    },
+    {
+      "hero": "pallo",
+      "duration": 0.9,
+      "impact": {
+        "frame": 29,
+        "seconds": 0.48333333333333334,
+        "visualFootY": 450,
+        "physicalFootY": 450,
+        "scale": 1
+      },
+      "samples": [
+        {
+          "fraction": 0,
+          "frame": 0,
+          "seconds": 0,
+          "physicalY": 450,
+          "ultimate": 0.9,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.12,
+          "frame": 6,
+          "seconds": 0.1,
+          "physicalY": 450,
+          "ultimate": 0.7999999999999997,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.26,
+          "frame": 14,
+          "seconds": 0.23333333333333334,
+          "physicalY": 450,
+          "ultimate": 0.666666666666666,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.4,
+          "frame": 22,
+          "seconds": 0.36666666666666664,
+          "physicalY": 450,
+          "ultimate": 0.5333333333333322,
+          "damageApplied": false
+        },
+        {
+          "fraction": 0.53,
+          "frame": 29,
+          "seconds": 0.48333333333333334,
+          "physicalY": 450,
+          "ultimate": 0.4166666666666655,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.66,
+          "frame": 36,
+          "seconds": 0.6,
+          "physicalY": 450,
+          "ultimate": 0.2999999999999989,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.82,
+          "frame": 44,
+          "seconds": 0.7333333333333333,
+          "physicalY": 450,
+          "ultimate": 0.16666666666666557,
+          "damageApplied": true
+        },
+        {
+          "fraction": 0.99,
+          "frame": 53,
+          "seconds": 0.8833333333333333,
+          "physicalY": 450,
+          "ultimate": 0.016666666666665605,
+          "damageApplied": true
+        },
+        {
+          "fraction": 1.08,
+          "frame": 58,
+          "seconds": 0.9666666666666667,
+          "physicalY": 450,
+          "ultimate": 0,
+          "damageApplied": true
+        }
+      ]
+    }
+  ]
+}

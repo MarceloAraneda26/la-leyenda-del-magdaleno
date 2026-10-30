@@ -4,7 +4,7 @@
 
 Una aventura de plataformas en pixel art: elige a uno de los cinco amigos, reúne al grupo y llega a la botillería escondida en la montaña para conseguir el Coñac Magdaleno.
 
-La versión 0.4 adapta los menús, diálogos y controles a celulares en vertical y horizontal. Incluye instalación opcional, recursos disponibles sin conexión y un tráiler de 30 segundos en dos formatos. Conserva las rutas, ayudas y animaciones de las versiones anteriores. [Ver tráiler](trailer.html) · [Jugar en celular](movil.html) · [Publicar](PUBLICAR.md) · [Cambios de versión](CAMBIOS.md).
+La versión 0.4 adapta los menús, diálogos y controles a celulares en vertical y horizontal. Incluye instalación opcional, recursos disponibles sin conexión y un tráiler de 30 segundos en dos formatos. La revisión 0.4.1 retira el desenlace del tráiler y documenta las brechas de los poderes, que todavía requieren pulido visual. [Ver tráiler sin desenlace](trailer.html?v=0.4.1) · [Análisis de animaciones](ANALISIS_ANIMACIONES.md) · [Jugar en celular](movil.html) · [Publicar](PUBLICAR.md).
 
 ## Cómo jugar
 

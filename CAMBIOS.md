@@ -1,5 +1,12 @@
 # Cambios de versión
 
+## 0.4.1: revisión de animaciones y tráiler sin desenlace
+
+- Análisis de brechas de los poderes, con secuencias y mediciones obtenidas del motor real.
+- Plan de corrección de agarres, poses propias y sincronización del impacto. Las animaciones todavía conservan su implementación anterior.
+- Retirada del desenlace del tráiler, tanto en horizontal como en vertical. El montaje conserva el misterio de la búsqueda.
+- Protección en el generador para rechazar cuadros de la celebración, la prueba final y su localización.
+
 ## 0.4: celular y tráiler
 
 - Selector de personajes y diálogos adaptados a pantallas verticales y horizontales.
