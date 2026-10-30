@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1530">
+  <title>La Leyenda del Magdaleno</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="mobile.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script defer src="src/data.js"></script>
+  <script defer src="assets/bounds.js"></script>
+  <script defer src="src/core.js"></script>
+  <script defer src="src/render.js"></script>
+  <script defer src="src/visuals.js"></script>
+  <script defer src="src/game.js"></script>
+  <script defer src="src/chapter.js"></script>
+  <script defer src="src/soundtrack.js"></script>
+  <script defer src="src/mobile.js"></script>
+</head>
+<body>
+<main class="shell">
+  <header class="masthead"><a href="index.html" class="brand"><span class="brand-mark">M</span><span>LA LEYENDA<br><strong>DEL MAGDALENO</strong></span></a><div class="top-actions"><span class="build-label">CAPÍTULO 01 · UNA NOCHE PARA LOS CINCO</span><button id="install-button" class="small-button" hidden>INSTALAR</button><button id="fullscreen-button" class="small-button" aria-label="Ampliar juego a pantalla completa" hidden>⛶</button><button id="sound-button" class="small-button" aria-label="Activar sonido">SONIDO: NO</button><button id="pause-button" class="small-button" aria-label="Pausar juego">PAUSA</button></div></header>
+  <div class="mobile-status" hidden aria-label="Estado del protagonista"><strong id="mobile-hero">MARCELO</strong><span>VIDA <b id="mobile-health">100</b><i><i id="mobile-health-bar"></i></i></span><span>ENERGÍA <b id="mobile-energy">30</b><i><i id="mobile-energy-bar"></i></i></span><span id="mobile-fichas">1/5 AMIGOS</span></div>
+  <section class="game-frame" aria-label="Juego La Leyenda del Magdaleno">
+    <canvas id="game" width="960" height="540" tabindex="0" aria-label="Plataformas 2D. Flechas para moverse, espacio para saltar, abajo y espacio para bajar de plataformas, Z para golpear y V para definitiva."></canvas>
+    <div id="title-screen" class="overlay title-screen">
+      <div class="title-copy"><span class="eyebrow">UNA AVENTURA DE AMISTAD Y PENDIENTES VIVIENTES</span><h1>LA LEYENDA<br>DEL <em>MAGDALENO</em></h1><p>Cinco amigos. Una montaña. Una botillería que solo abre una noche al año.</p></div>
+      <div class="selection-heading"><h2>¿Con quién sales esta noche?</h2><span>MISMO CAMINO · CINCO DEFINITIVAS</span></div>
+      <div id="hero-list" class="hero-list" role="group" aria-label="Elegir protagonista"></div>
+      <div class="start-row"><p id="hero-description"></p><div><button id="continue-button" class="secondary" hidden>CONTINUAR</button><button id="start-button" class="primary" disabled>PREPARANDO…</button></div></div>
+      <p id="loading-message" class="loading-message" role="status">Cargando a los cinco amigos…</p>
+    </div>
+    <div id="dialogue" class="dialogue" hidden><div class="dialogue-portrait"><canvas id="portrait" width="80" height="80"></canvas></div><div class="dialogue-copy"><span id="dialogue-speaker"></span><p id="dialogue-text"></p></div><button id="dialogue-next" class="dialogue-next">SEGUIR <span>↵</span></button></div>
+    <div id="pause-screen" class="overlay centered-overlay" hidden><div class="modal-card"><span class="eyebrow">LA JUNTA PUEDE ESPERAR UN MOMENTO</span><h2>UN RESPIRO</h2><p>Tu progreso se guarda en los puntos de control y al reunir a cada amigo.</p><button id="resume-button" class="primary">VOLVER AL CAMINO</button><button id="menu-button" class="text-button">Volver a la selección</button><div id="pause-fichas" class="ficha-notes"></div></div></div>
+    <div id="ending-screen" class="overlay centered-overlay" hidden><div class="modal-card ending-card"><span class="eyebrow">CAPÍTULO 01 COMPLETADO</span><h2>POR LA JUNTA.</h2><p>El Coñac Magdaleno existía.<br>Y esta noche, los cinco consiguieron tiempo para estar juntos.</p><div id="ending-stats" class="ending-stats"></div><button id="replay-button" class="primary">OTRA NOCHE, OTRO PROTAGONISTA</button></div></div>
+    <div id="error-screen" class="overlay centered-overlay" hidden><div class="modal-card"><h2>FALTA UN ARCHIVO</h2><p id="error-message"></p><button onclick="location.reload()" class="primary">VOLVER A INTENTAR</button></div></div>
+  </section>
+  <div class="touch-controls" aria-label="Controles táctiles"><div class="touch-move"><button data-key="ArrowLeft" aria-label="Izquierda">◀</button><button data-key="ArrowRight" aria-label="Derecha">▶</button><button data-key="ArrowDown" aria-label="Bajar de plataforma">↓<small>BAJAR</small></button></div><p class="touch-tip">↓ + SALTO<br>para bajar</p><div class="touch-actions"><button data-key="Space" aria-label="Saltar">↑<small>SALTO</small></button><button data-key="KeyZ" aria-label="Puñetazo">Z<small>GOLPE</small></button><button data-key="KeyV" aria-label="Definitiva">V<small id="touch-energy">30/100</small></button><button data-key="KeyE" aria-label="Interactuar">E<small>AYUDAR</small></button></div></div>
+  <p id="mobile-hint" class="mobile-hint">Puedes jugar en vertical o girar el celular para ampliar el escenario.</p>
+  <footer class="controls"><div><kbd>←</kbd><kbd>→</kbd> MOVER <span>·</span><kbd>ESPACIO</kbd> SALTAR <span>·</span><kbd>Z</kbd> PUÑETAZO <span>·</span><kbd>V</kbd> DEFINITIVA <span>·</span><kbd>E</kbd> HABLAR</div><div><kbd>ESC</kbd> PAUSA <span>·</span><kbd>M</kbd> SONIDO <a href="movil.html">CELULAR</a><a href="trailer.html">TRÁILER</a><a href="README.md">GUÍA</a></div></footer>
+  <p class="sr-only" id="accessible-status" aria-live="polite"></p>
+</main>
+</body>
+</html>
+

@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "node tools/build-web.cjs",
+  "outputDirectory": "dist",
+  "headers": [{"source":"/sw.js","headers":[{"key":"Cache-Control","value":"no-cache"}]}]
+}
