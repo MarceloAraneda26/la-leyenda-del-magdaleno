@@ -30,7 +30,6 @@ Límites que siguen abiertos:
 
 - Los cuerpos parten del mismo sprite frontal. Las poses nuevas rotan recortes, sin manos ni torsos dibujados a mano. El gesto se lee, pero no reemplaza un pase de pixel art por personaje.
 - Tobi golpea al aterrizar: sus puños bajan hasta la cintura, sin tocar el suelo, porque las proporciones frontales no lo permiten sin doblar el torso.
-- El tráiler 0.4.1 muestra las animaciones anteriores. Conviene capturarlo de nuevo.
 - La revisión de legibilidad en un celular físico sigue pendiente.
 
 ## Diagnóstico de la versión 0.4.0

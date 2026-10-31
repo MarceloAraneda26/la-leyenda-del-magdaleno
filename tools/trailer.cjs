@@ -109,7 +109,8 @@ function encoder(name,size,audio){
     const images=await page.evaluate(frame=>window.trailerFrame(frame),frame);
     if(!wide.stdin.write(Buffer.from(images[0],'base64')))await once(wide.stdin,'drain');
     if(!vertical.stdin.write(Buffer.from(images[1],'base64')))await once(vertical.stdin,'drain');
-    if([45,120,225,318,393,468,543,633,723,813,870].includes(frame)){fs.writeFileSync(path.join(OUT,'muestra_'+frame+'_horizontal.png'),Buffer.from(images[0],'base64'));if(frame===225||frame===870)fs.writeFileSync(path.join(OUT,'muestra_'+frame+'_vertical.png'),Buffer.from(images[1],'base64'));}
+    // Muestras de revisión, incluidos los cuadros de impacto de las cuatro definitivas.
+    if([45,120,225,313,318,393,399,468,474,534,543,633,723,813,870].includes(frame)){fs.writeFileSync(path.join(OUT,'muestra_'+frame+'_horizontal.png'),Buffer.from(images[0],'base64'));if(frame===225||frame===870)fs.writeFileSync(path.join(OUT,'muestra_'+frame+'_vertical.png'),Buffer.from(images[1],'base64'));}
     if(frame%150===0)console.log('Tráiler: '+Math.round(frame/(FPS*DURATION)*100)+'%');
   }
   const scenes=await page.evaluate(()=>window.trailerScenes);wide.stdin.end();vertical.stdin.end();await Promise.all([wide.done,vertical.done]);await browser.close();

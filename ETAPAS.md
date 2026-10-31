@@ -91,7 +91,7 @@ Estado: implementada y medida en la versión 0.5.
 - [x] Ayudas de rescate con la misma secuencia del poder.
 - [x] Vista de animaciones con definitiva real, avance cuadro a cuadro y ambos sentidos.
 - [x] Auditoría automática con criterios de aceptación en ambos sentidos.
-- [ ] Capturar de nuevo el tráiler con las animaciones corregidas.
+- [x] Capturar de nuevo el tráiler con las animaciones corregidas.
 - [ ] Revisar la lectura de los poderes en un celular físico.
 
 ## Siguiente ciclo de acabado

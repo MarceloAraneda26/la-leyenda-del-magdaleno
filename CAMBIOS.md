@@ -19,7 +19,7 @@ Aplica el plan de [ANALISIS_ANIMACIONES.md](ANALISIS_ANIMACIONES.md).
 
 Cambian los tiempos de impacto: Marcelo 0,42 s, Ruzio 0,56 s, Pulga 0,92 s, Tobi 0,92 s y Pallo 0,44 s. La clavada de Pulga golpea más tarde que antes (0,65 s), porque ahora espera el aterrizaje. Daño, radio, costo y duración total se mantienen. El esquema de guardado sigue siendo 1.
 
-El tráiler 0.4.1 todavía muestra las animaciones anteriores.
+El tráiler se capturó de nuevo con las definitivas corregidas, en horizontal y vertical, con el mismo montaje, textos y música, y sin desenlace.
 
 ## 0.4.1: revisión de animaciones y tráiler sin desenlace
 
