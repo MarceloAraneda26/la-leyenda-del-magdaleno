@@ -1,5 +1,14 @@
 # Cambios de versión
 
+## 0.6.3: correcciones rápidas
+
+- En celular vertical, las indicaciones («E · AYUDAR A…», «DESPEJA A LOS ENEMIGOS») y los avisos se muestran en texto legible sobre la escena, en lugar de dibujarse a 6 o 7 px dentro del lienzo.
+- La barra del celular vuelve a mostrar los desvíos visitados, junto a los puntos.
+- Tocar cualquier parte del cuadro de diálogo avanza a la línea siguiente.
+- La definitiva explica el motivo correcto cuando no se puede usar: falta de energía, estar en el aire o recuperarse de un golpe.
+- La Carpeta Mordedora ya no vibra cuando está quieta en su lugar.
+- Tráiler capturado de nuevo con las armas del ataque básico.
+
 ## 0.6.2: celular en vertical más limpio
 
 - En vertical, la partida muestra un recorte más cercano del escenario: la escena se ve un 45 % más grande y la cámara deja más espacio por delante del protagonista.

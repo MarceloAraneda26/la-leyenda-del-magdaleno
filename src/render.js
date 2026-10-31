@@ -60,8 +60,9 @@ M.render=function(){const s=M.session,t=M.time||0,cam=s?M.cam:Math.max(0,t*10);M
  F(0,0,W,76,'#0a1525ed');F(0,75,W,1,'#40526a');text(M.heroes[s.hero].name.toUpperCase(),24,24,13,'#e6d8ba');F(24,34,176,10,'#2a3b4b');F(24,34,176*p.hp/100,10,'#75c1a6');F(24,51,176,6,'#2a3b4b');F(24,51,176*p.energy/100,6,p.energy>=100?'#f1c675':'#719ec8');text(p.energy>=100?'V · DEFINITIVA LISTA':Math.floor(p.energy)+' / 100 ENERGÍA',211,57,10,p.energy>=100?'#f1c675':'#9db4c8');text(M.zones[s.zone].name,480,24,12,M.zones[s.zone].color,'center');text('PUNTOS '+s.score.toString().padStart(5,'0'),W-24,24,12,'#d7c7a8','right');for(let i=0;i<5;i++){const id=M.order[i],x=751+i*39;circle(x,49,10,s.fichas.includes(id)?M.heroes[id].color:'#293c50');if(s.fichas.includes(id))F(x-2,45,4,8,'#ffe7ad')}text(s.fichas.length+'/5',W-24,65,10,'#97b2c7','right');
  if(s.boss?.active&&!s.boss.dead){const b=s.boss;F(259,85,442,30,'#0a1525e8');text(b.id==='carabinero'?'FISCALIZACIÓN':'PRUEBA DEL MATAHOMBRES',480,98,10,'#eac28a','center');F(271,104,418,5,'#334254');F(271,104,418*b.hp/b.max,5,b.phase===2?'#d79784':'#d7b077')}
  if(M.banner>0){g.globalAlpha=Math.min(1,M.banner);F(245,127,470,55,'#102338e8');text(M.zones[s.zone].name,480,150,16,'#e8d3aa','center');text(M.zones[s.zone].sub,480,171,10,'#9eb9c7','center');g.globalAlpha=1}
- if(M.notice&&M.notice.life>0){F(250,473,460,35,'#0c1e30ef');text(M.notice.text,480,495,12,M.notice.col||'#f1d29b','center')}
- if(M.prompt&&M.state==='play'){const x=M.clamp(p.x-cam,110,850);F(x-100,p.y-133,200,24,'#102333e8');text(M.prompt,x,p.y-117,11,'#f1d19c','center')}
+ // En celular vertical, src/mobile.js muestra avisos e indicaciones en HTML legible (M.htmlCallouts).
+ if(M.notice&&M.notice.life>0&&!M.htmlCallouts){F(250,473,460,35,'#0c1e30ef');text(M.notice.text,480,495,12,M.notice.col||'#f1d29b','center')}
+ if(M.prompt&&M.state==='play'&&!M.htmlCallouts){const x=M.clamp(p.x-cam,110,850);F(x-100,p.y-133,200,24,'#102333e8');text(M.prompt,x,p.y-117,11,'#f1d19c','center')}
 };
 })();
 

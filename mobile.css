@@ -1,5 +1,10 @@
 /* Interfaz adaptable: los botones quedan fuera del escenario. */
 .mobile-status,.mobile-hint{display:none}
+/* Avisos legibles sobre la escena en celular vertical (src/mobile.js), en la franja del cielo para no tapar a los personajes. */
+.mobile-callout{position:absolute;left:6px;right:6px;top:6px;z-index:5;display:flex;flex-direction:column;gap:4px;align-items:center;pointer-events:none;text-align:center}
+.mobile-callout b,.mobile-callout span{font:600 12px/1.35 system-ui,sans-serif;letter-spacing:.3px;padding:5px 10px;border-radius:4px;max-width:100%}
+.mobile-callout b{color:#f1d19c;background:#102333ee;border:1px solid #edb55b88}.mobile-callout span{color:#e7d7b8;background:#0c1e30ee}
+.mobile-callout b:empty,.mobile-callout span:empty{display:none}
 .touch-controls button small{display:block;font-size:9px;letter-spacing:.5px;margin-top:3px}
 .touch-controls button.is-held{background:#b98c49;color:#101c29;border-color:#f1c775}
 .touch-controls button.is-ready{border-color:#edb55b;box-shadow:0 0 0 2px #edb55b33}
