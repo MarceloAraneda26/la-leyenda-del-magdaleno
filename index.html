@@ -18,6 +18,7 @@
   <script defer src="src/render.js"></script>
   <script defer src="src/visuals.js"></script>
   <script defer src="src/powers.js"></script>
+  <script defer src="src/melee.js"></script>
   <script defer src="src/game.js"></script>
   <script defer src="src/chapter.js"></script>
   <script defer src="src/soundtrack.js"></script>
@@ -41,9 +42,9 @@
     <div id="ending-screen" class="overlay centered-overlay" hidden><div class="modal-card ending-card"><span class="eyebrow">CAPÍTULO 01 COMPLETADO</span><h2>POR LA JUNTA.</h2><p>El Coñac Magdaleno existía.<br>Y esta noche, los cinco consiguieron tiempo para estar juntos.</p><div id="ending-stats" class="ending-stats"></div><button id="replay-button" class="primary">OTRA NOCHE, OTRO PROTAGONISTA</button></div></div>
     <div id="error-screen" class="overlay centered-overlay" hidden><div class="modal-card"><h2>FALTA UN ARCHIVO</h2><p id="error-message"></p><button onclick="location.reload()" class="primary">VOLVER A INTENTAR</button></div></div>
   </section>
-  <div class="touch-controls" aria-label="Controles táctiles"><div class="touch-move"><button data-key="ArrowLeft" aria-label="Izquierda">◀</button><button data-key="ArrowRight" aria-label="Derecha">▶</button><button data-key="ArrowDown" aria-label="Bajar de plataforma">↓<small>BAJAR</small></button></div><p class="touch-tip">↓ + SALTO<br>para bajar</p><div class="touch-actions"><button data-key="Space" aria-label="Saltar">↑<small>SALTO</small></button><button data-key="KeyZ" aria-label="Puñetazo">Z<small>GOLPE</small></button><button data-key="KeyV" aria-label="Definitiva">V<small id="touch-energy">30/100</small></button><button data-key="KeyE" aria-label="Interactuar">E<small>AYUDAR</small></button></div></div>
+  <div class="touch-controls" aria-label="Controles táctiles"><div class="touch-move"><button data-key="ArrowLeft" aria-label="Izquierda">◀</button><button data-key="ArrowRight" aria-label="Derecha">▶</button><button data-key="ArrowDown" aria-label="Bajar de plataforma">↓<small>BAJAR</small></button></div><p class="touch-tip">↓ + SALTO<br>para bajar</p><div class="touch-actions"><button data-key="Space" aria-label="Saltar">↑<small>SALTO</small></button><button data-key="KeyZ" aria-label="Ataque con arma">Z<small>GOLPE</small></button><button data-key="KeyV" aria-label="Definitiva">V<small id="touch-energy">30/100</small></button><button data-key="KeyE" aria-label="Interactuar">E<small>AYUDAR</small></button></div></div>
   <p id="mobile-hint" class="mobile-hint">Puedes jugar en vertical o girar el celular para ampliar el escenario.</p>
-  <footer class="controls"><div><kbd>←</kbd><kbd>→</kbd> MOVER <span>·</span><kbd>ESPACIO</kbd> SALTAR <span>·</span><kbd>Z</kbd> PUÑETAZO <span>·</span><kbd>V</kbd> DEFINITIVA <span>·</span><kbd>E</kbd> HABLAR</div><div><kbd>ESC</kbd> PAUSA <span>·</span><kbd>M</kbd> SONIDO <a href="movil.html">CELULAR</a><a href="trailer.html">TRÁILER</a><a href="README.md">GUÍA</a></div></footer>
+  <footer class="controls"><div><kbd>←</kbd><kbd>→</kbd> MOVER <span>·</span><kbd>ESPACIO</kbd> SALTAR <span>·</span><kbd>Z</kbd> ARMA <span>·</span><kbd>V</kbd> DEFINITIVA <span>·</span><kbd>E</kbd> HABLAR</div><div><kbd>ESC</kbd> PAUSA <span>·</span><kbd>M</kbd> SONIDO <a href="movil.html">CELULAR</a><a href="trailer.html">TRÁILER</a><a href="README.md">GUÍA</a></div></footer>
   <p class="sr-only" id="accessible-status" aria-live="polite"></p>
 </main>
 </body>

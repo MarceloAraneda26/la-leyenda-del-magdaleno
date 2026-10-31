@@ -26,13 +26,13 @@
     const stride = Math.sin(cycle) * speed;
     const size = pose.giant || 1;
     // Pose de definitiva (src/powers.js). Registra manos y herramienta en coordenadas de pantalla.
-    const rig = pose.rig || null;
+    const rig = pose.rig || (pose.armed && M.meleePose ? M.meleePose(id,pose.attack>=0?pose.attack*M.melee.duration:-1) : null);
     const crouch = rig ? rig.crouch : 0;
     const splay = .7 * crouch;
     const base = g.getTransform();
     const out = rig ? (M.rigOut[id] = { front: null, back: null, tool: {}, head: null }) : null;
     const toBase = (lx, ly) => { const p = base.inverse().multiply(g.getTransform()).transformPoint(new DOMPoint(lx, ly)); return { x: p.x, y: p.y }; };
-    const attack = pose.attack ?? (pose.punch ? .45 : -1);
+    const attack = rig?.variant==='melee' ? -1 : (pose.attack ?? (pose.punch ? .45 : -1));
     const extension = attack < 0 ? 0 : attack < .2 ? -.15 * smooth(attack / .2) : attack < .5 ? smooth((attack - .2) / .3) : 1 - smooth((attack - .5) / .5);
 
     g.save();
@@ -133,7 +133,7 @@
       if (pose.cast) { shoulderAngle = sign * .95; elbowAngle = sign * .38; }
       if (pose.win) { shoulderAngle = sign * (2.25 + Math.sin(time * 4) * .06); elbowAngle = -sign * .18; }
       if (pose.hurt) { shoulderAngle = sign * .18; elbowAngle = sign * .35; }
-      if (rig) { const angles = front ? rig.front : rig.back; shoulderAngle = -direction * angles[0]; elbowAngle = -direction * angles[1]; }
+      if (rig) { const angles = front ? rig.front : rig.back; if(angles){shoulderAngle = -direction * angles[0]; elbowAngle = -direction * angles[1];} }
       const upperMask = left ? [[0,.30],[.29,.30],[.26,.515],[0,.515]] : [[.71,.30],[1,.30],[1,.515],[.74,.515]];
       const lowerMask = left ? [[0,.48],[.255,.48],[.20,.72],[0,.72]] : [[.745,.48],[1,.48],[1,.72],[.80,.72]];
       joint(shoulder, root, shoulderAngle, () => {
@@ -148,6 +148,8 @@
             g.save(); g.translate(hx, hy); g.scale(direction, 1);
             M.drawTool(rig.tool, height / 94, (name, lx, ly) => { out.tool[name] = toBase(lx, ly); });
             g.restore();
+            // La palma vuelve delante del mango; conserva los píxeles de la mano original.
+            if(rig.variant==='melee')piece(left?[0,.665,.20,.72]:[.80,.665,1,.72],elbow,lowerMask);
           }
         });
       });

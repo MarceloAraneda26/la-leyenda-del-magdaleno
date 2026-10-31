@@ -1,6 +1,6 @@
 const {chromium}=require('./browser.cjs');
 const fs=require('fs'),path=require('path'),assert=require('assert/strict');
-const base='http://127.0.0.1:4173/?qa=1';
+const base=(process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/')+'?qa=1';
 (async()=>{
  const browser=await chromium.launch({headless:true,channel:'chrome',args:['--mute-audio']});const context=await browser.newContext({viewport:{width:1365,height:900}});const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base);await page.waitForFunction(()=>window.Magdaleno?.state==='title');await page.evaluate(()=>__magdaleno.setManual());
  const report={status:'running',campaigns:[],checks:[]};

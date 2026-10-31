@@ -1,6 +1,6 @@
 {
-  "gameVersion": "0.5.0",
+  "gameVersion": "0.6.0",
   "saveSchema": 1,
-  "stage": "6: definitivas con agarres, fases e impacto sincronizado",
-  "date": "2026-10-29"
+  "stage": "7: armas cuerpo a cuerpo para los ataques básicos",
+  "date": "2026-10-31"
 }

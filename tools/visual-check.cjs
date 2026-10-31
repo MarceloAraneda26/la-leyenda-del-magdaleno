@@ -2,17 +2,17 @@ const {chromium}=require('./browser.cjs');
 const fs=require('fs'),path=require('path'),assert=require('assert/strict');
 (async()=>{
   const browser=await chromium.launch({headless:true,channel:'chrome'});
-  const page=await browser.newPage({viewport:{width:1440,height:1000}});
+  const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'no-preference'});
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
-  await page.goto('http://127.0.0.1:4173/animaciones.html');
+  await page.goto((process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/')+'animaciones.html');
   await page.waitForFunction(()=>!document.getElementById('preview-status').textContent.includes('Cargando'));
   assert.equal(await page.locator('.preview-person').count(),5);
   const first=await page.locator('.preview-person canvas').first().evaluate(canvas=>canvas.toDataURL());
-  await page.waitForTimeout(240);
+  await page.waitForFunction(previous=>document.querySelector('.preview-person canvas').toDataURL()!==previous,first);
   const second=await page.locator('.preview-person canvas').first().evaluate(canvas=>canvas.toDataURL());
-  assert.notEqual(first,second,'La marcha debe variar entre frames');
+  assert(first!==second,'La marcha debe variar entre frames');
   const checks=['Cinco amigos visibles','Marcha con cuadros diferentes'];
-  for(const action of ['Reposo','Salto','Puñetazo','Preparación','Celebración']){
+  for(const action of ['Reposo','Salto','Ataque con arma','Definitiva','Celebración']){
     await page.getByRole('button',{name:action,exact:true}).click();
     await page.waitForTimeout(160);
     const pixels=await page.locator('.preview-person canvas').first().evaluate(canvas=>{

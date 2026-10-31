@@ -1,8 +1,10 @@
 # La Leyenda del Magdaleno
 
-## Versión jugable 0.5 del capítulo 1
+## Versión jugable 0.6 del capítulo 1
 
 Una aventura de plataformas en pixel art: elige a uno de los cinco amigos, reúne al grupo y llega a la botillería escondida en la montaña para conseguir el Coñac Magdaleno.
+
+La versión 0.6 añade un arma cuerpo a cuerpo por amigo para el ataque básico. Se usa con Z o ARMA, sin costo de energía y con 10 de daño. [Ver las armas](animaciones.html?accion=arma) · [Descripción de cada arma](ARMAS.md).
 
 La versión 0.4 adapta los menús, diálogos y controles a celulares en vertical y horizontal. Incluye instalación opcional, recursos disponibles sin conexión y un tráiler de 30 segundos en dos formatos. La revisión 0.4.1 retira el desenlace del tráiler. La 0.5 corrige las definitivas: cada poder tiene preparación, acción, impacto y recuperación; las herramientas siguen la mano y el daño ocurre en el contacto o el aterrizaje. El tráiler se capturó de nuevo con los poderes corregidos. [Ver tráiler sin desenlace](trailer.html?v=0.5.0) · [Análisis de animaciones](ANALISIS_ANIMACIONES.md) · [Jugar en celular](movil.html) · [Publicar](PUBLICAR.md).
 
@@ -26,7 +28,7 @@ La instalación y el modo sin conexión necesitan HTTPS o localhost. En Android 
 | Mover | Flechas izquierda/derecha o A/D |
 | Saltar | Espacio, flecha arriba o W |
 | Bajar de una plataforma de madera | Abajo o S + Espacio |
-| Puñetazo | Z; se puede mantener pulsada |
+| Arma cuerpo a cuerpo | Z; se puede mantener pulsada |
 | Definitiva | V, con 100 de energía y desde el suelo |
 | Hablar, rescatar o continuar la ruta | E o Enter |
 | Avanzar diálogo | Enter o Espacio |
@@ -39,7 +41,7 @@ El salto tiene altura variable: mantener la tecla permite alcanzar más altura. 
 
 - Selector de los cinco protagonistas con sus identidades y ropa de referencia.
 - Animación por piezas de cabeza, torso, brazos y piernas a partir de los PNG originales.
-- Reposo, marcha, salto, puñetazo, reacción al daño, definitiva y celebración.
+- Reposo, marcha, salto, ataque con arma, reacción al daño, definitiva y celebración.
 - Tres zonas con fondos por capas y terreno dibujado por código: ciudad, carretera y montaña.
 - Dos desvíos de plataformas por zona, con latas adicionales y contador de exploración.
 - Cable eléctrico, cruce de vehículo y caída de rocas con avisos previos.

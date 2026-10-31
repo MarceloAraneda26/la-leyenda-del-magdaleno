@@ -1,5 +1,16 @@
 # Cambios de versión
 
+## 0.6: armas para el ataque básico
+
+- Llave tecnológica de Marcelo, martillo de campo de Ruzio, bastón de cancha de Pulga, bomba de bicicleta de Tobi y bastón médico arcano de Pallo.
+- Armas visibles al caminar y saltar, sujetas a la mano y con la palma delante del mango.
+- Ataque con preparación, barrido y recuperación; el daño sigue la trayectoria dibujada de la herramienta.
+- Se mantienen 10 de daño, costo cero de energía, 0,30 s por ejecución y 0,32 s entre ataques. Cada objetivo recibe un solo golpe por ejecución.
+- El botón táctil se llama ARMA. El visor muestra el ataque básico real, también hacia la izquierda.
+- Pruebas de agarre, barrido, dirección, alcance, daño único, campañas y controles móviles.
+
+La prueba automatizada de campaña sigue la ruta principal; los guardias de desvíos no son objetivos de esa ruta. Las pruebas de plataformas opcionales se mantienen separadas. [Diseño de las cinco armas](ARMAS.md).
+
 ## 0.5: definitivas corregidas
 
 Aplica el plan de [ANALISIS_ANIMACIONES.md](ANALISIS_ANIMACIONES.md).

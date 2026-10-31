@@ -9,7 +9,7 @@ const path = require('path'); const assert = require('assert/strict'); const her
   const page = await browser.newPage({ viewport: { width: 1365, height: 900 } });
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.goto('http://127.0.0.1:4173/?qa=1');
+  await page.goto((process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/')+'?qa=1');
   await page.waitForFunction(() => window.Magdaleno?.state === 'title');
   const result = await page.evaluate(hero => {
     const a = __magdaleno;
@@ -44,7 +44,8 @@ const path = require('path'); const assert = require('assert/strict'); const her
       let enemy = null;
       if (s.boss?.active) enemy = s.boss;
       else {
-        const candidates = s.enemies.filter(e => !e.dead && Math.abs(e.x - p.x) < 245 && (!e.routeId || Math.abs(e.baseY - p.y) < 125) && (e.x > p.x - 150 || rescue?.started));
+        // Esta partida sigue la ruta principal; los desvíos tienen su prueba separada.
+        const candidates = s.enemies.filter(e => !e.dead && !e.routeId && Math.abs(e.x - p.x) < 245 && (e.x > p.x - 150 || rescue?.started));
         candidates.sort((a, b) => Math.abs(a.x - p.x) - Math.abs(b.x - p.x));
         enemy = candidates[0] || null;
       }

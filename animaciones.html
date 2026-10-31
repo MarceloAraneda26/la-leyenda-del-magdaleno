@@ -16,16 +16,17 @@
   <script defer src="src/render.js"></script>
   <script defer src="src/visuals.js"></script>
   <script defer src="src/powers.js"></script>
+  <script defer src="src/melee.js"></script>
   <script defer src="src/animation-preview.js"></script>
 </head>
 <body>
 <main class="preview-shell">
-  <header class="preview-head"><div><span class="eyebrow">PULIDO VISUAL · VERSIÓN 0.5</span><h1>LOS CINCO, EN MOVIMIENTO.</h1><p>Compara sus poses y movimientos. Los rostros y la ropa se conservan desde los sprites de referencia. «Definitiva» reproduce la secuencia real del juego, con su herramienta y su instante de impacto.</p></div><a href="index.html">VOLVER AL JUEGO →</a></header>
+  <header class="preview-head"><div><span class="eyebrow">PULIDO VISUAL · VERSIÓN 0.6</span><h1>LOS CINCO, EN MOVIMIENTO.</h1><p>Compara sus poses y movimientos. Los rostros y la ropa se conservan desde los sprites de referencia. «Definitiva» reproduce la secuencia real del juego, con su herramienta y su instante de impacto.</p></div><a href="index.html">VOLVER AL JUEGO →</a></header>
   <section class="preview-controls" aria-label="Controles de animación">
     <button data-action="idle" aria-pressed="false">Reposo</button>
     <button data-action="walk" aria-pressed="true">Marcha</button>
     <button data-action="jump" aria-pressed="false">Salto</button>
-    <button data-action="punch" aria-pressed="false">Puñetazo</button>
+    <button data-action="punch" aria-pressed="false">Ataque con arma</button>
     <button data-action="power" aria-pressed="false">Definitiva</button>
     <button data-action="win" aria-pressed="false">Celebración</button>
     <button id="preview-pause" class="preview-pause" aria-pressed="false">Pausar</button>
@@ -37,7 +38,7 @@
   </section>
   <p id="preview-status" role="status">Cargando poses…</p>
   <section id="preview-grid" class="preview-grid" aria-label="Los cinco amigos"></section>
-  <p class="preview-note">La marcha combina movimiento de caderas, rodillas, tobillos y brazos. El salto distingue subida y caída; el puñetazo recorre sus tres fases. En «Definitiva», los marcadores muestran el agarre (cuadro turquesa), el punto que golpea o lanza el poder (cruz roja) y el cuadro exacto del daño. Pausa y avanza cuadro a cuadro para revisarlo; los efectos completos de área se ven durante el juego.</p>
+  <p class="preview-note">La marcha combina movimiento de caderas, rodillas, tobillos y brazos. El salto distingue subida y caída; el ataque con arma recorre sus tres fases. En «Definitiva», los marcadores muestran el agarre (cuadro turquesa), el punto que golpea o lanza el poder (cruz roja) y el cuadro exacto del daño. Pausa y avanza cuadro a cuadro para revisarlo; los efectos completos de área se ven durante el juego.</p>
   <p class="preview-note">También puedes consultar las <a href="ANIMACIONES.md" style="color:var(--amber)">hojas de poses y sus datos</a>.</p>
 </main>
 <canvas id="game" width="960" height="540" aria-hidden="true"></canvas>

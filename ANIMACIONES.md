@@ -1,5 +1,7 @@
 # Animación por piezas y atlas de revisión
 
+La versión 0.6 añade armas básicas con agarre y barrido reales. [Verlas en el visor](animaciones.html?accion=arma) · [Diseño y reglas](ARMAS.md). Los atlas antiguos que se describen más abajo conservan las poses base exportadas; el arma básica se dibuja en tiempo real con el personaje.
+
 Versión 0.2. [Abrir la vista de animaciones](animaciones.html) para comparar movimientos, pausar y cambiar la velocidad.
 
 Los cinco amigos se dibujan desde sus PNG originales. El código recorta regiones de cabeza, torso, brazos y piernas al renderizar, y las mueve con pivotes e interpolación. Así se conserva la cara y la ropa entre poses.

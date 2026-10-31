@@ -2,11 +2,11 @@
  * Mide agarre, contacto, momento del daño, saltos de pose y simetría. Requiere tools/server.cjs. */
 const {chromium}=require('./browser.cjs');
 const fs=require('fs'),path=require('path');
-const output=path.resolve(__dirname,'../auditoria_animaciones');fs.mkdirSync(output,{recursive:true});
+const output=process.env.MAGDALENO_AUDIT_OUTPUT?path.resolve(process.env.MAGDALENO_AUDIT_OUTPUT):path.resolve(__dirname,'../auditoria_animaciones');fs.mkdirSync(output,{recursive:true});
 (async()=>{
   const browser=await chromium.launch({headless:true,channel:'chrome',args:['--mute-audio']});
   const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://127.0.0.1:4173/?qa=1');await page.waitForFunction(()=>window.Magdaleno?.state==='title');
+  await page.goto((process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/')+'?qa=1');await page.waitForFunction(()=>window.Magdaleno?.state==='title');
   const results=await page.evaluate(()=>{
     const a=__magdaleno,M=a.M;a.setManual();
     M.background=()=>{M.ctx.fillStyle='#102032';M.ctx.fillRect(0,0,M.W,M.H);};M.terrain=()=>{};M.props=()=>{};M.enemy=()=>{};
@@ -24,7 +24,7 @@ const output=path.resolve(__dirname,'../auditoria_animaciones');fs.mkdirSync(out
         a.step();frame++;
         M.cam=M.clamp(p.x-350,0,s.cols*M.T-M.W);M.shake=0;M.banner=0;M.notice=null;M.prompt='';M.render();
         const o=M.rigOut[hero],rig=p.rig,fx=s.effects.find(f=>f.anchor);
-        frames.push({frame,seconds:frame/60,phase:rig?.phase||'reposo',damage:p.ultUsed,physicalY:p.y,rig:rig?{front:rig.front,back:rig.back,lift:rig.lift,scale:rig.scale}:null,
+        frames.push({frame,seconds:frame/60,phase:rig?.phase||'reposo',damage:p.ultUsed,physicalY:p.y,rig:rig?{front:rig.front,back:rig.back||[0,-.07],lift:rig.lift,scale:rig.scale}:null,
           hand:o?.front||null,tool:o?.tool?JSON.parse(JSON.stringify(o.tool)):{},effect:fx?{kind:fx.kind,ox:fx.ox,oy:fx.oy}:null,cam:M.cam});
         const index=wanted.indexOf(frame);
         if(index>=0){const x=index*220,sx=p.x-M.cam-120;sg.drawImage(document.getElementById('game'),sx,100,240,360,x,0,220,330);
