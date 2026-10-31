@@ -82,7 +82,7 @@ M.update=function(dt){M.time+=dt;if(M.shake>0)M.shake=Math.max(0,M.shake-dt*15);
  for(const col of s.checkpoints)if(p.onGround&&p.x>col*T&&p.x<(col+2)*T&&col>s.checkpoint.col){p.hp=100;M.saveCheckpoint(col)}
  const b=s.boss;if(b&&!b.dead&&!b.active&&Math.abs(p.x-b.x)<220){M.prompt=b.id==='carabinero'?'E · FISCALIZACIÓN':'E · HABLAR CON EL MATAHOMBRES';if(M.tap('interact'))startBoss()}
  if(p.x>(s.cols-5)*T&&s.zone<2){M.prompt='E · SEGUIR EL CAMINO';if(M.tap('interact'))transition()}
- if(M.session!==s||M.state!=='play'){M.pressed={};return}M.cam=M.lerp(M.cam,M.clamp(p.x-350,0,s.cols*T-M.W),Math.min(1,dt*6));M.pressed={};
+ if(M.session!==s||M.state!=='play'){M.pressed={};return}M.cam=M.lerp(M.cam,M.clamp(p.x-(M.camLead||350),0,s.cols*T-M.W),Math.min(1,dt*6));M.pressed={};
 };
 M.prepareCelebration=()=>{const s=M.session;if(!s?.boss)return;s.boss.x=121*T;s.boss.y=450;s.player.x=s.boss.x-300;s.player.y=450;s.player.vx=0;s.player.vy=0;M.cam=M.clamp(s.boss.x-650,0,s.cols*T-M.W);};M.finish=()=>{M.prepareCelebration();M.setState('ending');const seconds=Math.floor(M.progress.elapsed);$('ending-stats').textContent=M.session.score+' PUNTOS · '+M.progress.canCount+(M.progress.canCount===1?' LATA · ':' LATAS · ')+Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0')+' DE AVENTURA';M.audio.sfx('win')};
 function select(id){M.selected=id;document.querySelectorAll('.hero-card').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.hero===id)));$('hero-description').textContent=M.heroes[id].description}

@@ -1,5 +1,15 @@
 # Cambios de versión
 
+## 0.6.2: celular en vertical más limpio
+
+- En vertical, la partida muestra un recorte más cercano del escenario: la escena se ve un 45 % más grande y la cámara deja más espacio por delante del protagonista.
+- El marcador interno del lienzo queda fuera del recorte; la barra superior muestra vida, energía, amigos y puntos.
+- Durante la partida y los diálogos se ocultan los textos de ayuda y los enlaces CELULAR, TRÁILER y GUÍA. Vuelven en el menú y en la pausa.
+- Botones táctiles más grandes en vertical (64 × 58 y 68 × 58 px).
+- En celulares angostos, la cabecera muestra solo la marca M para no ocupar dos líneas.
+- Los aliados ya no quedan flotando: cada uno busca su propio suelo.
+- Horizontal y escritorio no cambian, salvo el arreglo de los aliados.
+
 ## 0.6.1: armas personalizadas
 
 - Marcelo usa un PC notebook con pantalla y teclado.
