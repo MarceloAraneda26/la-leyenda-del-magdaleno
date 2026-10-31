@@ -1,14 +1,14 @@
 # Armas de cuerpo a cuerpo
 
-Versión 0.6. Las armas se usan con **Z** o con el botón táctil **ARMA**. Mantener el botón repite el ataque. Cada arma permanece en la mano al caminar y saltar.
+Versión 0.6.1. Las armas se usan con **Z** o con el botón táctil **ARMA**. Mantener el botón repite el ataque. Cada arma permanece en la mano al caminar y saltar.
 
 | Amigo | Arma | Diseño |
 |---|---|---|
-| Marcelo | Llave tecnológica | Llave metálica con mango azul y un indicador luminoso. |
+| Marcelo | PC notebook | Notebook abierto con pantalla azul, bisagra y teclado, sujeto del borde. |
 | Ruzio | Martillo de campo | Mango de madera y cabeza de acero; es más corto que el martillo de su definitiva. |
-| Pulga | Bastón de cancha | Bastón de entrenamiento con agarre envuelto y extremo naranja inspirado en el balón. |
-| Tobi | Bomba de bicicleta | Bomba metálica con manilla y manguera, usada como porra. |
-| Pallo | Bastón médico arcano | Bastón violeta con emblema médico verde; el golpe básico es físico. |
+| Pulga | Regla de profesor | Regla de madera clara con graduaciones y números. |
+| Tobi | Taladro minero | Taladro neumático amarillo con empuñadura y broca de acero. |
+| Pallo | Fonendoscopio | Olivas, arcos metálicos, tubo flexible y diafragma; se balancea como arma de golpe. |
 
 Todos los ataques básicos mantienen **10 de daño**, no gastan energía y conservan un tiempo de ejecución de 0,30 s con una separación mínima de 0,32 s entre ataques. Las definitivas conservan sus efectos propios y su costo de 100 de energía. El golpe básico de Pallo no cura.
 
@@ -19,6 +19,8 @@ La longitud y el grosor de las herramientas varían. Su alcance corresponde al c
 [Ver las armas en movimiento](animaciones.html?accion=arma). El visor permite pausar, avanzar cuadro a cuadro y cambiar de sentido. El personaje usa su arma básica en reposo, marcha y salto; al seleccionar «Definitiva» muestra la secuencia de su poder.
 
 ![Las cinco armas en reposo y durante el ataque](assets/armas-basicas.png)
+
+Los dibujos siguen definidos en `src/melee.js`. También se exportan PNG transparentes en `assets/armas/`: [Marcelo](assets/armas/marcelo.png), [Ruzio](assets/armas/ruzio.png), [Pulga](assets/armas/pulga.png), [Tobi](assets/armas/tobi.png) y [Pallo](assets/armas/pallo.png). Se generan desde el mismo dibujo que usa el juego con `node tools/export-weapons.cjs`.
 
 ## Verificación
 

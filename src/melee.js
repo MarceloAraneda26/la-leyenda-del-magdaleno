@@ -2,14 +2,14 @@
  * de la herramienta y un solo impacto por objetivo en cada ejecución. */
 (() => {
   'use strict';
-  const M=window.Magdaleno,g=M.ctx,{F,line,circle}=M.draw;
+  const M=window.Magdaleno,g=M.ctx,{F,line,circle,poly}=M.draw;
   const duration=.30,rest={front:[.12,.20],psi:.77};
   M.weapons={
-    marcelo:{name:'Llave tecnológica',kind:'wrench',length:29,radius:6,color:'#7ab8f0',swing:.78},
+    marcelo:{name:'PC notebook',kind:'notebook',length:29,radius:13,color:'#7ab8f0',swing:.72},
     ruzio:{name:'Martillo de campo',kind:'field-hammer',length:30,radius:8,color:'#dfab6c',swing:.72},
-    pulga:{name:'Bastón de cancha',kind:'court-stick',length:38,radius:5,color:'#e57985',swing:.67},
-    tobi:{name:'Bomba de bicicleta',kind:'bike-pump',length:33,radius:7,color:'#97c3b0',swing:.77},
-    pallo:{name:'Bastón médico arcano',kind:'medical-staff',length:37,radius:7,color:'#be9be8',swing:.65}
+    pulga:{name:'Regla de profesor',kind:'teacher-ruler',length:38,radius:5,color:'#e57985',swing:.67},
+    tobi:{name:'Taladro minero',kind:'mining-drill',length:33,radius:8,color:'#97c3b0',swing:.77},
+    pallo:{name:'Fonendoscopio',kind:'stethoscope',length:37,radius:6,color:'#be9be8',swing:.65}
   };
   for(const [id,weapon]of Object.entries(M.weapons)){M.heroes[id].weapon=weapon.name;M.heroes[id].description=weapon.name+' para el ataque básico. '+M.heroes[id].description;}
   M.melee={duration,cooldown:.32,damage:10,activeStart:.07,activeEnd:.23};
@@ -29,7 +29,7 @@
     if(attacking){let i=1;while(i<keys.length-1&&t>keys[i][0])i++;const a=keys[i-1],b=keys[i],u=ease((t-a[0])/(b[0]-a[0]));front=[M.lerp(a[1],b[1],u),M.lerp(a[2],b[2],u)];psi=M.lerp(a[3],b[3],u);lean=M.lerp(a[4],b[4],u);}
     const phase=!attacking?'reposo':t<.07?'preparación':t<.18?'acción':'recuperación';
     return{id,variant:'melee',elapsed:attacking?t:-1,duration,phase,front,back:null,crouch:0,lean,jump:0,lift:0,scale:1,
-      tool:{kind:'melee',weapon:id,psi,show:1},attacking};
+      tool:{kind:'melee',weapon:id,psi,show:1,motion:attacking?t:0},attacking};
   };
 
   // La física reproduce las mismas transformaciones de hombro, codo y mano
@@ -74,27 +74,48 @@
     const w=M.weapons[tool.weapon],length=w.length;
     g.save();g.rotate(-tool.psi);g.scale(k,k);
     // Mango cerrado bajo la palma, con las mismas coordenadas que usa el golpe.
-    if(w.kind==='wrench'){
-      F(-3,-5,6,29,'#253b4e');F(-2,-3,4,24,'#8babc1');F(-1,0,2,12,'#4c76a2');
-      F(-8,20,16,13,'#4b6475');F(-7,20,5,8,'#c0d1d6');F(3,20,5,8,'#c0d1d6');F(-3,25,7,5,'#a4bbc3');
-      F(-2,14,4,5,'#7ddfe1');
+    if(w.kind==='notebook'){
+      // Pantalla, bisagra y teclado: se sostiene del borde superior.
+      F(-16,-2,32,25,'#162332');F(-15,-1,30,23,'#617b91');
+      F(-13,2,26,17,'#173d61');F(-12,3,24,3,'#3977a5');
+      F(-10,8,12,2,'#8ccee0');F(-10,12,18,1,'#5f9cba');F(-10,15,14,1,'#5f9cba');F(-1,-1,2,1,'#afc3cb');
+      line(-15,22,15,22,'#0c1722',2);
+      poly([[-16,23],[16,23],[20,30],[-12,30]],'#a4b7c2');
+      poly([[-11,24],[13,24],[16,28],[-9,28]],'#354b60');
+      for(let y=24;y<=27;y+=2)for(let x=-9;x<=11;x+=4)F(x,y,2,1,'#91a8b8');
+      F(-3,28,8,1,'#e0e5dc');line(-12,31,20,31,'#26394c',2);
     }else if(w.kind==='field-hammer'){
       F(-3,-6,6,32,'#563d2a');F(-1,-4,2,28,'#ac8150');
       for(let y=1;y<15;y+=5)F(-3,y,6,2,'#392f29');
       F(-12,23,24,13,'#233545');F(-11,23,22,4,'#b1bec2');F(-12,31,24,5,'#536774');F(-13,25,3,9,'#d1d5cd');
-    }else if(w.kind==='court-stick'){
-      F(-3,-9,6,49,'#27303b');F(-2,-8,2,46,'#8b6553');
-      for(let y=-2;y<16;y+=5){F(-3,y,6,2,'#e7bd80');F(-3,y+2,6,1,'#9e6552');}
-      F(-4,32,8,8,'#d99b54');F(-4,35,8,2,'#5f3e32');F(-1,32,2,8,'#5f3e32');
-    }else if(w.kind==='bike-pump'){
-      F(-5,5,10,27,'#263c45');F(-4,6,7,25,'#9ab9b6');F(-2,7,2,23,'#d2ded1');
-      F(-2,-8,4,14,'#5c7880');F(-8,-10,16,5,'#29343b');F(-6,-9,12,2,'#8eaaa7');
-      F(-8,30,16,6,'#354951');F(-7,30,14,2,'#a5c2b3');line(5,8,10,18,'#344149',2);line(10,18,8,30,'#344149',2);
-    }else{
-      F(-3,-9,6,45,'#453c56');F(-2,-8,2,43,'#9c83b7');
-      for(let y=0;y<13;y+=4)F(-3,y,6,1,'#ddcbaa');
-      circle(0,35,9,'#3c3b52');circle(0,35,7,'#ab93c4');circle(0,35,5,'#243e46');
-      F(-1,31,3,9,'#8fe1b7');F(-4,34,9,3,'#8fe1b7');F(-5,28,3,2,'#e9ddc8');
+    }else if(w.kind==='teacher-ruler'){
+      F(-5,-9,10,49,'#85673c');F(-4,-8,8,47,'#e1c583');F(-4,-8,2,47,'#fae5ae');F(3,-8,1,47,'#bc9759');
+      for(let y=-5;y<=37;y+=3)F(-3,y,y%9===4?5:3,1,'#665137');
+      // Dígitos de la escala dibujados con píxeles, sin tipografía suavizada.
+      F(1,3,1,4,'#665137');F(0,6,3,1,'#665137');
+      F(0,13,3,1,'#665137');F(2,14,1,1,'#665137');F(0,15,3,1,'#665137');F(0,16,1,1,'#665137');F(0,17,3,1,'#665137');
+      F(0,25,3,1,'#665137');F(2,26,1,3,'#665137');F(0,27,3,1,'#665137');F(0,29,3,1,'#665137');
+      circle(0,-5,1,'#9b7a48');
+    }else if(w.kind==='mining-drill'){
+      // Taladro neumático amarillo, empuñadura lateral y broca de acero.
+      F(-8,-5,16,5,'#253845');F(-5,-4,10,2,'#a4b6bc');F(-3,0,6,6,'#354754');
+      F(-9,4,18,16,'#443d2e');F(-8,5,16,13,'#d5a039');F(-7,5,4,11,'#f5ca69');F(5,6,3,11,'#a6712c');
+      F(-7,9,10,3,'#3d4850');F(-7,10,3,1,'#a7b1ab');
+      line(-9,6,-13,9,'#263944',3);line(-13,9,-13,16,'#263944',3);line(-13,16,-8,17,'#263944',3);
+      F(-5,19,10,4,'#516873');F(-3,22,6,8,'#b3c2c6');F(-2,30,4,3,'#8a9ea7');
+      const shift=tool.motion>0?Math.floor(tool.motion*60)%2:0;
+      for(let y=23+shift;y<31;y+=3)line(-3,y,3,y-2,'#526876',1);
+      poly([[-2,32],[2,32],[0,35]],'#c9d3d2');
+    }else if(w.kind==='stethoscope'){
+      // Olivas y arcos metálicos, tubo flexible y diafragma de auscultación.
+      line(-7,-7,-7,-2,'#b5c8ce',2);line(7,-7,7,-2,'#b5c8ce',2);
+      line(-7,-2,-3,5,'#9cbbc2',2);line(7,-2,3,5,'#9cbbc2',2);
+      F(-9,-9,4,4,'#243944');F(5,-9,4,4,'#243944');
+      line(-3,5,0,9,'#355f6b',3);line(3,5,0,9,'#355f6b',3);
+      const flex=tool.motion>0?Math.sin(tool.motion/duration*Math.PI*2)*4:0;
+      const tube=[[0,9],[-8+flex,15],[-10+flex,25],[-5+flex,30],[5+flex,29],[9+flex,24],[8,32],[0,37]];
+      for(let i=1;i<tube.length;i++){line(...tube[i-1],...tube[i],'#142d39',4);line(...tube[i-1],...tube[i],'#59909b',2);}
+      circle(0,37,6,'#1d3442');circle(0,37,5,'#b5cbd1');circle(0,37,3,'#6e99a7');F(-2,34,3,1,'#e1e9df');
     }
     mark('grip',0,0);mark('tip',0,length);mark('head',0,length);
     g.restore();

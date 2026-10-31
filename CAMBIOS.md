@@ -1,5 +1,14 @@
 # Cambios de versión
 
+## 0.6.1: armas personalizadas
+
+- Marcelo usa un PC notebook con pantalla y teclado.
+- Pulga usa una regla de profesor con graduaciones.
+- Tobi usa un taladro minero con broca de acero.
+- Pallo usa un fonendoscopio con tubo flexible.
+- PNG transparentes individuales en `assets/armas/`, exportados desde los dibujos del juego.
+- Se revisaron el agarre y el barrido del daño en ambos sentidos.
+
 ## 0.6: armas para el ataque básico
 
 - Llave tecnológica de Marcelo, martillo de campo de Ruzio, bastón de cancha de Pulga, bomba de bicicleta de Tobi y bastón médico arcano de Pallo.

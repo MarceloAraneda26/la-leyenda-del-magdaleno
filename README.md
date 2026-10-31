@@ -1,10 +1,12 @@
 # La Leyenda del Magdaleno
 
-## Versión jugable 0.6 del capítulo 1
+## Versión jugable 0.6.1 del capítulo 1
 
 Una aventura de plataformas en pixel art: elige a uno de los cinco amigos, reúne al grupo y llega a la botillería escondida en la montaña para conseguir el Coñac Magdaleno.
 
 La versión 0.6 añade un arma cuerpo a cuerpo por amigo para el ataque básico. Se usa con Z o ARMA, sin costo de energía y con 10 de daño. [Ver las armas](animaciones.html?accion=arma) · [Descripción de cada arma](ARMAS.md).
+
+En la revisión 0.6.1, Marcelo usa un notebook, Pulga una regla de profesor, Tobi un taladro minero y Pallo un fonendoscopio. Los PNG transparentes se encuentran en `assets/armas/`.
 
 La versión 0.4 adapta los menús, diálogos y controles a celulares en vertical y horizontal. Incluye instalación opcional, recursos disponibles sin conexión y un tráiler de 30 segundos en dos formatos. La revisión 0.4.1 retira el desenlace del tráiler. La 0.5 corrige las definitivas: cada poder tiene preparación, acción, impacto y recuperación; las herramientas siguen la mano y el daño ocurre en el contacto o el aterrizaje. El tráiler se capturó de nuevo con los poderes corregidos. [Ver tráiler sin desenlace](trailer.html?v=0.5.0) · [Análisis de animaciones](ANALISIS_ANIMACIONES.md) · [Jugar en celular](movil.html) · [Publicar](PUBLICAR.md).
 
