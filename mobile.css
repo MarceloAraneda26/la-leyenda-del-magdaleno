@@ -1,5 +1,7 @@
 /* Interfaz adaptable: los botones quedan fuera del escenario. */
 .mobile-status,.mobile-hint{display:none}
+/* El estado para lectores de pantalla no debe sumar altura: en horizontal bajo generaba desplazamiento vertical. */
+.sr-only{position:fixed;top:0;left:0}
 /* Avisos legibles sobre la escena en celular vertical (src/mobile.js), en la franja del cielo para no tapar a los personajes. */
 .mobile-callout{position:absolute;left:6px;right:6px;top:6px;z-index:5;display:flex;flex-direction:column;gap:4px;align-items:center;pointer-events:none;text-align:center}
 .mobile-callout b,.mobile-callout span{font:600 12px/1.35 system-ui,sans-serif;letter-spacing:.3px;padding:5px 10px;border-radius:4px;max-width:100%}
@@ -70,6 +72,14 @@
   .touch-move{grid-template-columns:repeat(2,64px)}.touch-actions{grid-template-columns:repeat(2,68px)}
   .touch-controls button{width:64px;height:58px}.touch-actions button{width:68px;height:58px}
   .small-button{white-space:nowrap}
+}
+/* Celulares bajos en vertical (320x568, 360x640): el menú se compacta para que «SALIR DE AVENTURA» se vea sin desplazar. */
+@media(max-width:600px) and (orientation:portrait) and (max-height:700px){
+  .title-screen{padding:10px 12px;min-height:0}.title-copy .eyebrow,.title-copy p,.selection-heading span{display:none}
+  .title-copy h1{font-size:24px;margin:2px 0 6px}.selection-heading{margin:4px 0 8px}.selection-heading h2{font-size:13px}
+  .hero-list{gap:6px}.hero-card{padding:5px 4px}.hero-card[aria-pressed=true]{padding:4px 3px}.hero-card img{height:52px}
+  .start-row{margin-top:8px}.start-row p{min-height:0;font-size:11px;line-height:1.4;margin-bottom:8px}.start-row button{min-height:44px}
+  .loading-message{display:none}
 }
 /* Celulares angostos (iPhone SE): basta la marca M para que la cabecera quede en una línea. */
 @media(max-width:360px) and (orientation:portrait){.brand>span:not(.brand-mark){display:none}}

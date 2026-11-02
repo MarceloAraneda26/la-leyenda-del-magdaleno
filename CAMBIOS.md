@@ -1,5 +1,12 @@
 # Cambios de versión
 
+## 0.6.4: cámara y pantalla (etapa 1 de la auditoría)
+
+- Facturas, Correos y Teléfonos solo cargan, avisan y disparan cuando se ven en pantalla. En celular vertical se respeta el recorte de la escena; antes podían atacar desde fuera de la vista (MOV-001).
+- En escritorio el juego, la cabecera y la barra de controles caben sin desplazar en 1366x768 (UI-002).
+- En celulares bajos en vertical (320x568, 360x640) el menú se compacta y «SALIR DE AVENTURA» se ve sin desplazar (UI-001).
+- En horizontal bajo ya no hay desplazamiento vertical: lo causaba el texto oculto para lectores de pantalla (UI-003).
+
 ## 0.6.3: correcciones rápidas
 
 - En celular vertical, las indicaciones («E · AYUDAR A…», «DESPEJA A LOS ENEMIGOS») y los avisos se muestran en texto legible sobre la escena, en lugar de dibujarse a 6 o 7 px dentro del lienzo.

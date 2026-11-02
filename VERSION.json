@@ -1,6 +1,6 @@
 {
-  "gameVersion": "0.6.3",
+  "gameVersion": "0.6.4",
   "saveSchema": 1,
-  "stage": "7: armas, celular vertical y correcciones rápidas",
-  "date": "2026-10-31"
+  "stage": "7: armas, celular y cámara (etapa 1 de la auditoría)",
+  "date": "2026-11-02"
 }

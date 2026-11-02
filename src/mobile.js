@@ -7,7 +7,8 @@
   // La cámara deja más espacio por delante del protagonista para compensar el recorte.
   const compact=matchMedia('(max-width:600px) and (orientation:portrait)');
   // En ese recorte, avisos e indicaciones del lienzo quedarían en 6 o 7 px: se muestran en HTML sobre la escena.
-  function layout(){M.camLead=compact.matches?300:350;M.htmlCallouts=compact.matches;}
+  // viewInset coincide con el recorte de mobile.css (x 120 a 760) para que los enemigos sepan si se ven.
+  function layout(){M.camLead=compact.matches?300:350;M.htmlCallouts=compact.matches;M.viewInset=compact.matches?{left:120,right:200}:{left:0,right:0};}
   compact.addEventListener('change',layout);layout();
   const setState=M.setState;
   function state(){root.dataset.gameState=M.state;status.hidden=!M.session||!['play','dialogue','paused'].includes(M.state);}
