@@ -175,6 +175,7 @@
   };
 
   function pine(x, floor, height, color, detail = true) {
+    if(!M.drawOffscreenDetails&&(x+height*.5<0||x-height*.5>W))return;
     F(x - 3, floor - height, 6, height, color);
     for (let level = 0; level < 6; level++) {
       const y = floor - height + level * height * .12;
@@ -184,6 +185,7 @@
     }
   }
   function ridge(x, y, width, height, color, snow = false) {
+    if(!M.drawOffscreenDetails&&(x+width<0||x-width>W))return;
     const points = [[x-width*.52,y],[x-width*.36,y-height*.32],[x-width*.28,y-height*.25],[x-width*.14,y-height*.7],[x-width*.07,y-height*.59],[x,y-height],[x+width*.10,y-height*.67],[x+width*.15,y-height*.77],[x+width*.30,y-height*.30],[x+width*.37,y-height*.4],[x+width*.55,y]];
     poly(points, color);
     if (snow) poly([[x-width*.06,y-height*.73],[x,y-height],[x+width*.07,y-height*.77],[x+width*.035,y-height*.79],[x+width*.01,y-height*.76],[x-width*.012,y-height*.83],[x-width*.025,y-height*.77]], '#5d7690');
@@ -205,6 +207,7 @@
     F(x-10,floor-8,21,8,'#464c49');
   }
   function cityBuilding(x, seed) {
+    if(!M.drawOffscreenDetails&&(x+310<0||x-15>W))return;
     const random=M.rng(seed*119+970),height=174+Math.floor(random()*78),top=450-height;
     const facade=seed%3===0?'#414c53':seed%3===1?'#4d4d48':'#3b4a55';
     F(x,top,282,height,'#222f3c');F(x+5,top+7,272,height-7,facade);
@@ -242,8 +245,8 @@
     for(let i=0;i<45;i++){
       const x=i*54-(cam*.11)%54;
       const h=(zone===0?35:14)+distant()*(zone===0?60:25);
-      F(x,346-h,37,h,zone===0?'#26364c':'#233b4b');
-      for(let yy=346-h+8;yy<343;yy+=12)for(let xx=x+5;xx<x+33;xx+=10)if(distant()>.45)F(xx,yy,3,3,zone===0?'#a88959':'#ae8c55');
+      const visible=M.drawOffscreenDetails||x>=-40&&x<=W+40;if(visible)F(x,346-h,37,h,zone===0?'#26364c':'#233b4b');
+      for(let yy=346-h+8;yy<343;yy+=12)for(let xx=x+5;xx<x+33;xx+=10)if(distant()>.45&&visible)F(xx,yy,3,3,zone===0?'#a88959':'#ae8c55');
     }
     for(let i=Math.floor(cam*.25/165)-2;i<Math.floor(cam*.25/165)+9;i++){
       const x=i*165-cam*.25;

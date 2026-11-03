@@ -1,6 +1,6 @@
 {
-  "gameVersion": "0.6.4",
+  "gameVersion": "0.7.0",
   "saveSchema": 1,
-  "stage": "7: armas, celular y cámara (etapa 1 de la auditoría)",
-  "date": "2026-11-02"
+  "stage": "8: celular como plataforma principal",
+  "date": "2026-11-03"
 }

@@ -6,7 +6,7 @@ const path = require('path'); const assert = require('assert/strict'); const her
 
 (async () => {
   const browser = await chromium.launch({ headless: true, channel: 'chrome', args: ['--mute-audio'] });
-  const page = await browser.newPage({ viewport: { width: 1365, height: 900 } });
+  const page = await browser.newPage(process.env.MAGDALENO_MOBILE==='1'?{viewport:{width:844,height:390},isMobile:true,hasTouch:true}:{viewport:{width:1365,height:900}});
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto((process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/')+'?qa=1');
@@ -34,6 +34,9 @@ const path = require('path'); const assert = require('assert/strict'); const her
       if (M.state !== 'play') break;
       const s = M.session;
       const p = s.player;
+      // Al encadenar escalones hay que soltar SALTO antes de una nueva pulsación.
+      // Mantenerlo continuamente no debe generar saltos automáticos en el juego.
+      const releaseJumpFrame = jumping === 0 && M.keys.Space && !M.keys.ArrowDown;
       const milestone = s.zone + ':' + s.fichas.length + ':' + (s.boss?.dead ? 'boss-done' : s.boss?.active ? 'boss' : 'route');
       if (milestone !== previous) {
         milestones.push({ frame: frames, milestone, hp: Math.round(p.hp), energy: Math.round(p.energy), x: Math.round(p.x), deaths });
@@ -71,7 +74,7 @@ const path = require('path'); const assert = require('assert/strict'); const her
       const approachingShot = s.shots.some(shot => Math.abs(shot.x - p.x) < 95 && shot.y > p.y - 65 && shot.y < p.y + 10 && (shot.x - p.x) * shot.vx < 0);
       if (p.onGround && jumping === 0 && (((!supportAhead && Math.abs(p.vx) > 5) || wallAhead || p.hitWall) || approachingShot)) jumping = 18;
       M.input('ArrowDown', !!dropThrough);
-      M.input('Space', dropThrough || jumping > 0);
+      M.input('Space', !releaseJumpFrame && (dropThrough || jumping > 0));
       if (jumping > 0) jumping--;
       M.input('ArrowRight', direction > 0);
       M.input('ArrowLeft', direction < 0);

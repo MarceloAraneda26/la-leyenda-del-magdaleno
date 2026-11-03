@@ -1,5 +1,19 @@
 # Desarrollo por etapas
 
+## Etapa 8: celular como plataforma principal (0.7.0)
+
+- [x] Escenario horizontal a todo el ancho, HUD compacto y zonas para dos pulgares.
+- [x] Menú en vertical y pausa con indicación para girar durante la partida.
+- [x] Cámara que acompaña los saltos a plataformas altas.
+- [x] Salto seguido de arma con dos pulgares, buffer de ataque y descenso de un toque.
+- [x] AYUDAR y BAJAR contextuales; iconos en lugar de teclas de escritorio.
+- [x] Aviso fiable cuando falla el almacenamiento.
+- [x] Jefes WebP sin pérdida y menos dibujo de elementos invisibles.
+- [x] Instalación guiada, offline y continuidad del guardado al actualizar.
+- [ ] Sesión de comodidad y rendimiento en Android e iPhone físicos.
+
+Las pruebas automatizadas no sustituyen la validación física ni una evaluación de dificultad con personas nuevas.
+
 ## Etapa 1: base jugable de ciudad
 
 Estado: implementada y probada.

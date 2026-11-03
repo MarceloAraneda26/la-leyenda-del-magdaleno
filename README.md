@@ -1,6 +1,8 @@
 # La Leyenda del Magdaleno
 
-## Versión jugable 0.6.1 del capítulo 1
+## Versión móvil 0.7.0 del capítulo 1
+
+La plataforma principal es el celular en horizontal, con controles de dos pulgares, cámara que acompaña los saltos, botones contextuales y guardado local. El menú funciona en vertical; la partida pide girar el teléfono. Escritorio conserva el teclado.
 
 Una aventura de plataformas en pixel art: elige a uno de los cinco amigos, reúne al grupo y llega a la botillería escondida en la montaña para conseguir el Coñac Magdaleno.
 

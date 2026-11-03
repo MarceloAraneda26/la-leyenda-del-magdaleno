@@ -1,5 +1,20 @@
 # Cambios de versión
 
+## 0.7.0: el celular es la plataforma principal
+
+- Partida horizontal que usa todo el ancho disponible, con HUD compacto y controles junto a los pulgares. El menú admite vertical; girar o salir de la aplicación pausa la partida.
+- Cámara vertical que acompaña los saltos y las rutas altas. Los emisores consideran también las zonas reservadas a los controles.
+- Cinco controles permanentes con iconos: izquierda, derecha, salto, arma y definitiva. AYUDAR aparece cerca de interacciones; BAJAR aparece sobre plataformas y funciona con un toque.
+- Un pequeño margen al soltar el salto permite tocar después ARMA con el mismo pulgar. Las pulsaciones del arma tienen un buffer de 0,14 s para no perder una orden al terminar la recuperación.
+- Ayuda inicial breve y botón de instalación con indicaciones cuando el navegador no ofrece su propio diálogo.
+- Corregido GUARD-001: si el navegador rechaza el guardado, ya no se anuncia éxito. La pausa aclara que la partida está solo en memoria.
+- Jefes en WebP sin pérdida: 1 181 626 bytes en lugar de 1 726 237 (31,5 % menos). Se conservan los PNG originales y sus dimensiones.
+- Se omite decoración completamente fuera de pantalla y se limita el redibujado del menú/diálogo/pausa móvil a cuatro veces por segundo. La física y la partida mantienen su paso de 60 Hz.
+- Caché offline 0.7.0 y mismo esquema de guardado 1. La actualización desde 0.6.4 conserva la partida.
+- El build publica también ETAPAS.md y PUBLICAR.md para resolver los enlaces del README.
+
+Las pruebas táctiles usan Chrome emulado. La comodidad, audio y rendimiento en Android/iPhone físicos siguen pendientes de una prueba en esos dispositivos.
+
 ## 0.6.4: cámara y pantalla (etapa 1 de la auditoría)
 
 - Facturas, Correos y Teléfonos solo cargan, avisan y disparan cuando se ven en pantalla. En celular vertical se respeta el recorte de la escena; antes podían atacar desde fuera de la vista (MOV-001).

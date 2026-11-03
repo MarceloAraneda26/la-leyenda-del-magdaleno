@@ -185,7 +185,7 @@
   M.render=function(){
     render();
     const s=M.session;
-    if(!s||!['play','paused'].includes(M.state)||M.celebrating)return;
+    if(!s||!['play','paused'].includes(M.state)||M.celebrating||M.mobileUI)return;
     const routes=Object.keys(M.progress.flags).filter(key=>key.startsWith('desvio_')&&M.progress.flags[key]).length;
     text('DESVÍOS '+routes+'/6',480,66,9,'#93b8ab','center');
   };
