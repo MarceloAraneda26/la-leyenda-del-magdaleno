@@ -1,0 +1,37 @@
+{
+  "duration": 45,
+  "silent": true,
+  "mediaVersion": "narrado-20261103",
+  "voiceOffset": 0.35,
+  "musicTempo": 0.92,
+  "musicApproximateBpm": 142,
+  "scenes": [
+    {"start":0,"end":2.7,"id":"intro","title":["CRECER ERA","OBLIGATORIO."],"sub":"Dejar de juntarse… no."},
+    {"start":2.7,"end":6.8,"id":"roster","title":["ELIGE A TU AMIGO."],"sub":"Cinco maneras de salvar la junta."},
+    {"start":6.8,"end":11.6,"id":"city","hero":"marcelo","zone":0,"col":7,"title":["LOS PENDIENTES","COBRARON VIDA."],"sub":"Y vienen a arruinarte la noche."},
+    {"start":11.6,"end":15.3,"id":"ruzio","hero":"ruzio","zone":1,"col":59,"title":["LAS EXCUSAS SE ROMPEN","A MARTILLAZOS."],"sub":"Ruzio · Martillo del Cerro"},
+    {"start":15.3,"end":19.3,"id":"pulga","hero":"pulga","zone":2,"col":65,"title":["LA PACIENCIA…","TAMBIÉN SE ACABA."],"sub":"Pulga · Clavada del Desquite"},
+    {"start":19.3,"end":22.7,"id":"tobi","hero":"tobi","zone":1,"col":59,"title":["LA AMISTAD","PEGA FUERTE."],"sub":"Tobi · Coloso de la Ruta"},
+    {"start":22.7,"end":26.2,"id":"pallo","hero":"pallo","zone":2,"col":65,"title":["SIEMPRE HAY QUIEN","TE LEVANTE."],"sub":"Pallo · Sutura Arcana"},
+    {"start":26.2,"end":30.5,"id":"police","hero":"marcelo","zone":1,"col":108,"title":["¿PERMISO PARA TENER VIDA?","DENEGADO."],"sub":"El papeleo acaba de subir de nivel."},
+    {"start":30.5,"end":36.4,"id":"road","hero":"ruzio","zone":1,"col":85,"title":["CINCO AMIGOS. UNA MONTAÑA.","CERO EXCUSAS."],"sub":"El camino también tiene asuntos pendientes."},
+    {"start":36.4,"end":40.1,"id":"mystery","hero":"marcelo","zone":2,"col":35,"title":["LA JUNTA…","NO SE CANCELA."],"sub":"Llega para descubrir lo que espera arriba."},
+    {"start":40.1,"end":45,"id":"end","title":["LA LEYENDA","DEL MAGDALENO"],"sub":"JUEGA EN TU CELULAR"}
+  ],
+  "narrationCaptions": [
+    {"start":0.35,"end":2.3,"text":"Crecer era obligatorio."},
+    {"start":3.18,"end":5.9,"text":"Dejar de juntarse… no."},
+    {"start":7.35,"end":11.25,"text":"Pero esta noche,\nlos pendientes cobraron vida."},
+    {"start":12.05,"end":15.05,"text":"Las excusas se rompen a martillazos."},
+    {"start":15.54,"end":19.0,"text":"La paciencia… también se acaba."},
+    {"start":19.60,"end":22.3,"text":"Y la amistad pega fuerte."},
+    {"start":23.05,"end":25.95,"text":"Pero siempre hay quien te levante."},
+    {"start":26.76,"end":28.6,"text":"¿Permiso para tener vida?"},
+    {"start":29.04,"end":30.25,"text":"Denegado."},
+    {"start":30.98,"end":32.45,"text":"Cinco amigos."},
+    {"start":32.76,"end":34.0,"text":"Una montaña."},
+    {"start":34.45,"end":36.15,"text":"Cero excusas."},
+    {"start":36.68,"end":39.85,"text":"La junta… no se cancela."},
+    {"start":40.34,"end":43.4,"text":"La Leyenda del Magdaleno."}
+  ]
+}

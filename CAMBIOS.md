@@ -1,5 +1,12 @@
 # Cambios de versión
 
+## Tráiler narrado · 3 de noviembre de 2026
+
+- Nuevo montaje de 45 segundos para la locución aportada: voz a velocidad natural, con sus pausas completas.
+- Fondo musical a 0,92× conservando el tono, con entrada/salida suave y reducción automática bajo la voz.
+- Exportaciones Full HD 1920×1080 y 1080×1920 a 30 fps, audio estéreo de 48 kHz y subtítulos sincronizados con la narración.
+- Se conservan las guardas por cuadro para no mostrar el desenlace, la recompensa ni la localización final. El juego sigue en 0.7.0.
+
 ## 0.7.0: el celular es la plataforma principal
 
 - Partida horizontal que usa todo el ancho disponible, con HUD compacto y controles junto a los pulgares. El menú admite vertical; girar o salir de la aplicación pausa la partida.

@@ -1,7 +1,8 @@
-/* Montaje de escenas del motor real. No usa vídeo generado ni música externa. */
+/* Montaje del motor real. Admite tiempos de locución; mantiene las guardas del desenlace. */
 const {chromium}=require('./browser.cjs');
 const fs=require('fs'),path=require('path'),{spawn}=require('child_process'),{once}=require('events');
-const OUT=path.resolve(__dirname,'../../trailer_magdaleno'),FPS=30,DURATION=30;
+const CONFIG=process.env.MAGDALENO_TRAILER_CONFIG?JSON.parse(fs.readFileSync(process.env.MAGDALENO_TRAILER_CONFIG,'utf8')):null;
+const OUT=path.resolve(process.env.MAGDALENO_TRAILER_OUTPUT||path.resolve(__dirname,'../../trailer_magdaleno')),FPS=30,DURATION=CONFIG?.duration||30;
 fs.mkdirSync(OUT,{recursive:true});
 function music(){
   const rate=44100,n=rate*DURATION,pcm=new Float32Array(n),beat=60/140;
@@ -26,17 +27,17 @@ function music(){
   const file=path.join(OUT,'banda_sonora_original.wav');fs.writeFileSync(file,Buffer.concat([header,data]));return file;
 }
 function encoder(name,size,audio){
-  const child=spawn('ffmpeg',['-hide_banner','-loglevel','error','-y','-f','image2pipe','-framerate',String(FPS),'-i','pipe:0','-i',audio,'-vf','scale='+size+':flags=neighbor','-c:v','libx264','-preset','fast','-crf','18','-pix_fmt','yuv420p','-af','loudnorm=I=-16:TP=-1.5:LRA=11','-c:a','aac','-b:a','192k','-ar','44100','-movflags','+faststart','-t',String(DURATION),path.join(OUT,name)],{windowsHide:true,stdio:['pipe','ignore','pipe']});
+  const child=spawn('ffmpeg',['-hide_banner','-loglevel','error','-y','-f','image2pipe','-framerate',String(FPS),'-i','pipe:0',...(audio?['-i',audio]:[]),'-vf','scale='+size+':flags=neighbor','-c:v','libx264','-threads','2','-preset','fast','-crf','18','-pix_fmt','yuv420p',...(audio?['-af','loudnorm=I=-16:TP=-1.5:LRA=11','-c:a','aac','-b:a','192k','-ar','44100']:['-an']),'-movflags','+faststart','-t',String(DURATION),path.join(OUT,name)],{windowsHide:true,stdio:['pipe','ignore','pipe']});
   let errors='';child.stderr.on('data',chunk=>errors+=chunk);child.stdin.on('error',()=>{});child.done=new Promise((resolve,reject)=>child.on('close',code=>code===0?resolve():reject(new Error(errors||'FFmpeg '+code))));return child;
 }
 (async()=>{
-  const audio=music(),wide=encoder('Magdaleno_trailer_16x9.mp4','1920:1080',audio),vertical=encoder('Magdaleno_trailer_9x16.mp4','1080:1920',audio);
+  const audio=CONFIG?.silent?null:music(),wide=encoder('Magdaleno_trailer_16x9.mp4','1920:1080',audio),vertical=encoder('Magdaleno_trailer_9x16.mp4','1080:1920',audio);
   const browser=await chromium.launch({headless:true,channel:'chrome',args:['--mute-audio']});
   const page=await browser.newPage({viewport:{width:1280,height:900}});await page.goto('http://127.0.0.1:4173/?qa=1');await page.waitForFunction(()=>window.Magdaleno?.state==='title');
-  await page.evaluate(()=>{
+  await page.evaluate(config=>{
     const M=Magdaleno,a=__magdaleno;a.setManual();M.audio.muted=true;
     const game=document.getElementById('game'),wide=document.createElement('canvas'),vertical=document.createElement('canvas');wide.width=960;wide.height=540;vertical.width=540;vertical.height=960;
-    const scenes=[
+    const scenes=config?.scenes||[
       {start:0,end:3,id:'intro',title:['UNA NOCHE.','LOS CINCO.'],sub:'Los pendientes pueden esperar.'},
       {start:3,end:6,id:'roster',title:['ELIGE A TU AMIGO.'],sub:'Cinco maneras de salvar la junta.'},
       {start:6,end:9.5,id:'city',hero:'marcelo',zone:0,col:7,title:['LOS PENDIENTES','COBRARON VIDA.'],sub:'Y vienen a arruinarte la noche.'},
@@ -47,7 +48,7 @@ function encoder(name,size,audio){
       {start:19.5,end:22.5,id:'police',hero:'marcelo',zone:1,col:108,title:['¿PERMISO PARA','TENER VIDA?'],sub:'El papeleo acaba de subir de nivel.'},
       {start:22.5,end:25.5,id:'road',hero:'ruzio',zone:1,col:85,title:['LA RUTINA','NO SE VA A RENDIR.'],sub:'El camino también tiene asuntos pendientes.'},
       {start:25.5,end:28,id:'mystery',hero:'marcelo',zone:2,col:35,title:['¿QUÉ NOS ESPERA','EN LA MONTAÑA?'],sub:'Llega para descubrirlo.'},
-      {start:28,end:30,id:'end',title:['LA LEYENDA','DEL MAGDALENO'],sub:'JUEGA EN PC Y CELULAR'}
+      {start:28,end:30,id:'end',title:['LA LEYENDA','DEL MAGDALENO'],sub:'JUEGA EN TU CELULAR'}
     ];let previous=-1;
     function setup(scene){
       M.clearInput();M.notice=null;M.banner=0;M.shake=0;
@@ -99,12 +100,12 @@ function encoder(name,size,audio){
       scene.title.forEach((line,i)=>text(v,line,270,218+i*36,line.length>23?21:27,i?'#edb55b':'#f0e5d0','center'));
       v.strokeStyle='#486676';v.lineWidth=2;v.strokeRect(13,314,514,291);v.drawImage(game,0,0,960,540,14,315,512,288);
       text(v,scene.sub,270,655,scene.sub.length>38?13:15,'#bbd0dd','center');
-      team(v,70,835,100,138);text(v,scene.id==='end'?'JUEGA EN PC Y CELULAR':'CINCO AMIGOS. UNA MONTAÑA.',270,915,18,scene.id==='end'?'#edb55b':'#70cbb7','center');
-      if(scene.id==='end'){v.fillStyle='#081320db';v.fillRect(14,315,512,288);text(v,'LA LEYENDA',270,422,34,'#f0e5d0','center');text(v,'DEL MAGDALENO',270,470,34,'#edb55b','center');text(v,'POR LA JUNTA.',270,536,20,'#70cbb7','center');}
+      team(v,70,835,100,138);text(v,scene.id==='end'?'JUEGA EN TU CELULAR':'CINCO AMIGOS. UNA MONTAÑA.',270,915,18,scene.id==='end'?'#edb55b':'#70cbb7','center');
+      if(scene.id==='end'){v.fillStyle='#081320db';v.fillRect(14,315,512,288);text(v,'LA LEYENDA',270,422,34,'#f0e5d0','center');text(v,'DEL MAGDALENO',270,470,34,'#edb55b','center');text(v,'JUEGA EN TU CELULAR',270,536,20,'#70cbb7','center');}
       if(edge<1){v.fillStyle='rgba(5,12,22,'+(1-edge)+')';v.fillRect(0,0,540,960);}
       return [wide.toDataURL('image/png').split(',')[1],vertical.toDataURL('image/png').split(',')[1]];
     };window.trailerScenes=scenes;
-  });
+  },CONFIG);
   for(let frame=0;frame<FPS*DURATION;frame++){
     const images=await page.evaluate(frame=>window.trailerFrame(frame),frame);
     if(!wide.stdin.write(Buffer.from(images[0],'base64')))await once(wide.stdin,'drain');
@@ -114,5 +115,5 @@ function encoder(name,size,audio){
     if(frame%150===0)console.log('Tráiler: '+Math.round(frame/(FPS*DURATION)*100)+'%');
   }
   const scenes=await page.evaluate(()=>window.trailerScenes);wide.stdin.end();vertical.stdin.end();await Promise.all([wide.done,vertical.done]);await browser.close();
-  fs.writeFileSync(path.join(OUT,'montaje.json'),JSON.stringify({duration:DURATION,fps:FPS,noEndingSpoilers:true,footage:'Escenas preparadas dentro del motor del juego, con sus sprites y animaciones reales.',music:'Chiptune original sintetizado para este montaje.',scenes},null,2));console.log('Tráileres sin desenlace exportados en '+OUT);
+  fs.writeFileSync(path.join(OUT,'montaje.json'),JSON.stringify({duration:DURATION,fps:FPS,noEndingSpoilers:true,footage:'Escenas preparadas dentro del motor del juego, con sus sprites y animaciones reales.',music:audio?'Chiptune original sintetizado para este montaje.':'Sin audio; preparado para la mezcla de locución y música.',mediaVersion:CONFIG?.mediaVersion,narrationCaptions:CONFIG?.narrationCaptions,scenes},null,2));console.log('Tráileres sin desenlace exportados en '+OUT);
 })().catch(error=>{console.error(error);process.exit(1);});

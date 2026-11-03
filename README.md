@@ -4,6 +4,8 @@
 
 La plataforma principal es el celular en horizontal, con controles de dos pulgares, cámara que acompaña los saltos, botones contextuales y guardado local. El menú funciona en vertical; la partida pide girar el teléfono. Escritorio conserva el teclado.
 
+El tráiler narrado dura 45 segundos y está disponible en Full HD horizontal y vertical. Conserva la voz a velocidad natural, usa el fondo musical aportado a 0,92× y reduce la música durante la locución. Incluye subtítulos y mantiene oculto el desenlace. [Ver y descargar el tráiler](trailer.html?v=narrado-20261103) · [Detalles del montaje](TRAILER.md).
+
 Una aventura de plataformas en pixel art: elige a uno de los cinco amigos, reúne al grupo y llega a la botillería escondida en la montaña para conseguir el Coñac Magdaleno.
 
 La versión 0.6 añade un arma cuerpo a cuerpo por amigo para el ataque básico. Se usa con Z o ARMA, sin costo de energía y con 10 de daño. [Ver las armas](animaciones.html?accion=arma) · [Descripción de cada arma](ARMAS.md).
@@ -59,7 +61,7 @@ El salto tiene altura variable: mantener la tecla permite alcanzar más altura. 
 - Menú móvil en vertical y horizontal, botones de 44 píxeles o más, vida y energía legibles y entrada multitáctil.
 - Controles debajo del escenario en vertical y a los lados en celulares horizontales.
 - Pantalla completa en navegadores compatibles, instalación opcional y caché del juego sin conexión.
-- Tráiler horizontal Full HD y vertical de 30 segundos, con música original.
+- Tráiler narrado de 45 segundos, horizontal y vertical Full HD, con música suave y subtítulos.
 
 ## Definitivas
 
