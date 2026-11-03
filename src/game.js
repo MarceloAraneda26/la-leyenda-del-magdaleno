@@ -12,7 +12,7 @@ M.pause=()=>{if(M.state==='play'){M.setState('paused');$('pause-fichas').innerHT
 function validSave(o){if(!o||o.version!==M.VERSION||!M.order.includes(o.hero)||!Number.isInteger(o.zone)||o.zone<0||o.zone>2||!o.checkpoint||o.checkpoint.zone!==o.zone||!Number.isInteger(o.checkpoint.col)||o.checkpoint.col<1||o.checkpoint.col>=M.zones[o.zone].length)return false;for(const key of ['friends','fichas','rescued'])if(!Array.isArray(o[key])||new Set(o[key]).size!==o[key].length||o[key].some(id=>!M.order.includes(id)))return false;if(!o.friends.includes(o.hero)||!o.fichas.includes(o.hero)||o.rescued.includes(o.hero)||o.friends.length!==o.fichas.length||o.friends.some(id=>!o.fichas.includes(id))||o.rescued.length!==o.friends.length-1||o.rescued.some(id=>!o.friends.includes(id)))return false;if(!Array.isArray(o.collected)||!Array.isArray(o.killed)||!o.flags||![o.score,o.elapsed,o.canCount,o.killCount].every(n=>Number.isFinite(n)&&n>=0))return false;return true}
 M.readSave=()=>{try{const o=JSON.parse(localStorage.getItem(M.SAVE_KEY)||'null');return validSave(o)?o:null}catch{return null}};
 M.saveCheckpoint=(col,notify=true)=>{const s=M.session;if(!s)return false;s.checkpoint={zone:s.zone,col};M.progress.zone=s.zone;M.progress.checkpoint=copy(s.checkpoint);M.progress.score=s.score;M.progress.collected=[...s.collected];M.progress.killed=[...s.killed];M.progress.friends=[...s.friends];M.progress.fichas=[...s.fichas];M.progress.rescued=s.rescues.filter(r=>r.done).map(r=>r.hero).concat(M.progress.rescued.filter(id=>!s.rescues.some(r=>r.hero===id)));M.checkpointSnapshot=copy(M.progress);try{localStorage.setItem(M.SAVE_KEY,JSON.stringify(M.progress));M.saveAvailable=true}catch{M.saveAvailable=false;M.notify('NO SE PUDO GUARDAR · LA PARTIDA SIGUE EN MEMORIA');return false}if(notify){M.audio.sfx('checkpoint');M.notify('PUNTO DE ENCUENTRO · PROGRESO GUARDADO','#85cfb7')}return true};
-M.makeEnemy=(type,id,col,row=10)=>{const st=M.enemyStats[type];return{type,id,x:col*T+T/2,y:row*T,baseY:row*T,vx:0,vy:0,hw:type==='phone'?15:18,h:type==='phone'?48:36,hp:st.hp,max:st.hp,damage:st.damage,t:0,cd:1.3+(col%3)*.3,stun:0,hurt:0,dead:false,warn:false,dir:-1,home:col*T+T/2,charge:0,jumps:0}};
+M.makeEnemy=(type,id,col,row=10)=>{const st=M.enemyStats[type];return{type,id,x:col*T+T/2,y:row*T,baseY:row*T,vx:0,vy:0,hw:st.hw,h:st.h,hp:st.hp,max:st.hp,damage:st.damage,t:0,walkT:0,action:0,onGround:true,cd:1.3+(col%3)*.3,stun:0,hurt:0,dead:false,warn:false,dir:-1,face:-1,home:col*T+T/2,charge:0,jumps:0}};
 M.buildZone=(zone,hero,progress)=>{const z=M.zones[zone],cols=z.length,grid=Array.from({length:12},(_,r)=>Array.from({length:cols},()=>r>=10?'#':' '));const s={zone,cols,hero,grid,player:{x:3*T+T/2,y:10*T,vx:0,vy:0,hw:17,h:80,onGround:true,hp:100,energy:30,face:1,attack:0,attackCd:0,attackHits:new Set(),ult:0,ultUsed:false,inv:0,hurt:0,stun:0,coyote:0,jumpBuf:0,animT:0,safeX:3*T+T/2,safeY:10*T},enemies:[],shots:[],effects:[],cans:[],rescues:[],followers:{},friends:[...progress.friends],fichas:[...progress.fichas],collected:new Set(progress.collected),killed:new Set(progress.killed),score:progress.score,checkpoint:copy(progress.checkpoint),checkpoints:[12,76],boss:null,startedBoss:false};
  const pits=zone===0?[26,88,116]:zone===1?[25,73]:[24,84];for(const col of pits)for(let dx=0;dx<2;dx++){grid[10][col+dx]=' ';grid[11][col+dx]=' '}
  for(const col of [16,35,65,99]){for(let k=0;k<4;k++)grid[8][col+k]='=';if(col===65)for(let k=0;k<3;k++)grid[6][col+5+k]='='}
@@ -49,13 +49,41 @@ function transition(){const s=M.session;if(s.rescues.some(r=>!r.done)){M.notify(
 function shot(kind,x,y,vx,vy,damage=8,life=3,gravity=0){M.session.shots.push({kind,x,y,vx,vy,damage,life,gravity,dir:Math.sign(vx)||1,w:kind==='paper'?24:14,h:kind==='cone'?28:14})}
 // Parte del mundo que el jugador ve: en celular vertical mobile.js recorta los bordes (M.viewInset).
 M.viewWindow=()=>{const inset=M.viewInset||{left:0,right:0};return [M.cam+inset.left,M.cam+M.W-inset.right]};
-function updateEnemy(e,dt){if(e.dead)return;e.t+=dt;e.reveal=Math.max(0,(e.reveal||0)-dt);e.hurt=Math.max(0,e.hurt-dt);e.stun=Math.max(0,e.stun-dt);if(e.stun>0)return;const s=M.session,p=s.player,near=Math.abs(e.x-p.x)<550&&(!e.routeId||Math.abs(e.baseY-p.y)<125);
- // Los que disparan solo cargan, avisan y disparan cuando se ven en pantalla, para no atacar desde fuera de la vista.
- const view=M.viewWindow(),shooter=e.type==='bill'||e.type==='mail'||e.type==='phone',engaged=near&&(!shooter||(e.x>view[0]+20&&e.x<view[1]-20));e.cd-=engaged?dt:0;e.warn=engaged&&e.cd<.55;
- if(e.type==='bill'||e.type==='mail'){e.x=e.home+Math.sin(e.t*(e.type==='mail'?1:.5))*(e.type==='mail'?85:28);e.y=e.baseY-45+Math.sin(e.t*2)*25;if(engaged&&e.cd<=0){const dx=p.x-e.x,dy=p.y-40-(e.y-18),len=Math.max(1,Math.hypot(dx,dy));shot('paper',e.x,e.y-18,dx/len*170,dy/len*170);e.cd=3.2}}
- else if(e.type==='phone'){if(engaged&&e.cd<=0){const dir=p.x<e.x?-1:1;for(let i=0;i<3;i++)shot('notice',e.x+dir*(15+i*18),e.y-30,dir*190,0,8,3);e.cd=3.5}}
- else{let speed=0;if(e.type==='clock')speed=near&&Math.sin(e.t*2)>.1?Math.sign(p.x-e.x)*115:0;else if(e.type==='coin'){if(e.cd<=0&&near){e.charge=.7;e.dir=Math.sign(p.x-e.x)||1;e.cd=2.6}e.charge=Math.max(0,e.charge-dt);speed=e.charge>0?e.dir*240:e.dir*30}else if(e.type==='folder'){speed=Math.abs(e.x-p.x)>65&&Math.abs(e.x-e.home)>2?Math.sign(e.home-e.x)*30:0;if(near&&e.cd<=0){e.bite=.25;e.cd=2.2}e.bite=Math.max(0,(e.bite||0)-dt)}else if(e.type==='alarm'){if(e.onGround&&e.cd<=0&&near){e.vy=-390;e.vx=Math.sign(p.x-e.x)*55;e.cd=.85;e.jumps++;if(e.jumps%3===0){shot('wave',e.x,e.y-5,-155,0,10,1.5);shot('wave',e.x,e.y-5,155,0,10,1.5);e.cd=1.5}}speed=e.vx||0}e.vx=speed;e.vy=Math.min(700,e.vy+1800*dt);const ahead=Math.floor((e.x+Math.sign(speed)*28)/T);if(e.onGround&&!M.solidAt(ahead,10)&&e.type!=='alarm'){e.vx=0;e.dir*=-1}M.moveX(e,e.vx*dt);M.moveY(e,e.vy*dt);if(e.y>650){e.x=e.home;e.y=450;e.vy=0}}
- if(M.overlap(M.box(p),M.box(e)))M.hurtPlayer(e.damage,e.x)}
+function updateEnemy(e,dt){
+ if(e.dead)return;e.t+=dt;e.reveal=Math.max(0,(e.reveal||0)-dt);e.hurt=Math.max(0,e.hurt-dt);e.stun=Math.max(0,e.stun-dt);
+ if(e.stun>0){e.action=0;e.projectile=null;e.warn=false;return;}e.action=Math.max(0,(e.action||0)-dt);
+ const s=M.session,p=s.player,near=Math.abs(e.x-p.x)<550&&(!e.routeId||Math.abs(e.baseY-p.y)<125);
+ // Un patrullero no avisa ni dispara desde fuera de la pantalla del teléfono.
+ const view=M.viewWindow(),shooter=['bill','mail','phone'].includes(e.type),engaged=near&&(!shooter||(e.x>view[0]+e.hw&&e.x<view[1]-e.hw));
+ e.face=e.charge>0?e.dir:(Math.sign(p.x-e.x)||e.face);e.cd-=engaged?dt:0;e.warn=engaged&&e.cd>0&&e.cd<.55;
+ let speed=0;
+ if(e.type==='bill'||e.type==='mail'){
+   const target=e.home+Math.sin(e.t*(e.type==='mail'?.8:.5))*(e.type==='mail'?60:28);
+   speed=e.warn||e.action>0?0:M.clamp((target-e.x)*3,-36,36);
+   if(engaged&&e.cd<=0){e.action=.32;e.projectile={kind:'paper',delay:.09};e.cd=3.2;}
+ }else if(e.type==='phone'){
+   if(engaged&&e.cd<=0){e.action=.32;e.projectile={kind:'notice',delay:.09};e.cd=3.5;}
+ }else if(e.type==='clock')speed=near&&Math.sin(e.t*2)>.1?Math.sign(p.x-e.x)*115:0;
+ else if(e.type==='coin'){
+   if(e.cd<=0&&near){e.charge=.7;e.action=.32;e.dir=Math.sign(p.x-e.x)||1;e.face=e.dir;e.cd=2.6;}
+   e.charge=Math.max(0,e.charge-dt);speed=e.charge>0?e.dir*240:e.dir*30;
+ }else if(e.type==='folder'){
+   speed=Math.abs(e.x-p.x)>68&&Math.abs(e.x-e.home)>2?Math.sign(e.home-e.x)*30:0;
+   if(engaged&&e.cd<=0){e.action=.32;e.cd=2.2;}
+ }else if(e.type==='alarm'){
+   if(e.onGround&&e.cd<=0&&near){e.vy=-390;e.vx=Math.sign(p.x-e.x)*55;e.cd=.85;e.jumps++;if(e.jumps%3===0){shot('wave',e.x,e.y-5,-155,0,10,1.5);shot('wave',e.x,e.y-5,155,0,10,1.5);e.cd=1.5;}}
+   speed=e.vx||0;
+ }
+ if(e.projectile){e.projectile.delay-=dt;if(e.projectile.delay<=0){if(engaged){const hand=M.enemyHand(e);if(e.projectile.kind==='paper'){const dx=p.x-hand.x,dy=p.y-40-hand.y,len=Math.max(1,Math.hypot(dx,dy));shot('paper',hand.x,hand.y,dx/len*170,dy/len*170);}else for(let i=0;i<3;i++)shot('notice',hand.x+e.face*i*18,hand.y,e.face*190,0,8,3);}e.projectile=null;}}
+ e.vx=speed;e.vy=Math.min(700,e.vy+1800*dt);
+ const row=Math.floor((e.y+.5)/T),ahead=Math.floor((e.x+Math.sign(speed)*(e.hw+8))/T);
+ if(e.onGround&&!M.solidAt(ahead,row)&&!M.oneWayAt(ahead,row)&&e.type!=='alarm'){e.vx=0;if(e.type==='coin')e.dir*=-1;}
+ M.moveX(e,e.vx*dt);M.moveY(e,e.vy*dt);
+ e.gaitSpeed=M.lerp(e.gaitSpeed||0,Math.min(1,Math.abs(e.vx)/100),Math.min(1,dt*12));if(Math.abs(e.vx)>2)e.walkT+=dt*(.5+Math.abs(e.vx)/100);
+ if(e.y>650){e.x=e.home;e.y=e.baseY;e.vy=0;}
+ const fist=M.enemyStrikeBox(e);
+ if(M.overlap(M.box(p),M.box(e))||(fist&&M.overlap(M.box(p),fist)))M.hurtPlayer(e.damage,e.x);
+}
 function updateBoss(dt){const s=M.session,b=s.boss,p=s.player;if(!b||!b.active||b.dead)return;b.t+=dt;b.tm-=dt;b.hurt=Math.max(0,b.hurt-dt);b.dir=p.x<b.x?-1:1;
  if(b.st==='charge'){b.x+=b.dir*315*dt;b.x=M.clamp(b.x,b.left+45,b.right-45);if(M.overlap(M.box(b),M.box(p)))M.hurtPlayer(18,b.x)}
  if(b.st==='jump'){const progress=1-b.tm/.9;b.y=450-Math.sin(M.clamp(progress,0,1)*Math.PI)*(b.phase===2?175:100);b.x=M.lerp(b.jumpStart,b.jumpEnd,M.clamp(progress,0,1));if(b.tm<=0){b.y=450;M.ring(b.x,445,100,'#d9b777');if(Math.abs(p.x-b.x)<100&&p.y>380)M.hurtPlayer(20,b.x)}}

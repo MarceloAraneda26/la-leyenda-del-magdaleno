@@ -2,6 +2,8 @@
 
 Montaje de 45 segundos del motor real, con la narración y la música aportadas por el usuario. Versiones Full HD horizontal (1920×1080) y vertical (1080×1920), H.264, 30 fps y audio AAC estéreo de 48 kHz. Se reproduce y descarga desde `trailer.html`.
 
+La edición `patrulleros-20261103` muestra los siete enemigos humanoides de masilla del juego 0.7.1. Conserva el montaje, la narración y los ajustes musicales del tráiler narrado anterior.
+
 ## Mezcla
 
 - Voz a 1×, sin acelerar ni cambiar su tono; entrada a los 0,35 segundos.

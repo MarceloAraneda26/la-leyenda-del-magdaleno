@@ -1,10 +1,12 @@
 # La Leyenda del Magdaleno
 
-## Versión móvil 0.7.0 del capítulo 1
+## Versión móvil 0.7.1 del capítulo 1
 
 La plataforma principal es el celular en horizontal, con controles de dos pulgares, cámara que acompaña los saltos, botones contextuales y guardado local. El menú funciona en vertical; la partida pide girar el teléfono. Escritorio conserva el teclado.
 
-El tráiler narrado dura 45 segundos y está disponible en Full HD horizontal y vertical. Conserva la voz a velocidad natural, usa el fondo musical aportado a 0,92× y reduce la música durante la locución. Incluye subtítulos y mantiene oculto el desenlace. [Ver y descargar el tráiler](trailer.html?v=narrado-20261103) · [Detalles del montaje](TRAILER.md).
+Los siete enemigos comunes son patrulleros humanoides de masilla de 86–96 píxeles, con máscaras, puños y marcha articulada. Las facturas, teléfonos, carpetas y relojes aparecen en sus protecciones. Sus cuerpos y manos usan las mismas dimensiones que el combate. [Ver los diseños](auditoria_villanos/patrulleros_humanoides.png) · [Comparar su escala con Marcelo](auditoria_villanos/escala_en_juego.png).
+
+El tráiler narrado dura 45 segundos y está disponible en Full HD horizontal y vertical. Conserva la voz a velocidad natural, usa el fondo musical aportado a 0,92× y reduce la música durante la locución. Incluye subtítulos, muestra los patrulleros nuevos y mantiene oculto el desenlace. [Ver y descargar el tráiler](trailer.html?v=patrulleros-20261103) · [Detalles del montaje](TRAILER.md).
 
 Una aventura de plataformas en pixel art: elige a uno de los cinco amigos, reúne al grupo y llega a la botillería escondida en la montaña para conseguir el Coñac Magdaleno.
 
@@ -51,7 +53,7 @@ El salto tiene altura variable: mantener la tecla permite alcanzar más altura. 
 - Tres zonas con fondos por capas y terreno dibujado por código: ciudad, carretera y montaña.
 - Dos desvíos de plataformas por zona, con latas adicionales y contador de exploración.
 - Cable eléctrico, cruce de vehículo y caída de rocas con avisos previos.
-- Siete enemigos geométricos, con movimiento, avisos y proyectiles propios.
+- Siete patrulleros humanoides de masilla, de tamaño similar al protagonista, con marcha, guardia, preparación, golpe o lanzamiento y recuperación.
 - Cuatro rescates que se adaptan al protagonista elegido.
 - Aliados que se suman visualmente y abren el paso después de su rescate.
 - Cinco fichas únicas y latas que dan puntos y energía.

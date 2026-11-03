@@ -1,5 +1,15 @@
 # Cambios de versión
 
+## 0.7.1: patrulleros humanoides
+
+- Los siete objetos pequeños se convierten en esbirros humanoides de masilla: máscaras agrietadas, hombros, puños, rodillas y botas. Miden de 86 a 96 píxeles frente a los 94 píxeles visibles del protagonista.
+- Cada tipo conserva su tema mediante emblemas y accesorios: factura, teléfono, carpeta, moneda, correo, reloj y despertador.
+- Marcha articulada, guardia, preparación, golpe/lanzamiento, recuperación y reacción al daño. Los proyectiles salen de la mano al extender el brazo; el puño de la Carpeta solo daña durante el contacto activo.
+- Cajas de colisión adaptadas al cuerpo. Los patrulleros de papel caminan y se detienen antes de los bordes de las plataformas; los disparos siguen bloqueados fuera de pantalla.
+- Caché compartida y limitada de posturas para reutilizar los sprites articulados y reducir el dibujo repetido en celular.
+- Tráiler narrado capturado de nuevo con los diseños nuevos en ambos formatos, conservando la narración, la mezcla y las guardas del desenlace.
+- Caché offline 0.7.1 y esquema de guardado 1: la actualización conserva el progreso.
+
 ## Tráiler narrado · 3 de noviembre de 2026
 
 - Nuevo montaje de 45 segundos para la locución aportada: voz a velocidad natural, con sus pausas completas.
