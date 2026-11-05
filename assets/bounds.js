@@ -36,6 +36,12 @@ window.Magdaleno.assetBounds={
     "w": 828,
     "h": 1148
   },
+  "cote": {
+    "x": 15,
+    "y": 8,
+    "w": 66,
+    "h": 144
+  },
   "matahombres": {
     "x": 186,
     "y": 10,

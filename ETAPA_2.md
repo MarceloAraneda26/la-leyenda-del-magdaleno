@@ -56,7 +56,7 @@ Se interpretó provisionalmente «debajo de un cambio» como «debajo de un cami
 
 ## Guardado y verificación
 
-La etapa 2 usa `magdaleno_parral_v1`, separado del guardado de la etapa 1. Ante un bloqueo del almacenamiento, conserva el último cruce en memoria y avisa al pausar. Si el guardado es inválido, lo descarta.
+La etapa 2 usa `magdaleno_parral_v1`, separado del guardado de la etapa 1. Ante un bloqueo del almacenamiento, conserva el último cruce en memoria y avisa al pausar. Si el guardado es inválido, lo descarta. También se puede abrir directamente desde `etapa2.html`; los límites del sprite de Coté se incluyen junto a los de los demás personajes.
 
 Se probaron las cinco carreras completas con entradas de carril y grito, sin invulnerabilidad ni saltos de distancia; colisiones con y sin salto; pausa; derrota por niebla; reintento; guardado; puente desde la etapa 1; controles táctiles emulados y apertura sin conexión. La comodidad y el rendimiento en teléfonos físicos requieren una sesión en esos dispositivos. El balance queda abierto al primer juego humano.
 
