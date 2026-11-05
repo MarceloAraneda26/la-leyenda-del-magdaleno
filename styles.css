@@ -2,3 +2,4 @@
 @media(pointer:coarse){.shell{width:min(98vw,calc((100dvh - 90px)*1.777778))}}
 /* Escritorio: el ancho también depende de la altura, para que juego, cabecera y controles quepan sin desplazar (1366x768). */
 @media(pointer:fine) and (min-width:901px){.shell{width:min(1280px,98vw,calc((100dvh - 130px)*1.777778))}}
+#ending-continue{display:flex;align-items:center;justify-content:center;text-align:center;min-height:46px;text-decoration:none;margin:14px auto;padding:12px 20px}

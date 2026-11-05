@@ -6,24 +6,24 @@
   <meta name="theme-color" content="#0b1530">
   <title>La Leyenda del Magdaleno</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="styles.css?v=0.7.1">
-  <link rel="stylesheet" href="mobile.css?v=0.7.1">
+  <link rel="stylesheet" href="styles.css?v=0.8.0">
+  <link rel="stylesheet" href="mobile.css?v=0.8.0">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <script defer src="src/data.js?v=0.7.1"></script>
-  <script defer src="assets/bounds.js?v=0.7.1"></script>
-  <script defer src="src/core.js?v=0.7.1"></script>
-  <script defer src="src/render.js?v=0.7.1"></script>
-  <script defer src="src/enemies.js?v=0.7.1"></script>
-  <script defer src="src/visuals.js?v=0.7.1"></script>
-  <script defer src="src/powers.js?v=0.7.1"></script>
-  <script defer src="src/melee.js?v=0.7.1"></script>
-  <script defer src="src/game.js?v=0.7.1"></script>
-  <script defer src="src/chapter.js?v=0.7.1"></script>
-  <script defer src="src/soundtrack.js?v=0.7.1"></script>
-  <script defer src="src/mobile.js?v=0.7.1"></script>
+  <script defer src="src/data.js?v=0.8.0"></script>
+  <script defer src="assets/bounds.js?v=0.8.0"></script>
+  <script defer src="src/core.js?v=0.8.0"></script>
+  <script defer src="src/render.js?v=0.8.0"></script>
+  <script defer src="src/enemies.js?v=0.8.0"></script>
+  <script defer src="src/visuals.js?v=0.8.0"></script>
+  <script defer src="src/powers.js?v=0.8.0"></script>
+  <script defer src="src/melee.js?v=0.8.0"></script>
+  <script defer src="src/game.js?v=0.8.0"></script>
+  <script defer src="src/chapter.js?v=0.8.0"></script>
+  <script defer src="src/soundtrack.js?v=0.8.0"></script>
+  <script defer src="src/mobile.js?v=0.8.0"></script>
 </head>
 <body>
 <main class="shell">
@@ -42,7 +42,7 @@
     </div>
     <div id="dialogue" class="dialogue" hidden><div class="dialogue-portrait"><canvas id="portrait" width="80" height="80"></canvas></div><div class="dialogue-copy"><span id="dialogue-speaker"></span><p id="dialogue-text"></p></div><button id="dialogue-next" class="dialogue-next">SEGUIR <span>↵</span></button></div>
     <div id="pause-screen" class="overlay centered-overlay" hidden><div class="modal-card"><span class="eyebrow">LA JUNTA PUEDE ESPERAR UN MOMENTO</span><h2>UN RESPIRO</h2><p id="pause-save-status">Tu progreso se guarda en los puntos de control y al reunir a cada amigo.</p><button id="resume-button" class="primary">VOLVER AL CAMINO</button><button id="menu-button" class="text-button">Volver a la selección</button><div id="pause-fichas" class="ficha-notes"></div></div></div>
-    <div id="ending-screen" class="overlay centered-overlay" hidden><div class="modal-card ending-card"><span class="eyebrow">CAPÍTULO 01 COMPLETADO</span><h2>POR LA JUNTA.</h2><p>El Coñac Magdaleno existía.<br>Y esta noche, los cinco consiguieron tiempo para estar juntos.</p><div id="ending-stats" class="ending-stats"></div><button id="replay-button" class="primary">OTRA NOCHE, OTRO PROTAGONISTA</button></div></div>
+    <div id="ending-screen" class="overlay centered-overlay" hidden><div class="modal-card ending-card"><span class="eyebrow">ETAPA 1 COMPLETADA · LA BÚSQUEDA SIGUE</span><h2>SE AGOTÓ.</h2><p>El Matahombres cerró sin una botella que vender.<br>Abajo, Parral empieza a desaparecer entre la camanchaca.</p><div id="ending-stats" class="ending-stats"></div><a id="ending-continue" class="primary" href="etapa2.html">ETAPA 2 · CORRER POR PARRAL →</a><button id="replay-button" class="text-button">Volver a elegir protagonista</button></div></div>
     <div id="error-screen" class="overlay centered-overlay" hidden><div class="modal-card"><h2>FALTA UN ARCHIVO</h2><p id="error-message"></p><button onclick="location.reload()" class="primary">VOLVER A INTENTAR</button></div></div>
   </section>
   <div class="touch-controls" aria-label="Controles táctiles">
@@ -57,7 +57,7 @@
   <div id="rotate-screen" class="rotate-screen" hidden><div><span class="rotate-icon" aria-hidden="true">↻</span><h2>GIRA EL CELULAR</h2><p>La aventura se juega en horizontal,<br>con un pulgar a cada lado.</p><p class="rotate-note">Tu partida queda en pausa.</p></div></div>
   <aside id="touch-onboarding" class="touch-onboarding" hidden><span id="touch-onboarding-text">Izquierda: moverte. Derecha: saltar y usar tu arma.</span><button id="touch-onboarding-dismiss" aria-label="Cerrar ayuda de controles">ENTENDIDO</button></aside>
   <p id="mobile-hint" class="mobile-hint">Puedes jugar en vertical o girar el celular para ampliar el escenario.</p>
-  <footer class="controls"><div><kbd>←</kbd><kbd>→</kbd> MOVER <span>·</span><kbd>ESPACIO</kbd> SALTAR <span>·</span><kbd>Z</kbd> ARMA <span>·</span><kbd>V</kbd> DEFINITIVA <span>·</span><kbd>E</kbd> HABLAR</div><div><kbd>ESC</kbd> PAUSA <span>·</span><kbd>M</kbd> SONIDO <a href="movil.html">CELULAR</a><a href="trailer.html">TRÁILER</a><a href="README.md">GUÍA</a></div></footer>
+  <footer class="controls"><div><kbd>←</kbd><kbd>→</kbd> MOVER <span>·</span><kbd>ESPACIO</kbd> SALTAR <span>·</span><kbd>Z</kbd> ARMA <span>·</span><kbd>V</kbd> DEFINITIVA <span>·</span><kbd>E</kbd> HABLAR</div><div><kbd>ESC</kbd> PAUSA <span>·</span><kbd>M</kbd> SONIDO <a href="movil.html">CELULAR</a><a href="etapa2.html">ETAPA 2</a><a href="trailer.html">TRÁILER</a><a href="README.md">GUÍA</a></div></footer>
   <p class="sr-only" id="accessible-status" aria-live="polite"></p>
 </main>
 </body>

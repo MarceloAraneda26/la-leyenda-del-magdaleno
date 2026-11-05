@@ -1,5 +1,15 @@
 # Cambios de versión
 
+## 0.8.0: la camanchaca de Parral · 5 de noviembre de 2026
+
+- Nuevo final de la etapa 1: el licor se agotó, el Matahombres cerró y los cinco bajan a Parral. Se retiran la botella, los vasos y el brindis de esa escena.
+- Etapa 2 jugable con cámara frontal, carrera automática por tres carriles y elección de los cinco protagonistas.
+- Hoyos, caca de perro y personas durmiendo que se esquivan; las botillerías intermedias tienen las cortinas cerradas.
+- Coté se incorpora con su sprite de referencia. Su grito hace retroceder la camanchaca y la frena seis segundos, con recuperación de 22 segundos.
+- Cuatro cruces de control, pausa, reintento y guardado independiente. Se conserva la partida de la etapa 1.
+- Reencuentro de los seis bajo un camión, frente a «El Vecino». La compra del licor queda pendiente para la etapa 3.
+- Caché 0.8.0 con recursos de ambas etapas. Controles y orientación comprobados en Chrome con emulación táctil; queda pendiente probar el balance y teléfonos físicos.
+
 ## 0.7.1: patrulleros humanoides
 
 - Los siete objetos pequeños se convierten en esbirros humanoides de masilla: máscaras agrietadas, hombros, puños, rodillas y botas. Miden de 86 a 96 píxeles frente a los 94 píxeles visibles del protagonista.

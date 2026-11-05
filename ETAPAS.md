@@ -1,5 +1,17 @@
 # Desarrollo por etapas
 
+## Capítulo jugable 2: la camanchaca de Parral (0.8.0)
+
+- [x] Nuevo final del capítulo 1: el Magdaleno se agotó y el Matahombres cerró.
+- [x] Persecución frontal de 2100 metros con tres carriles, salto, obstáculos y puntos de control.
+- [x] Coté como sexta amiga de apoyo: grito que hace retroceder la niebla y da seis segundos de respiro.
+- [x] Reencuentro de los seis frente a El Vecino, sin compra de licor y con cierre para la etapa 3.
+- [x] Tacto, pausa al girar/salir, guardado propio y apertura offline.
+- [ ] Confirmar que «cambio» se refería a un camión y definir una frase propia de Coté.
+- [ ] Primera sesión humana de balance y prueba en teléfonos físicos.
+
+Los rótulos «Etapa 1/2/3» de las secciones históricas siguientes describen hitos de desarrollo del primer capítulo, no niveles de la campaña. La narrativa y el recorrido del segundo capítulo están en [ETAPA_2.md](ETAPA_2.md).
+
 ## Etapa 8: celular como plataforma principal (0.7.0)
 
 - [x] Escenario horizontal a todo el ancho, HUD compacto y zonas para dos pulgares.
@@ -47,7 +59,7 @@ Estado: implementada y probada.
 - [x] Matahombres: manotazo, botellas, ondas y salto.
 - [x] Segunda fase y diálogo de mitad de combate en ambos jefes.
 - [x] Condiciones para reunir al grupo y entrar a la prueba final.
-- [x] Intercambio de fichas, elixir, celebración y remate.
+- [x] Intercambio de fichas y remate; desde 0.8.0 descubre que no queda stock y enlaza con Parral.
 - [x] Sonido chiptune sintetizado y controles de pausa/sonido.
 - [x] Campaña completa verificada con las cinco selecciones.
 
