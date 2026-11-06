@@ -1,5 +1,20 @@
 # Desarrollo por etapas
 
+## Capítulo jugable 3: La Bajada de Buenos Aires · 0.9.0
+
+- [x] Recorrido lateral en scooters, tres carriles, salto, freno y obstáculos.
+- [x] Dos rescates aleatorios entre los otros cinco amigos, Coté incluida; sorteo y rescates persistentes.
+- [x] Bajada final más rápida, autos que no se saltan y llegada a El Muñeco.
+- [x] Trueque con la Vieja Califa: tres scooters por el Magdaleno, con guardado del cierre.
+- [x] Continuación desde la etapa 2 y guardado propio. [Jugar](etapa3.html?v=0.9.0) · [Diseño y controles](ETAPA_3.md).
+- [x] Confirmado: scooters eléctricos de pie y dos compañeros al azar, con Coté como opción del sorteo.
+- [x] Cierre acordado: almacenera misteriosa y teatral con ropa común, dificultad intermedia, ayudas automáticas por amigo y recibo «Ahora me deben un favor».
+- [x] Aplicados el aspecto de almacenera, las seis ayudas automáticas, el recibo sospechoso y «Continuará…».
+- [x] Recorrido ampliado a 5200 m, unos 148 segundos limpios, con migración del guardado antiguo.
+- [x] Comprobadas las ayudas y su recuperación, las cinco campañas y el recibo en seis tamaños emulados.
+- [ ] Prueba humana de dificultad y revisión en teléfonos físicos.
+- [x] Integrada en la entrega 0.9.0 para GitHub Pages, con autorización del usuario para hacer push.
+
 ## Capítulo jugable 2: la camanchaca de Parral (0.8.0)
 
 - [x] Nuevo final del capítulo 1: el Magdaleno se agotó y el Matahombres cerró.
@@ -7,7 +22,7 @@
 - [x] Coté como sexta amiga de apoyo: grito que hace retroceder la niebla y da seis segundos de respiro.
 - [x] Reencuentro de los seis frente a El Vecino, sin compra de licor y con cierre para la etapa 3.
 - [x] Tacto, pausa al girar/salir, guardado propio y apertura offline.
-- [x] Refugio bajo el acoplado del camión confirmado. Coté combina carácter y dulzura; su frase es «¡POR LA MIERDA!».
+- [x] Refugio bajo el acoplado del camión confirmado. Coté combina carácter y dulzura; su frase actual es «CORREEEE!!».
 - [ ] Primera sesión humana de balance y prueba en teléfonos físicos.
 
 Los rótulos «Etapa 1/2/3» de las secciones históricas siguientes describen hitos de desarrollo del primer capítulo, no niveles de la campaña. La narrativa y el recorrido del segundo capítulo están en [ETAPA_2.md](ETAPA_2.md).

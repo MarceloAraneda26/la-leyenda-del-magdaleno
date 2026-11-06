@@ -10,7 +10,7 @@ El guardado antiguo conserva su esquema. Una partida que ya había terminado la 
 
 ## Recorrido
 
-La ciudad es una recreación ficticia de Parral para esta aventura: calles nocturnas, veredas, luminarias cálidas, cortinas metálicas cerradas y camanchaca que avanza desde el fondo hacia la cámara.
+La ciudad es una recreación ficticia de Parral para esta aventura: calles nocturnas, veredas, luminarias cálidas, cortinas metálicas cerradas y camanchaca que persigue desde el fondo. La cámara retrocede delante del protagonista: él corre hacia el espectador y la calle se aleja hacia arriba. Los obstáculos aparecen en el suelo de primer plano, coinciden con los pies al pasar y quedan atrás rumbo al horizonte.
 
 | Tramo | Distancia | Acción |
 |---|---:|---|
@@ -47,9 +47,9 @@ Balance simulado con bots en 0.8.2: esquivar todo sin gritar pierde a los 1454 m
 
 Se usa el sprite de `Cote_referencias/16bit/Cote_96x160.png`, copiado a `assets/cote.png`: pelo oscuro recogido, blusa roja, pantalones y zapatos negros. La identidad procede de las referencias existentes del proyecto.
 
-Coté tiene mucho carácter y, a la vez, es dulce y protectora con sus amigos. Su frase es **«¡POR LA MIERDA!»**. Al sumarse grita «¡Sigan, que yo la freno!»; después del estallido tranquiliza al protagonista: «Tranquilo, estoy contigo. Sigue avanzando». Los avisos de peligro conservan prioridad sobre estas intervenciones.
+Coté tiene mucho carácter y, a la vez, es dulce y protectora con sus amigos. Su frase es **«CORREEEE!!»**. Al sumarse grita «¡Sigan, que yo la freno!»; después del estallido tranquiliza al protagonista: «Tranquilo, estoy contigo. Sigue avanzando». Los avisos de peligro conservan prioridad sobre estas intervenciones.
 
-Coté se incorpora a los 220 metros y abre un primer espacio de respiro. El botón GRITO hace retroceder la niebla, la frena durante **6 segundos** y se recupera en **22 segundos**. Los obstáculos siguen activos. Las ondas salen de su rostro, el personaje abre los brazos y aparece «¡POR LA MIERDA!». El sonido sigue siendo un efecto del juego, sin grabación de voz personal.
+Coté se incorpora a los 220 metros y abre un primer espacio de respiro. Corre cerca del protagonista, con una altura visible de aproximadamente el 88 % de la suya y un margen para los brazos. El botón GRITO hace retroceder la niebla, la frena durante **6 segundos** y se recupera en **22 segundos**. Los obstáculos siguen activos. Las ondas salen de su rostro, el personaje abre los brazos y aparece «CORREEEE!!». El sonido sigue siendo un efecto del juego, sin grabación de voz personal.
 
 ## Cierre y etapa 3
 
@@ -65,4 +65,4 @@ La etapa 2 usa `magdaleno_parral_v1`, separado del guardado de la etapa 1. Ante 
 
 Se probaron las cinco carreras completas con entradas de carril y grito, sin invulnerabilidad ni saltos de distancia; colisiones con y sin salto; pausa; derrota por niebla; reintento; guardado; puente desde la etapa 1; controles táctiles emulados y apertura sin conexión. La comodidad y el rendimiento en teléfonos físicos requieren una sesión en esos dispositivos. El balance queda abierto al primer juego humano.
 
-Para validar: `node tools/runner-check.cjs` y `node tools/runner-mobile-check.cjs`, con el servidor local iniciado. La lógica está en `src/runner.js`, los datos en `src/runner-data.js` y la perspectiva/escenarios en `src/runner-render.js`.
+Para validar: `node tools/runner-camera-check.cjs`, `node tools/runner-check.cjs` y `node tools/runner-mobile-check.cjs`, con el servidor local iniciado. La lógica está en `src/runner.js`, los datos en `src/runner-data.js` y la perspectiva/escenarios en `src/runner-render.js`.

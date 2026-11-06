@@ -30,7 +30,7 @@
     const crouch = rig ? rig.crouch : 0;
     const splay = .7 * crouch;
     const base = g.getTransform();
-    const out = rig ? (M.rigOut[id] = { front: null, back: null, tool: {}, head: null }) : null;
+    const out = rig ? (M.rigOut[id] = { front: null, back: null, tool: {}, head: null, shoulders: {}, elbows: {} }) : null;
     const toBase = (lx, ly) => { const p = base.inverse().multiply(g.getTransform()).transformPoint(new DOMPoint(lx, ly)); return { x: p.x, y: p.y }; };
     const attack = rig?.variant==='melee' ? -1 : (pose.attack ?? (pose.punch ? .45 : -1));
     const extension = attack < 0 ? 0 : attack < .2 ? -.15 * smooth(attack / .2) : attack < .5 ? smooth((attack - .2) / .3) : 1 - smooth((attack - .5) / .5);
@@ -137,9 +137,13 @@
       const upperMask = left ? [[0,.30],[.29,.30],[.26,.515],[0,.515]] : [[.71,.30],[1,.30],[1,.515],[.74,.515]];
       const lowerMask = left ? [[0,.48],[.255,.48],[.20,.72],[0,.72]] : [[.745,.48],[1,.48],[1,.72],[.80,.72]];
       joint(shoulder, root, shoulderAngle, () => {
+        if (out) out.shoulders[front ? 'front' : 'back'] = toBase(0, 0);
         piece(left ? [0,.30,.29,.52] : [.71,.30,1,.52], shoulder, upperMask);
         joint(elbow, shoulder, elbowAngle, () => {
-          piece(left ? [0,.48,.255,.72] : [.745,.48,1,.72], elbow, lowerMask);
+          if (out) out.elbows[front ? 'front' : 'back'] = toBase(0, 0);
+          // Al conducir, el puño cerrado se dibuja sobre el manillar; se recorta la mano abierta del PNG.
+          const wristEnd = pose.gripHands ? .675 : .72;
+          piece(left ? [0,.48,.255,wristEnd] : [.745,.48,1,wristEnd], elbow, lowerMask);
           if (!rig) return;
           // La herramienta comparte la transformación de la mano: no puede separarse de ella.
           const hx = ((left ? .13 : .87) - elbow[0]) * width, hy = (.70 - elbow[1]) * height;
@@ -155,11 +159,12 @@
       });
     }
     const backIsLeft = direction > 0;
-    arm(backIsLeft, false);
+    if (!pose.forwardArms) arm(backIsLeft, false);
     g.save();
     g.translate(0, -Math.sin(time * 2) * .25 * (1 - speed));
     piece([.22,.29,.78,.65], root);
     g.restore();
+    if (pose.forwardArms) arm(backIsLeft, false);
     arm(!backIsLeft, true);
     joint([.5,.28], root, pose.hurt ? .055 * direction : .012 * stride, () => {
       piece([0,0,1,.31], [.5,.28]);

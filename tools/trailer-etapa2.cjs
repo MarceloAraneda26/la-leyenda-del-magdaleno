@@ -9,7 +9,7 @@ const SCENES=[
  {start:0,end:TIMES.right+.4,title:['PARRAL, DE NOCHE.','TODO CERRADO.']},
  {start:TIMES.right+.4,end:TIMES.drop,title:['Y LA CAMANCHACA','VIENE BAJANDO.']},
  {start:TIMES.drop,end:TIMES.shout,title:['YA LA TIENES','ENCIMA.'],alert:true},
- {start:TIMES.shout,end:TIMES.end,shout:'¡POR LA MIERDA!',sub:'COTÉ · SEIS SEGUNDOS DE RESPIRO'},
+ {start:TIMES.shout,end:TIMES.end,shout:'CORREEEE!!',sub:'COTÉ · SEIS SEGUNDOS DE RESPIRO'},
  {start:TIMES.end,end:DURATION,card:true}
 ];
 if(/Matahombres|Coñac|El Vecino|botella/i.test(JSON.stringify(SCENES)))throw new Error('El texto del tráiler revela el cierre.');
@@ -78,9 +78,9 @@ function encoder(name,size,audio,filter){
     g.globalAlpha=1;}
    const edge=Math.min(1,time/.2,(DURATION-time)/.35);if(edge<1){g.fillStyle='rgba(5,12,22,'+(1-edge)+')';g.fillRect(0,0,W,H);}}
   function draw(W,H,out,time,tall,shake){game.width=W;game.height=H;P.width=W;P.height=H;const real=s.gap;s.gap=shown;
-   // Coté entra deslizándose desde el borde; en vertical el protagonista se amplía y ella se acerca para no quedar cortada.
-   const project=P.project;if(tall)P.project=(lane,z)=>project(lane===1.13?.9:lane,z);
-   M.character=(id,x,y,height,pose)=>{const offset=id==='cote'&&coteFrom>=0?Math.max(0,1-(time-coteFrom)/.26)*(tall?220:320):0;return character(id,x+offset,y,height*(tall&&id!=='cote'?1.35:1),pose);};P.render();M.character=character;P.project=project;s.gap=real;
+   // Ambos actores comparten escala; Coté se acerca al centro en vertical y conserva espacio para sus brazos.
+   const actorHeight=P.actorHeight;if(tall)P.actorHeight=H=>actorHeight(H)*1.55;
+   M.character=(id,x,y,height,pose)=>{const offset=id==='cote'&&coteFrom>=0?Math.max(0,1-(time-coteFrom)/.26)*(tall?220:320):0;return character(id,x+offset,y,height,pose);};P.render();M.character=character;P.actorHeight=actorHeight;s.gap=real;
    const g=out.getContext('2d');g.imageSmoothingEnabled=false;g.setTransform(1,0,0,1,0,0);g.fillStyle='#07131f';g.fillRect(0,0,W,H);g.drawImage(game,shake?(Math.random()-.5)*shake:0,shake?(Math.random()-.5)*shake:0);overlay(g,W,H,time,tall);}
   window.trailerFrame=frame=>{const time=frame/FPS;
    once('jump',TIMES.jump,time,()=>P.jump());once('right',TIMES.right,time,()=>P.shift(1));once('center',TIMES.center,time,()=>P.shift(-1));

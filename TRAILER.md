@@ -2,6 +2,10 @@
 
 Diez segundos de carrera en el motor real, en Full HD horizontal y vertical: `media/Magdaleno_etapa2_10s_16x9.mp4` y `media/Magdaleno_etapa2_10s_9x16.mp4`. Muestra los esquives, un patinazo, la niebla encima y el grito de Coté. No muestra el refugio ni El Vecino. La música y los efectos son originales y sintetizados, sin voz.
 
+Las exportaciones del 6 de noviembre incluidas en 0.9.0 corrigen el sentido de la carrera: el suelo y los obstáculos se alejan hacia arriba mientras el personaje corre hacia la cámara. Coté conserva aproximadamente el 88 % de la altura del protagonista y ambos comparten el aumento de escala del formato vertical.
+
+La frase visible del grito de Coté es «CORREEEE!!», tanto en el rótulo del montaje como sobre su personaje.
+
 Para regenerarlo, iniciar `node tools/server.cjs` y ejecutar `node tools/trailer-etapa2.cjs`. Las muestras de revisión quedan en `qa/trailer_etapa2/`.
 
 # Tráiler narrado

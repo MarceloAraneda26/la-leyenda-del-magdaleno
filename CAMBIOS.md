@@ -1,5 +1,40 @@
 # Cambios de versión
 
+## 0.9.0: tres etapas y cierre de Buenos Aires · 6 de noviembre de 2026
+
+- Incluye la etapa 3 completa: scooters, dos rescates aleatorios, seis ayudas automáticas y cierre con la Vieja Califa.
+- Integra la cámara frontal corregida de la etapa 2, mayor escala de Coté y su nueva frase «CORREEEE!!».
+- Actualiza ambos mini tráilers de la etapa 2 con esos cambios y conserva el desenlace oculto.
+- Caché y referencias de recursos 0.9.0. Se conservan los guardados de las primeras etapas y se migran los de la primera versión local de scooters.
+- Preparación y publicación mediante el flujo existente de GitHub Pages, autorizadas por el usuario. Las pruebas humanas en teléfonos físicos siguen pendientes.
+
+## Etapa 3 · cierre local 2 · 6 de noviembre de 2026
+
+- Recorrido de 5200 m, unos 2 minutos y 28 segundos limpios, con dificultad orientada a intermedia y seis puntos de control.
+- Seis ayudas automáticas según la personalidad del amigo rescatado, con recuperación propia y sin botones nuevos.
+- Los acompañantes siguen la trayectoria recorrida al cambiar de carril y saltar. Sonidos suaves de rodadura y freno.
+- La Vieja Califa lleva ropa común de almacenera y mantiene una mirada inquietante. Después del trueque entrega el recibo «Ahora me deben un favor»; cierre «Continuará…».
+- Formato de guardado 2 y migración de las partidas locales previas, sin modificar los guardados de las etapas 1 y 2.
+- Cinco campañas completas, seis ayudas y seis tamaños emulados comprobados. Pendientes las pruebas humanas y en teléfonos físicos. Sin despliegue a producción.
+
+## Etapa 3 preparada en local: scooters y Buenos Aires · 6 de noviembre de 2026
+
+- Recorrido lateral jugable de 2600 m desde la falta de stock en El Vecino hasta El Muñeco, con bajada final, autos, hoyos y obras.
+- Dos compañeros sorteados entre los otros cinco del grupo, con Coté incluida. Dos paradas para liberarlos; cada uno acompaña en su propio scooter. El sorteo y los rescates se mantienen al reintentar.
+- Cambios de carril, salto con el scooter y freno mantenido. Los autos no se pueden saltar. Tres golpes hacen volver al último cruce.
+- La Vieja Califa propone entregar los tres scooters por el Coñac Magdaleno. Se puede aceptar el trueque y conservar el cierre al continuar.
+- Guardado independiente, controles táctiles, pausa al girar/salir, recursos offline y continuación desde la etapa 2. Primera versión local, sin publicación; arte de la vendedora provisional y balance humano pendiente.
+- Postura de scooter corregida: codos debajo de los hombros, dos brazos visibles delante del torso y puños cerrados sobre el manillar. El agarre se conserva en la bajada, el salto y la reacción a un golpe.
+
+## Corrección preparada: carrera hacia la cámara y escala de Coté · 6 de noviembre de 2026
+
+- La calle, las fachadas y los obstáculos se alejan hacia el horizonte, coherentes con una cámara que retrocede delante del corredor. Antes se acercaban desde el fondo y daban la impresión de avanzar hacia arriba.
+- Se reserva suelo delante de los pies para anticipar los obstáculos que entran por abajo; la colisión coincide con su paso por los pies. Los avisos, carriles y reglas conservan sus tiempos.
+- Coté pasa de aproximadamente el 41 % del tamaño del protagonista en el tráiler vertical al 88 %, con espacio para los brazos y las ondas del grito.
+- Ambas exportaciones de 10 segundos se regeneraron sin mostrar el cierre. La corrección está en los archivos locales y aún no se ha desplegado.
+- La frase de Coté cambia a «CORREEEE!!» en el juego y en ambos formatos del mini tráiler.
+- Prueba de cámara en cuatro formatos, cinco carreras completas y controles táctiles en seis tamaños emulados. Pendiente validar la comodidad con personas en teléfonos físicos.
+
 ## 0.8.3: letreros de Parral y mini tráiler · 6 de noviembre de 2026
 
 - El letrero de cada botillería se mantiene sobre su fachada. Antes, al acercarse, se estiraba como una barra verde sobre la calle.
