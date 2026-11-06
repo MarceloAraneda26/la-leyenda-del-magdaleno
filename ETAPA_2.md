@@ -36,9 +36,12 @@ El menú funciona en vertical. La persecución pide el celular en horizontal. Lo
 
 - **Hoyos:** se saltan o se esquivan. Caer hace perder ritmo y acerca la niebla.
 - **Caca de perro:** un salto corto o un cambio de carril evita el patinazo.
-- **Personas durmiendo:** aparecen en las veredas laterales y se rodean cambiando de carril. No son enemigos y no reciben ataques.
+- **Personas durmiendo:** aparecen en las veredas y también en la calle central. No se pueden saltar: se rodean cambiando de carril. No son enemigos y no reciben ataques.
 - Cada tropiezo reduce la resistencia, ralentiza al protagonista y acerca la camanchaca. Tres tropiezos o ser alcanzado permiten reintentar desde el último cruce.
-- Los cruces recuperan los tres puntos de resistencia y guardan el avance. Los carteles y avisos anuncian los obstáculos cercanos.
+- Los cruces recuperan los tres puntos de resistencia y guardan el avance, pero no alejan la niebla. Los carteles y avisos anuncian los obstáculos cercanos.
+- La niebla gana terreno cada vez más rápido (de 1,35 a 1,9 por segundo). Sin el grito de Coté alcanza al jugador antes de terminar, aunque esquive todo. Quedarse en el carril central saltando tampoco alcanza para llegar.
+
+Balance simulado con bots en 0.8.2: esquivar todo sin gritar pierde a los 1454 m; esquivar y gritar gana con 2 o 3 gritos; un jugador simulado que deja pasar el 20 % de las filas gana 27 de 30 carreras sin reintentar, y el que deja pasar el 40 %, 15 de 30. Son cifras de referencia, no reemplazan la prueba con personas.
 
 ## Coté
 

@@ -12,7 +12,7 @@ function road(W,H,distance){const h=P.horizon,b=P.ground,half=P.half,c=P.center;
  F(0,h,W,H-h,'#394b54');poly([[c,h],[c+half*1.7,b+70],[c-half*1.7,b+70]],'#536368');
  poly([[c,h],[c-half*.33,b+70],[c-half*.33*1.7,b+70]],'#5c686a');
  poly([[c,h],[c-half*.55,b+100],[c+half*.55,b+100]],'#303e4b');
- // Los carriles laterales son veredas; la calle central queda libre para cruzar.
+ // Los carriles laterales son veredas; las líneas marcan los tres carriles.
  for(const edge of [-.33,.33,-1,1]){const a=P.project(edge,200),z=P.project(edge,-8);line(a.x,a.y,z.x,z.y,Math.abs(edge)===1?'#9c9d83':'#899388',Math.abs(edge)===1?3:2);}
  for(let i=0;i<23;i++){const z=i*14-distance%14;if(z<1)continue;const a=P.project(-1,z),b=P.project(1,z);line(a.x,a.y,b.x,b.y,'#465760',Math.max(1,a.k));}
  for(let i=0;i<17;i++){const z=i*18-distance%18;if(z<0)continue;for(const lane of [-.33,.33]){const a=P.project(lane-.009,z),b=P.project(lane+.009,z+7);poly([[a.x,a.y],[a.x+4*a.k,a.y],[b.x+2*b.k,b.y],[b.x,b.y]],'#b7aa76');}}
@@ -45,23 +45,25 @@ function obstacle(o,distance){const z=o.at-distance;if(z< -7||z>210)return;const
  if(z>12&&z<64&&!o.checked){const iconY=y-(o.kind==='sleeper'?42:36)*k;poly([[x,iconY-10*k],[x-7*k,iconY+2*k],[x+7*k,iconY+2*k]],o.kind==='sleeper'?'#b9b9d5':'#edbf77');F(x-1*k,iconY-5*k,2*k,4*k,'#243447');}
 }
 function scream(W,H,s,origin){if(s.shoutAge>2.4)return;const t=s.shoutAge;for(let i=0;i<4;i++){const age=t-i*.18;if(age<0)continue;g.globalAlpha=Math.max(0,1-age/2.1)*.5;g.strokeStyle=i%2?'#f6d2a1':'#f0a19c';g.lineWidth=2;g.beginPath();g.ellipse(origin.x,origin.y,20+age*340,12+age*160,0,0,Math.PI*2);g.stroke();}g.globalAlpha=1;if(t<1.2)text(P.cote.phrase,origin.x-24,origin.y-18,17,'#ffe0b7','center');}
-function hideout(W,H,s){sky(W,H,P.anim);F(0,H*.5,W,H*.5,'#354955');const scale=Math.min(W/960,H/540);g.save();g.translate((W-960*scale)/2,(H-540*scale)/2);g.scale(scale,scale);
+function hideout(W,H,s){sky(W,H,P.anim);F(0,H*.5,W,H*.5,'#354955');
+ // Encuadra la franja útil (y 55 a 495) para aprovechar las pantallas apaisadas; el suelo cubre todo el ancho.
+ const scale=Math.min(W/960,H/440),offsetY=(H-440*scale)/2-55*scale,roadTop=offsetY+360*scale;F(0,roadTop,W,H-roadTop,'#2a3d49');g.save();g.translate((W-960*scale)/2,offsetY);g.scale(scale,scale);
  // Al otro lado de la calle: una luz discreta, sin mostrar compra ni botella.
  F(615,103,297,256,'#3d4650');poly([[601,106],[638,74],[890,74],[925,106]],'#665e55');F(633,117,260,40,'#263e3a');text('EL VECINO',762,144,23,'#ecd1a0','center');F(672,175,177,178,'#24313b');F(680,179,160,174,'#5b6669');for(let i=0;i<18;i++)F(680,182+i*9,160,2,'#394b57');F(684,348,152,5,'#e3b779');F(874,163,5,161,'#35434d');circle(877,161,6,'#ecd29b');g.globalAlpha=.07;poly([[872,168],[883,168],[934,357],[822,357]],'#f6d190');g.globalAlpha=1;
- F(0,360,960,180,'#2a3d49');for(let i=0;i<12;i++)F(i*90,413+(i%3)*22,36,2,'#485965');
+ for(let i=-3;i<15;i++)F(i*90,413+((i+3)%3)*22,36,2,'#485965');
  // Acoplado articulado: caja larga, bogie trasero y enganche independiente del tractocamión.
  F(108,159,650,159,'#233b4b');F(113,164,640,145,'#536c79');F(123,173,620,4,'#8b9b9f');for(let i=0;i<11;i++)F(124+i*57,181,3,119,'#415b69');F(114,303,638,9,'#a2a08a');
- F(111,318,646,15,'#152d3d');F(265,333,423,11,'#1b303c');line(285,343,660,343,'#425a65',3);F(114,310,7,6,'#d49c79');F(740,310,8,6,'#d9c39b');
+ F(111,318,646,15,'#152d3d');F(265,333,423,11,'#1b303c');F(146,333,106,16,'#1b303c');F(162,349,16,30,'#22384a');F(220,349,16,30,'#22384a');line(285,343,660,343,'#425a65',3);F(114,310,7,6,'#d49c79');F(740,310,8,6,'#d9c39b');
  // Patas recogidas y quinta rueda: se distingue el semirremolque de la cabina.
  F(675,334,8,36,'#50646d');F(671,366,17,5,'#142b37');F(727,333,6,28,'#50646d');F(724,358,13,5,'#142b37');
- F(748,325,13,23,'#293e4a');F(739,344,53,7,'#88918c');F(768,351,105,13,'#172e3c');circle(769,344,5,'#c0c4b2');
+ F(748,325,13,23,'#293e4a');F(739,344,53,7,'#88918c');F(768,351,140,19,'#172e3c');circle(769,344,5,'#c0c4b2');
  line(769,288,784,300,'#a28b72',3);line(784,300,776,315,'#7e9b9c',3);line(775,287,792,300,'#6e8795',2);
  // La cabina está unida a otro chasis, a la derecha del acoplado.
  F(795,226,112,124,'#304b5c');poly([[800,231],[867,231],[902,279],[902,326],[800,326]],'#597887');poly([[808,240],[858,240],[885,276],[808,276]],'#193247');F(812,244,42,27,'#93afb8');F(800,282,99,6,'#7c939b');F(809,294,52,42,'#486a7c');F(851,302,10,4,'#c3c4af');F(889,311,12,9,'#efd397');F(898,336,16,10,'#a9afa3');F(803,212,51,14,'#415e6f');
  for(const [x,r]of [[170,38],[228,38],[800,43],[891,43]]){circle(x,412,r,'#0c1b29');circle(x,412,r*.69,'#394e5d');circle(x,412,r*.34,'#72818a');circle(x,412,5,'#203746');}
  const others=M.order.filter(id=>id!==s.hero),ids=[...others.slice(0,2),s.hero,'cote',...others.slice(2)];
  for(let i=0;i<ids.length;i++)M.character(ids[i],292+i*67,447,92,{time:P.anim+i*.2,armed:false,rig:{crouch:.8,lift:0,lean:0,front:[.2,.55],back:[-.2,.45]}});
- F(290,468,396,22,'#0d2533');text('LOS SEIS. POR FIN EN EL MISMO LADO.',488,483,11,'#c1d8ce','center');text('UNA LUZ SIGUE ENCENDIDA.',766,67,11,'#c9c7b1','center');g.restore();
+ F(290,468,396,22,'#0d2533');text('LOS SEIS. POR FIN EN EL MISMO LADO.',488,483,11,'#c1d8ce','center');F(668,55,196,18,'#172938');text('UNA LUZ SIGUE ENCENDIDA.',766,67,11,'#c9c7b1','center');g.restore();
 }
 P.render=function(){const W=P.width||960,H=P.height||540,s=P.session,t=P.anim||0;g.setTransform(1,0,0,1,0,0);g.imageSmoothingEnabled=false;P.center=W/2-(s?.lane||0)*13;P.horizon=Math.round(H*.25);P.ground=H-43;P.half=M.clamp(H*.9,300,425);
  if(P.state==='ending'&&s){hideout(W,H,s);return;}const distance=s?.distance||t*3;sky(W,H,t);road(W,H,distance);city(distance);fog(W,H,t,s?.gap||85,s?.relief||0);

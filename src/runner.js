@@ -18,7 +18,7 @@ M.pause=P.pause;
 P.start=function(hero=selected,continuing=false){const save=continuing?(P.memorySave||P.readSave()):null;if(continuing&&!save)return;hero=save?.hero||hero;if(!M.order.includes(hero))hero=M.order[0];selected=hero;
  const checkpoint=save?.finished?P.length:(save?.checkpoint||0);P.session={hero,distance:checkpoint,checkpoint:Math.min(checkpoint,1560),lane:0,targetLane:0,jumpLeft:0,jumpY:0,health:3,gap:84,cooldown:0,relief:0,shoutAge:99,inv:0,slow:0,stumble:0,elapsed:save?.time||0,falls:save?.falls||0,coteJoined:checkpoint>=P.coteAt,finished:!!save?.finished,liquorBought:false,obstacles:P.makeObstacles().filter(o=>o.at>checkpoint+24).map(o=>({...o,checked:false})),seenShops:new Set(P.shops.filter(b=>b.at<checkpoint).map(b=>b.at)),runTime:0};
  P.message=null;P.saveAvailable=true;state('play');M.audio.init();M.audio.zone=0;canvas.focus({preventScroll:true});
- if(save?.finished){finish();return;}P.save();P.notice(checkpoint?'DESDE EL ÚLTIMO CRUCE · LA BÚSQUEDA SIGUE':'PARRAL. TODAS CERRADAS. LA CAMANCHACA VIENE DETRÁS.',5);layout();
+ if(save?.finished){finish();return;}P.save();P.notice(checkpoint?'DESDE EL ÚLTIMO CRUCE · LA BÚSQUEDA SIGUE':'PARRAL. TODAS CERRADAS. LA CAMANCHACA VIENE BAJANDO.',5);layout();
 };
 P.shift=dir=>{if(P.state!=='play')return false;const s=P.session,next=M.clamp(s.targetLane+dir,-1,1);if(next===s.targetLane)return false;s.targetLane=next;return true;};
 P.jump=()=>{const s=P.session;if(P.state!=='play'||!s||s.jumpLeft>0||s.stumble>.4)return false;s.jumpLeft=.86;M.audio.sfx('jump');return true;};
@@ -38,12 +38,12 @@ P.tick=function(dt){
  s.elapsed+=dt;s.runTime+=dt;s.cooldown=Math.max(0,s.cooldown-dt);s.inv=Math.max(0,s.inv-dt);s.stumble=Math.max(0,s.stumble-dt);const previousShoutAge=s.shoutAge;s.shoutAge+=dt;
  // Tras el estallido, Coté vuelve a cuidar al grupo. Un aviso de peligro tiene prioridad.
  if(previousShoutAge<2.2&&s.shoutAge>=2.2&&['cote-shout','cote-arrival'].includes(P.message?.source))P.notice('COTÉ: '+(P.message.source==='cote-arrival'?P.cote.welcomeCare:P.cote.care),4,'cote-care');
- s.relief=Math.max(0,s.relief-dt);s.gap=M.clamp(s.gap+(s.relief>0?1.1:-.65)*dt,0,125);
+ s.relief=Math.max(0,s.relief-dt);s.gap=M.clamp(s.gap+(s.relief>0?1.1:-P.fogDecay(s.distance))*dt,0,125);
  s.lane=M.lerp(s.lane,s.targetLane,Math.min(1,dt*14));s.jumpLeft=Math.max(0,s.jumpLeft-dt);s.jumpY=s.jumpLeft>0?Math.sin((1-s.jumpLeft/.86)*Math.PI)*94:0;
  const speed=(18.5+Math.min(3.8,s.distance/500))*(s.slow>0?.42:1);s.slow=Math.max(0,s.slow-dt);s.distance=Math.min(P.length,s.distance+speed*dt);
  if(!s.coteJoined&&s.distance>=P.coteAt){s.coteJoined=true;s.relief=4;s.shoutAge=0;s.gap=Math.min(120,s.gap+18);P.notice('COTÉ: '+P.cote.phrase+' '+P.cote.arrival,2.2,'cote-arrival');M.audio.sfx('token');}
  for(const shop of P.shops)if(s.distance>=shop.at&&!s.seenShops.has(shop.at)){s.seenShops.add(shop.at);P.notice(shop.line,5);}
- for(const checkpoint of P.checkpoints)if(checkpoint>s.checkpoint&&s.distance>=checkpoint){s.checkpoint=checkpoint;s.health=3;s.gap=Math.max(76,s.gap);if(P.save())P.notice('CRUCE GUARDADO · RECUPERAS EL AIRE');else P.notice('NO SE PUDO GUARDAR · LA CARRERA SIGUE EN MEMORIA',6);M.audio.sfx('checkpoint');}
+ for(const checkpoint of P.checkpoints)if(checkpoint>s.checkpoint&&s.distance>=checkpoint){s.checkpoint=checkpoint;s.health=3;if(P.save())P.notice('CRUCE GUARDADO · RECUPERAS EL AIRE');else P.notice('NO SE PUDO GUARDAR · LA CARRERA SIGUE EN MEMORIA',6);M.audio.sfx('checkpoint');}
  for(const o of s.obstacles){if(o.checked||o.at-s.distance>2)continue;o.checked=true;if(o.at-s.distance< -4)continue;if(Math.abs(s.lane-o.lane)<P.kinds[o.kind].reach&&s.jumpY<P.kinds[o.kind].jump)hit(o);if(P.state!=='play')return;}
  if(s.gap<=0){fail('Coté puede frenar la niebla con su grito. Los obstáculos se siguen esquivando.');return;}if(s.distance>=P.length){finish();return;}M.audio.update(dt);
 };

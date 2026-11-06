@@ -1,5 +1,15 @@
 # Cambios de versión
 
+## 0.8.2: la camanchaca aprieta · 6 de noviembre de 2026
+
+- La niebla avanza más rápido y acelera durante la carrera. Los cruces recuperan la resistencia, pero ya no la alejan: sin el grito de Coté, alcanza al jugador.
+- Personas durmiendo también en la calle central, donde no se pueden saltar. Quedarse en el centro saltando ya no termina la carrera.
+- Escena final a mayor tamaño en celular horizontal, con el suelo hasta los bordes y las ruedas del acoplado unidas al chasis.
+- En celular, el menú de Parral muestra los controles táctiles y el botón de inicio se ve sin desplazar en 320×568 y 360×640.
+- El menú ya no dice «Corre hacia la cámara», porque los obstáculos llegan desde el fondo junto con la niebla.
+- `runner-check` comprueba que esquivar sin gritar y saltar sin cambiar de carril pierdan, y que esquivar y gritar gane.
+- Caché 0.8.2 y mismo esquema de guardado. Balance simulado con bots; queda pendiente la prueba con personas y en teléfonos físicos.
+
 ## 0.8.1: el acoplado y el carácter de Coté
 
 - El refugio final está bajo un semirremolque articulado, con bogie trasero, enganche y tractocamión diferenciado. Los seis amigos se reúnen bajo el chasis del acoplado.
