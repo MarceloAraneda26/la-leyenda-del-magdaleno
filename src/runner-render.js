@@ -27,7 +27,8 @@ function building(side,z,index,shop){const near=P.project(side*1.03,z),outer=P.p
  const doorW=Math.min(width*.55,90*k),doorX=center-doorW/2,doorY=near.y-69*k;
  F(doorX-3*k,doorY-3*k,doorW+6*k,72*k,'#253441');F(doorX,doorY,doorW,69*k,shop?'#526367':'#4f5a60');
  for(let i=0;i<10;i++)F(doorX,doorY+i*7*k,doorW,1*k,'#334551');F(doorX+2*k,near.y-3*k,doorW-4*k,2*k,'#8d927f');
- if(shop){F(center-width*.37,doorY-24*k,width*.74,20*k,'#173831');if(k>.2){text(shop.name,center,doorY-10*k,Math.max(6,10*k),'#d4c89d','center');F(center-23*k,doorY+23*k,46*k,15*k,'#312c2c');text('CERRADO',center,doorY+34*k,Math.max(6,8*k),'#e3b18a','center');}}
+ // El letrero se limita a la fachada: cerca de la cámara, el ancho del edificio invadiría la calle.
+ if(shop){const signW=Math.min(width*.74,doorW*1.2);F(center-signW/2,doorY-24*k,signW,20*k,'#173831');if(k>.2){text(shop.name,center,doorY-10*k,Math.max(6,10*k),'#d4c89d','center');F(center-23*k,doorY+23*k,46*k,15*k,'#312c2c');text('CERRADO',center,doorY+34*k,Math.max(6,8*k),'#e3b18a','center');}}
  else if(index%3===0&&k>.35){F(doorX,doorY-15*k,doorW,11*k,'#2c433f');text(index%2?'ALMACÉN':'PARRAL',center,doorY-7*k,Math.max(6,7*k),'#bbc9ab','center');}
  if(index%2===0){const pole=P.project(side*.98,z+5),poleH=155*pole.k;F(pole.x-2*pole.k,pole.y-poleH,4*pole.k,poleH,'#56636a');F(pole.x-side*24*pole.k,pole.y-poleH,side*24*pole.k,3*pole.k,'#647478');const lx=pole.x-side*23*pole.k,ly=pole.y-poleH+4;F(lx-8*pole.k,ly,16*pole.k,4*pole.k,'#f1cf8f');g.globalAlpha=.06;poly([[lx-9*pole.k,ly],[lx+9*pole.k,ly],[pole.x+48*pole.k,pole.y],[pole.x-48*pole.k,pole.y]],'#ffdc99');g.globalAlpha=1;}
 }

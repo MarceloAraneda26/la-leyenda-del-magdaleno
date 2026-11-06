@@ -1,3 +1,9 @@
+# Mini tráiler de la etapa 2
+
+Diez segundos de carrera en el motor real, en Full HD horizontal y vertical: `media/Magdaleno_etapa2_10s_16x9.mp4` y `media/Magdaleno_etapa2_10s_9x16.mp4`. Muestra los esquives, un patinazo, la niebla encima y el grito de Coté. No muestra el refugio ni El Vecino. La música y los efectos son originales y sintetizados, sin voz.
+
+Para regenerarlo, iniciar `node tools/server.cjs` y ejecutar `node tools/trailer-etapa2.cjs`. Las muestras de revisión quedan en `qa/trailer_etapa2/`.
+
 # Tráiler narrado
 
 Montaje de 45 segundos del motor real, con la narración y la música aportadas por el usuario. Versiones Full HD horizontal (1920×1080) y vertical (1080×1920), H.264, 30 fps y audio AAC estéreo de 48 kHz. Se reproduce y descarga desde `trailer.html`.

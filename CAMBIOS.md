@@ -1,5 +1,10 @@
 # Cambios de versión
 
+## 0.8.3: letreros de Parral y mini tráiler · 6 de noviembre de 2026
+
+- El letrero de cada botillería se mantiene sobre su fachada. Antes, al acercarse, se estiraba como una barra verde sobre la calle.
+- Mini tráiler de 10 segundos de la etapa 2, horizontal y vertical, sin mostrar el cierre.
+
 ## 0.8.2: la camanchaca aprieta · 6 de noviembre de 2026
 
 - La niebla avanza más rápido y acelera durante la carrera. Los cruces recuperan la resistencia, pero ya no la alejan: sin el grito de Coté, alcanza al jugador.
