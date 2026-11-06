@@ -6,7 +6,7 @@ let manual=false,last=0,acc=0,lastHud='',hudWait=0,selected=new URLSearchParams(
 if(!M.order.includes(selected))selected=M.order[0];P.state='title';P.anim=0;P.session=null;P.loaded=false;
 P.readSave=()=>{try{const s=JSON.parse(localStorage.getItem(P.saveKey)||'null');if(!s||s.version!==1||!M.order.includes(s.hero)||![...P.checkpoints,P.length].includes(s.checkpoint)||typeof s.finished!=='boolean'||s.finished!==(s.checkpoint===P.length)||![s.falls,s.time].every(v=>Number.isFinite(v)&&v>=0))return null;return s;}catch{return null;}};
 P.save=()=>{const s=P.session;if(!s)return false;const record={version:1,hero:s.hero,checkpoint:s.finished?P.length:s.checkpoint,finished:!!s.finished,falls:s.falls,time:s.elapsed};P.memorySave=record;try{localStorage.setItem(P.saveKey,JSON.stringify(record));P.saveAvailable=true;return true;}catch{P.saveAvailable=false;return false;}};
-P.notice=(text,seconds=4)=>{P.message={text,until:P.anim+seconds};$('accessible-status').textContent=text;};
+P.notice=(text,seconds=4,source='')=>{P.message={text,until:P.anim+seconds,source};$('accessible-status').textContent=text;};
 function state(value){P.state=value;M.state={title:'title',play:'play',paused:'paused',failed:'paused',ending:'ending'}[value];M.clearInput();document.documentElement.dataset.runnerState=value;
  $('start-menu').hidden=value!=='title';$('runner-modal').hidden=!['paused','failed','ending'].includes(value);$('runner-hud').hidden=!P.session||['title','ending'].includes(value);$('runner-touch').hidden=value!=='play';$('runner-pause').hidden=!['play','paused'].includes(value);
  $('runner-resume').hidden=value!=='paused';$('runner-retry').hidden=value!=='failed';$('runner-stage3').hidden=value!=='ending';$('runner-continue').hidden=!(P.memorySave||P.readSave());$('runner-ending-toggle').hidden=value!=='ending';$('runner-ending-toggle').textContent='VER ESCENA';
@@ -22,8 +22,8 @@ P.start=function(hero=selected,continuing=false){const save=continuing?(P.memory
 };
 P.shift=dir=>{if(P.state!=='play')return false;const s=P.session,next=M.clamp(s.targetLane+dir,-1,1);if(next===s.targetLane)return false;s.targetLane=next;return true;};
 P.jump=()=>{const s=P.session;if(P.state!=='play'||!s||s.jumpLeft>0||s.stumble>.4)return false;s.jumpLeft=.86;M.audio.sfx('jump');return true;};
-P.shout=()=>{const s=P.session;if(P.state!=='play'||!s)return false;if(!s.coteJoined){P.notice('COTÉ SE SUMA EN EL PRIMER TRAMO. SIGUE CORRIENDO.');return false;}if(s.cooldown>0){P.notice('COTÉ RECUPERA EL AIRE: '+Math.ceil(s.cooldown)+' s');return false;}
- s.cooldown=P.shoutCooldown;s.relief=P.shoutDuration;s.shoutAge=0;s.gap=Math.min(125,s.gap+30);P.notice('COTÉ: ¡AAAAAAAH! · SEIS SEGUNDOS SIN CAMANCHACA',4);
+P.shout=()=>{const s=P.session;if(P.state!=='play'||!s)return false;if(!s.coteJoined){P.notice('COTÉ SE SUMA EN EL PRIMER TRAMO. SIGUE CORRIENDO.');return false;}if(s.cooldown>0){P.notice('COTÉ: DAME UN SEGUNDITO PARA RESPIRAR. VOY CONTIGO. · '+Math.ceil(s.cooldown)+' s');return false;}
+ s.cooldown=P.shoutCooldown;s.relief=P.shoutDuration;s.shoutAge=0;s.gap=Math.min(125,s.gap+30);P.notice('COTÉ: '+P.cote.phrase+' · SEIS SEGUNDOS SIN CAMANCHACA',2.2,'cote-shout');
  M.audio.tone(280,900,.24,'sawtooth',.028);M.audio.tone(760,340,.65,'triangle',.045,.12);M.audio.tone(510,230,.9,'sine',.035,.2);return true;
 };
 function hit(obstacle){const s=P.session;if(s.inv>0)return;const kind=P.kinds[obstacle.kind];s.health--;s.gap=Math.max(0,s.gap-kind.penalty);s.slow=kind.slow;s.stumble=.6;s.inv=1.2;s.jumpLeft=0;s.jumpY=0;M.audio.sfx('hurt');
@@ -35,11 +35,13 @@ P.tick=function(dt){
  if(M.tap('pause')&&['play','paused'].includes(P.state)){P.pause();M.pressed={};return;}
  if(P.state!=='play'){M.pressed={};return;}const s=P.session;
  if(M.tap('left'))P.shift(-1);if(M.tap('right'))P.shift(1);if(M.tap('jump'))P.jump();if(M.tap('ultimate'))P.shout();M.pressed={};
- s.elapsed+=dt;s.runTime+=dt;s.cooldown=Math.max(0,s.cooldown-dt);s.inv=Math.max(0,s.inv-dt);s.stumble=Math.max(0,s.stumble-dt);s.shoutAge+=dt;
+ s.elapsed+=dt;s.runTime+=dt;s.cooldown=Math.max(0,s.cooldown-dt);s.inv=Math.max(0,s.inv-dt);s.stumble=Math.max(0,s.stumble-dt);const previousShoutAge=s.shoutAge;s.shoutAge+=dt;
+ // Tras el estallido, Coté vuelve a cuidar al grupo. Un aviso de peligro tiene prioridad.
+ if(previousShoutAge<2.2&&s.shoutAge>=2.2&&['cote-shout','cote-arrival'].includes(P.message?.source))P.notice('COTÉ: '+(P.message.source==='cote-arrival'?P.cote.welcomeCare:P.cote.care),4,'cote-care');
  s.relief=Math.max(0,s.relief-dt);s.gap=M.clamp(s.gap+(s.relief>0?1.1:-.65)*dt,0,125);
  s.lane=M.lerp(s.lane,s.targetLane,Math.min(1,dt*14));s.jumpLeft=Math.max(0,s.jumpLeft-dt);s.jumpY=s.jumpLeft>0?Math.sin((1-s.jumpLeft/.86)*Math.PI)*94:0;
  const speed=(18.5+Math.min(3.8,s.distance/500))*(s.slow>0?.42:1);s.slow=Math.max(0,s.slow-dt);s.distance=Math.min(P.length,s.distance+speed*dt);
- if(!s.coteJoined&&s.distance>=P.coteAt){s.coteJoined=true;s.relief=4;s.shoutAge=0;s.gap=Math.min(120,s.gap+18);P.notice('¡COTÉ SE SUMA! TOCA GRITO PARA FRENAR LA CAMANCHACA.',7);M.audio.sfx('token');}
+ if(!s.coteJoined&&s.distance>=P.coteAt){s.coteJoined=true;s.relief=4;s.shoutAge=0;s.gap=Math.min(120,s.gap+18);P.notice('COTÉ: '+P.cote.phrase+' '+P.cote.arrival,2.2,'cote-arrival');M.audio.sfx('token');}
  for(const shop of P.shops)if(s.distance>=shop.at&&!s.seenShops.has(shop.at)){s.seenShops.add(shop.at);P.notice(shop.line,5);}
  for(const checkpoint of P.checkpoints)if(checkpoint>s.checkpoint&&s.distance>=checkpoint){s.checkpoint=checkpoint;s.health=3;s.gap=Math.max(76,s.gap);if(P.save())P.notice('CRUCE GUARDADO · RECUPERAS EL AIRE');else P.notice('NO SE PUDO GUARDAR · LA CARRERA SIGUE EN MEMORIA',6);M.audio.sfx('checkpoint');}
  for(const o of s.obstacles){if(o.checked||o.at-s.distance>2)continue;o.checked=true;if(o.at-s.distance< -4)continue;if(Math.abs(s.lane-o.lane)<P.kinds[o.kind].reach&&s.jumpY<P.kinds[o.kind].jump)hit(o);if(P.state!=='play')return;}

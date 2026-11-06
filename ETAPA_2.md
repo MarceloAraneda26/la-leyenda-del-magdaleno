@@ -44,15 +44,17 @@ El menú funciona en vertical. La persecución pide el celular en horizontal. Lo
 
 Se usa el sprite de `Cote_referencias/16bit/Cote_96x160.png`, copiado a `assets/cote.png`: pelo oscuro recogido, blusa roja, pantalones y zapatos negros. La identidad procede de las referencias existentes del proyecto.
 
-Coté se incorpora a los 220 metros y abre un primer espacio de respiro. El botón GRITO hace retroceder la niebla, la frena durante **6 segundos** y se recupera en **22 segundos**. Los obstáculos siguen activos. Las ondas salen de su rostro, el personaje abre los brazos y aparece «¡¡AAAAAAAH!!». El sonido es un efecto del juego, sin grabación de voz personal.
+Coté tiene mucho carácter y, a la vez, es dulce y protectora con sus amigos. Su frase es **«¡POR LA MIERDA!»**. Al sumarse grita «¡Sigan, que yo la freno!»; después del estallido tranquiliza al protagonista: «Tranquilo, estoy contigo. Sigue avanzando». Los avisos de peligro conservan prioridad sobre estas intervenciones.
+
+Coté se incorpora a los 220 metros y abre un primer espacio de respiro. El botón GRITO hace retroceder la niebla, la frena durante **6 segundos** y se recupera en **22 segundos**. Los obstáculos siguen activos. Las ondas salen de su rostro, el personaje abre los brazos y aparece «¡POR LA MIERDA!». El sonido sigue siendo un efecto del juego, sin grabación de voz personal.
 
 ## Cierre y etapa 3
 
-Al escapar, el protagonista se refugia bajo un camión. Allí encuentra a sus otros cuatro amigos y a Coté: seis personajes distintos en la escena. Al frente se enciende una luz en el clandestino **El Vecino**.
+Al escapar, el protagonista se refugia **debajo del acoplado de un camión (semirremolque/tráiler)**. Allí encuentra a sus otros cuatro amigos y a Coté: seis personajes distintos en la escena. La caja larga del acoplado tiene bogie trasero, patas recogidas y un enganche que la separa del tractocamión. Los seis se agachan bajo su chasis. Al frente se enciende una luz en el clandestino **El Vecino**.
 
 La compra del Coñac Magdaleno queda pendiente para la etapa 3. El estado de la etapa 2 registra `liquorBought: false`; no se entregan botellas ni se muestra una celebración de compra. El botón VER ESCENA permite observar el reencuentro y volver al texto del cierre.
 
-Se interpretó provisionalmente «debajo de un cambio» como «debajo de un camión», a la espera de la aclaración del usuario. El grito usa una vocalización genérica hasta definir una frase propia de Coté.
+Coté cierra el reencuentro con «Ya, respiremos. Estamos todos». El refugio bajo el acoplado, la personalidad y frase de Coté y los controles de tres carriles, salto y ayuda quedaron confirmados por el usuario.
 
 ## Guardado y verificación
 

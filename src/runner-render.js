@@ -44,14 +44,21 @@ function obstacle(o,distance){const z=o.at-distance;if(z< -7||z>210)return;const
  else{F(x-53*k,y+2*k,106*k,5*k,'#25363e');F(x-48*k,y-14*k,92*k,17*k,'#655456');F(x-47*k,y-17*k,78*k,15*k,'#8a7e79');F(x-34*k,y-17*k,7*k,15*k,'#aaa08c');F(x+5*k,y-17*k,8*k,15*k,'#aaa08c');F(x+35*k,y-13*k,16*k,13*k,'#b79372');F(x+40*k,y-16*k,10*k,4*k,'#4d4039');F(x-54*k,y-9*k,15*k,9*k,'#3c3d42');if(k>.45)text('z',x+45*k,y-24*k,10*k,'#b6c9c9','center');}
  if(z>12&&z<64&&!o.checked){const iconY=y-(o.kind==='sleeper'?42:36)*k;poly([[x,iconY-10*k],[x-7*k,iconY+2*k],[x+7*k,iconY+2*k]],o.kind==='sleeper'?'#b9b9d5':'#edbf77');F(x-1*k,iconY-5*k,2*k,4*k,'#243447');}
 }
-function scream(W,H,s,origin){if(s.shoutAge>2.4)return;const t=s.shoutAge;for(let i=0;i<4;i++){const age=t-i*.18;if(age<0)continue;g.globalAlpha=Math.max(0,1-age/2.1)*.5;g.strokeStyle=i%2?'#f6d2a1':'#f0a19c';g.lineWidth=2;g.beginPath();g.ellipse(origin.x,origin.y,20+age*340,12+age*160,0,0,Math.PI*2);g.stroke();}g.globalAlpha=1;if(t<1.2)text('¡¡AAAAAAAH!!',origin.x-24,origin.y-18,17,'#ffe0b7','center');}
+function scream(W,H,s,origin){if(s.shoutAge>2.4)return;const t=s.shoutAge;for(let i=0;i<4;i++){const age=t-i*.18;if(age<0)continue;g.globalAlpha=Math.max(0,1-age/2.1)*.5;g.strokeStyle=i%2?'#f6d2a1':'#f0a19c';g.lineWidth=2;g.beginPath();g.ellipse(origin.x,origin.y,20+age*340,12+age*160,0,0,Math.PI*2);g.stroke();}g.globalAlpha=1;if(t<1.2)text(P.cote.phrase,origin.x-24,origin.y-18,17,'#ffe0b7','center');}
 function hideout(W,H,s){sky(W,H,P.anim);F(0,H*.5,W,H*.5,'#354955');const scale=Math.min(W/960,H/540);g.save();g.translate((W-960*scale)/2,(H-540*scale)/2);g.scale(scale,scale);
  // Al otro lado de la calle: una luz discreta, sin mostrar compra ni botella.
  F(615,103,297,256,'#3d4650');poly([[601,106],[638,74],[890,74],[925,106]],'#665e55');F(633,117,260,40,'#263e3a');text('EL VECINO',762,144,23,'#ecd1a0','center');F(672,175,177,178,'#24313b');F(680,179,160,174,'#5b6669');for(let i=0;i<18;i++)F(680,182+i*9,160,2,'#394b57');F(684,348,152,5,'#e3b779');F(874,163,5,161,'#35434d');circle(877,161,6,'#ecd29b');g.globalAlpha=.07;poly([[872,168],[883,168],[934,357],[822,357]],'#f6d190');g.globalAlpha=1;
  F(0,360,960,180,'#2a3d49');for(let i=0;i<12;i++)F(i*90,413+(i%3)*22,36,2,'#485965');
- // Camión alto: el hueco entre sus ruedas protege a los seis amigos.
- F(111,166,666,161,'#233b4b');F(116,170,656,148,'#536c79');F(126,179,634,4,'#8b9b9f');for(let i=0;i<11;i++)F(127+i*58,185,3,122,'#415b69');F(117,308,654,10,'#9c9b86');F(774,237,120,90,'#486b7a');poly([[779,242],[851,242],[879,281],[779,281]],'#1b3347');F(784,247,63,27,'#88a7b5');F(855,286,35,36,'#607b83');F(875,304,12,8,'#f0cf8d');F(126,327,754,13,'#152d3d');F(263,341,436,10,'#172c38');
- for(const x of [216,783]){circle(x,412,49,'#0c1b29');circle(x,412,34,'#394e5d');circle(x,412,17,'#72818a');circle(x,412,6,'#203746');}
+ // Acoplado articulado: caja larga, bogie trasero y enganche independiente del tractocamión.
+ F(108,159,650,159,'#233b4b');F(113,164,640,145,'#536c79');F(123,173,620,4,'#8b9b9f');for(let i=0;i<11;i++)F(124+i*57,181,3,119,'#415b69');F(114,303,638,9,'#a2a08a');
+ F(111,318,646,15,'#152d3d');F(265,333,423,11,'#1b303c');line(285,343,660,343,'#425a65',3);F(114,310,7,6,'#d49c79');F(740,310,8,6,'#d9c39b');
+ // Patas recogidas y quinta rueda: se distingue el semirremolque de la cabina.
+ F(675,334,8,36,'#50646d');F(671,366,17,5,'#142b37');F(727,333,6,28,'#50646d');F(724,358,13,5,'#142b37');
+ F(748,325,13,23,'#293e4a');F(739,344,53,7,'#88918c');F(768,351,105,13,'#172e3c');circle(769,344,5,'#c0c4b2');
+ line(769,288,784,300,'#a28b72',3);line(784,300,776,315,'#7e9b9c',3);line(775,287,792,300,'#6e8795',2);
+ // La cabina está unida a otro chasis, a la derecha del acoplado.
+ F(795,226,112,124,'#304b5c');poly([[800,231],[867,231],[902,279],[902,326],[800,326]],'#597887');poly([[808,240],[858,240],[885,276],[808,276]],'#193247');F(812,244,42,27,'#93afb8');F(800,282,99,6,'#7c939b');F(809,294,52,42,'#486a7c');F(851,302,10,4,'#c3c4af');F(889,311,12,9,'#efd397');F(898,336,16,10,'#a9afa3');F(803,212,51,14,'#415e6f');
+ for(const [x,r]of [[170,38],[228,38],[800,43],[891,43]]){circle(x,412,r,'#0c1b29');circle(x,412,r*.69,'#394e5d');circle(x,412,r*.34,'#72818a');circle(x,412,5,'#203746');}
  const others=M.order.filter(id=>id!==s.hero),ids=[...others.slice(0,2),s.hero,'cote',...others.slice(2)];
  for(let i=0;i<ids.length;i++)M.character(ids[i],292+i*67,447,92,{time:P.anim+i*.2,armed:false,rig:{crouch:.8,lift:0,lean:0,front:[.2,.55],back:[-.2,.45]}});
  F(290,468,396,22,'#0d2533');text('LOS SEIS. POR FIN EN EL MISMO LADO.',488,483,11,'#c1d8ce','center');text('UNA LUZ SIGUE ENCENDIDA.',766,67,11,'#c9c7b1','center');g.restore();

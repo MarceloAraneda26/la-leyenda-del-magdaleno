@@ -7,7 +7,7 @@
 - [x] Coté como sexta amiga de apoyo: grito que hace retroceder la niebla y da seis segundos de respiro.
 - [x] Reencuentro de los seis frente a El Vecino, sin compra de licor y con cierre para la etapa 3.
 - [x] Tacto, pausa al girar/salir, guardado propio y apertura offline.
-- [ ] Confirmar que «cambio» se refería a un camión y definir una frase propia de Coté.
+- [x] Refugio bajo el acoplado del camión confirmado. Coté combina carácter y dulzura; su frase es «¡POR LA MIERDA!».
 - [ ] Primera sesión humana de balance y prueba en teléfonos físicos.
 
 Los rótulos «Etapa 1/2/3» de las secciones históricas siguientes describen hitos de desarrollo del primer capítulo, no niveles de la campaña. La narrativa y el recorrido del segundo capítulo están en [ETAPA_2.md](ETAPA_2.md).

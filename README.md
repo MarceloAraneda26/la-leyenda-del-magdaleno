@@ -1,10 +1,10 @@
 # La Leyenda del Magdaleno
 
-## Versión móvil 0.8.0 · dos etapas
+## Versión móvil 0.8.1 · dos etapas
 
-La etapa 1 termina sin stock: el Matahombres cierra y manda al grupo a buscar en Parral. La etapa 2 cambia a una persecución frontal con tres carriles, hoyos, suciedad y veredas con personas durmiendo. La camanchaca persigue al protagonista y Coté, la sexta amiga, la frena con su grito. [Jugar la etapa 2](etapa2.html?v=0.8.0) · [Recorrido y narrativa](ETAPA_2.md).
+La etapa 1 termina sin stock: el Matahombres cierra y manda al grupo a buscar en Parral. La etapa 2 cambia a una persecución frontal con tres carriles, hoyos, suciedad y veredas con personas durmiendo. La camanchaca persigue al protagonista y Coté, la sexta amiga, la frena con su grito. [Jugar la etapa 2](etapa2.html?v=0.8.1) · [Recorrido y narrativa](ETAPA_2.md).
 
-La etapa 2 termina con los seis bajo un camión, frente al clandestino «El Vecino». La compra del licor queda para la etapa 3. Los guardados de las dos etapas se conservan por separado.
+La etapa 2 termina con los seis bajo el acoplado de un camión, frente al clandestino «El Vecino». Coté grita «¡POR LA MIERDA!» y después vuelve a tranquilizar a sus amigos. La compra del licor queda para la etapa 3. Los guardados de las dos etapas se conservan por separado.
 
 La plataforma principal es el celular en horizontal, con controles de dos pulgares, cámara que acompaña los saltos, botones contextuales y guardado local. El menú funciona en vertical; la partida pide girar el teléfono. Escritorio conserva el teclado.
 

@@ -1,5 +1,12 @@
 # Cambios de versión
 
+## 0.8.1: el acoplado y el carácter de Coté
+
+- El refugio final está bajo un semirremolque articulado, con bogie trasero, enganche y tractocamión diferenciado. Los seis amigos se reúnen bajo el chasis del acoplado.
+- Coté usa «¡POR LA MIERDA!» al incorporarse y al frenar la camanchaca. Después del grito, sus frases de apoyo muestran su lado dulce y protector.
+- Las intervenciones de Coté ceden ante los avisos de obstáculos y peligro.
+- Los tres carriles, el salto y la ayuda de Coté quedan confirmados. Se conserva el guardado de ambas etapas.
+
 ## 0.8.0: la camanchaca de Parral · 5 de noviembre de 2026
 
 - Nuevo final de la etapa 1: el licor se agotó, el Matahombres cerró y los cinco bajan a Parral. Se retiran la botella, los vasos y el brindis de esa escena.
