@@ -1,7 +1,7 @@
 {
-  "gameVersion": "0.9.0",
+  "gameVersion": "0.9.1",
   "saveSchema": 1,
   "stage3SaveSchema": 2,
-  "stage": "11: tres etapas - La Bajada de Buenos Aires",
+  "stage": "11.1: correcciones del QA de producción",
   "date": "2026-11-06"
 }

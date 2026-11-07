@@ -1,5 +1,11 @@
 # Desarrollo por etapas
 
+## Correcciones del QA de producción · 0.9.1
+
+- [x] Hallazgos del QA sobre 0.9.0 corregidos; el detalle está en CAMBIOS.md.
+- [x] Prueba de regresión en `tools/qa-091-check.cjs`.
+- [ ] Prueba con personas y teléfonos físicos.
+
 ## Capítulo jugable 3: La Bajada de Buenos Aires · 0.9.0
 
 - [x] Recorrido lateral en scooters, tres carriles, salto, freno y obstáculos.
@@ -144,24 +150,26 @@ Estado: implementada y medida en la versión 0.5.
 
 ## Evidencias
 
-- [Prueba inicial](qa/smoke.json).
-- [Campañas y casos de continuidad](qa/verificacion_completa.json).
-- [Recorridos de plataformas](qa/recorridos.json).
-- [Selector](qa/01_selector.png).
-- [Ciudad](qa/03_ciudad_rescates.png).
-- [Carretera](qa/04_carretera.png).
-- [Montaña](qa/05_montana.png).
-- [Interfaz compacta](qa/06_selector_compacto.png).
-- [Rescate](qa/07_rescate.png).
+Los reportes y capturas quedan en la carpeta local `qa/`, que no se publica.
+
+- Prueba inicial.
+- Campañas y casos de continuidad.
+- Recorridos de plataformas.
+- Selector.
+- Ciudad.
+- Carretera.
+- Montaña.
+- Interfaz compacta.
+- Rescate.
 - [Vista de animaciones](animaciones.html).
-- [Pruebas del pulido visual](qa/pulido_visual.json).
-- [Partida automatizada sin ayudas de combate](qa/partida_sin_ayudas.json).
-- [Captura de las animaciones](qa/10_vista_animaciones.png).
-- [Recorridos opcionales](qa/rutas_opcionales.json).
-- [Peligros, ayudas y música](qa/mecanicas_capitulo.json).
-- [Controles táctiles emulados](qa/controles_tactiles.json).
-- [Adaptación móvil en seis resoluciones](qa/mobile.json).
+- Pruebas del pulido visual.
+- Partida automatizada sin ayudas de combate.
+- Captura de las animaciones.
+- Recorridos opcionales.
+- Peligros, ayudas y música.
+- Controles táctiles emulados.
+- Adaptación móvil en seis resoluciones.
 - [Ver tráiler](trailer.html).
-- Partidas normales: [Marcelo](qa/partida_marcelo_sin_ayudas.json), [Ruzio](qa/partida_ruzio_sin_ayudas.json), [Pulga](qa/partida_pulga_sin_ayudas.json), [Tobi](qa/partida_tobi_sin_ayudas.json), [Pallo](qa/partida_pallo_sin_ayudas.json).
+- Partidas normales: Marcelo, Ruzio, Pulga, Tobi, Pallo.
 
 Los informes de QA documentan las ayudas utilizadas para aislar sistemas. La prueba adicional de partida usa controles normales y un reloj acelerado; no utiliza invulnerabilidad, teletransporte ni cambios de salud o energía, y omite la espera entre líneas de diálogo. No sustituye la evaluación humana de dificultad. Las capturas son del juego ejecutándose en el navegador.

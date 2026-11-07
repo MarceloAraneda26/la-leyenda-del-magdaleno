@@ -1,5 +1,18 @@
 # Cambios de versión
 
+## 0.9.1: correcciones del QA de producción · 6 de noviembre de 2026
+
+- Etapa 1 más liviana: los dos jefes pasan de 1,18 MB a 82 KB en total, reducidos a 512 px y con sus límites recalculados.
+- Despertador: su pulso sale desde el primer salto, de modo que quedarse quieto golpeando ya no lo vence sin daño.
+- Bajada de Buenos Aires: tres de cada cuatro filas bloquean dos carriles. Quedarse quieto deja de ser una estrategia viable y los errores normales se siguen perdonando.
+- Etapa 3 sin deformación en pantallas altas (tablets y ventanas 4:3), suelo completo en la escena final y aviso «NECESITA UNA MANO» fuera del escenario, para no tapar las caras.
+- Empezar de cero pide un segundo toque si hay avance guardado; el logo pausa la partida en lugar de salir sin aviso; el sonido recuerda la elección.
+- Una ventana angosta de computador ya no pide girar el celular ni muestra controles táctiles.
+- Modales accesibles en pantallas bajas: «Volver a elegir protagonista» ya no queda bajo el borde.
+- Guía única para las tres etapas (movil.html), en lugar de un Markdown sin formato; el tráiler avisa cuando no hay conexión e incluye el mini tráiler de la etapa 2.
+- Textos: sin «· E» en pantallas táctiles y «Usa el GRITO», válido para teclado y táctil. Enlaces a evidencias locales retirados de ETAPAS.md. Ícono de iPhone en la etapa 3.
+- Pendientes las pruebas humanas y en teléfonos físicos. El balance se calibró con jugadores simulados.
+
 ## 0.9.0: tres etapas y cierre de Buenos Aires · 6 de noviembre de 2026
 
 - Incluye la etapa 3 completa: scooters, dos rescates aleatorios, seis ayudas automáticas y cierre con la Vieja Califa.

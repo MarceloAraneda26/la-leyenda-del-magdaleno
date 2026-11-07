@@ -80,4 +80,6 @@ Validación: `node tools/scooter-check.cjs` para campañas completas con los cin
 
 Las pruebas automáticas completaron las cinco campañas en unos 148 segundos y verificaron seis tamaños de pantalla emulados, sin errores de página. En simulación adicional, esquivar completó 12 de 12 recorridos; omitir la reacción en el 20 % de las filas también completó 12 de 12; no esquivar completó solo 1 de 12. Esto mide la lógica y su margen de error, no sustituye una prueba humana.
 
+Desde la versión 0.9.1, tres de cada cuatro filas de la bajada bloquean dos carriles. En simulación, sin tocar nada se termina la bajada sin caer en 9 de 60 intentos (antes 27 de 60) y las últimas cuadras en 37 de 60 (antes 51 de 60). Un jugador que omite el 20 % de las filas completa el recorrido sin caer en 40 de 40 y uno que omite el 40 % en 30 de 40, igual que antes dentro del margen. También sigue siendo una simulación.
+
 Pendiente para validar el cierre: prueba con personas y teléfonos Android/iPhone físicos. Las poses laterales dedicadas de los amigos y voces grabadas quedan como pulido adicional; se mantienen los sprites actuales. La versión local ya permite recorrer el nivel y ver el nuevo cierre de principio a fin.

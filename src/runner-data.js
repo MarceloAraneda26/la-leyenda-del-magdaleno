@@ -3,7 +3,7 @@
 const P=window.Parral={length:2100,checkpoints:[0,520,1040,1560],saveKey:'magdaleno_parral_v1',coteAt:220,shoutDuration:6,shoutCooldown:22};
 // La niebla gana terreno más rápido a medida que avanza la carrera; sin el grito de Coté termina alcanzando al jugador.
 P.fogDecay=distance=>1.35+.55*distance/P.length;
-P.cote={phrase:'CORREEEE!!',arrival:'¡Sigan, que yo la freno!',care:'Tranquilo, estoy contigo. Sigue avanzando.',welcomeCare:'Sigue, yo te cuido. Toca GRITO si vuelve a acercarse.'};
+P.cote={phrase:'CORREEEE!!',arrival:'¡Sigan, que yo la freno!',care:'Tranquilo, estoy contigo. Sigue avanzando.',welcomeCare:'Sigue, yo te cuido. Usa el GRITO si vuelve a acercarse.'};
 P.kinds={hole:{name:'HOYO',hint:'SALTA O CAMBIA DE CARRIL',jump:28,reach:.46,penalty:19,slow:1.1},poop:{name:'CACA DE PERRO',hint:'SALTA O ESQUIVA',jump:13,reach:.26,penalty:13,slow:1.3},sleeper:{name:'PERSONA DURMIENDO',hint:'CAMBIA DE CARRIL',jump:Infinity,reach:.44,penalty:15,slow:.8}};
 P.shops=[{at:180,name:'LA ESQUINA',line:'La primera botillería: cerrada. La camanchaca no espera.'},{at:690,name:'EL PUENTE',line:'Otra cortina abajo. Ni una luz, ni una botella.'},{at:1210,name:'LA ÚLTIMA',line:'Se llama «La Última». También está cerrada. Excelente señal.'},{at:1710,name:'EL RECREO',line:'Cerrado. Cerrado. Cerrado. Tiene que quedar algún vecino despierto.'}];
 P.blocks=[{at:0,name:'CENTRO DE PARRAL'},{at:520,name:'LAS CORTINAS ABAJO'},{at:1040,name:'CALLES SIN RESPUESTA'},{at:1560,name:'LA ÚLTIMA CUADRA'}];

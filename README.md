@@ -1,12 +1,12 @@
 # La Leyenda del Magdaleno
 
-## Versión móvil 0.9.0 · tres etapas
+## Versión móvil 0.9.1 · tres etapas
 
-[Jugar La Bajada de Buenos Aires](etapa3.html?v=0.9.0) · [Historia y controles](ETAPA_3.md). El Vecino tampoco tiene Magdaleno: conduce hacia El Muñeco, libera a dos compañeros sorteados entre los otros cinco amigos (Coté incluida), esquiva los autos de la bajada y negocia con la Vieja Califa. El recorrido de 2–3 minutos incluye ayudas automáticas por amigo. El trueque entrega los tres scooters por el licor, pero el recibo deja una deuda inquietante y el cierre anuncia «Continuará…». La etapa 3 se incorpora en la versión 0.9.0; quedan las pruebas humanas y en teléfonos físicos.
+[Jugar La Bajada de Buenos Aires](etapa3.html?v=0.9.1) · [Historia y controles](ETAPA_3.md). El Vecino tampoco tiene Magdaleno: conduce hacia El Muñeco, libera a dos compañeros sorteados entre los otros cinco amigos (Coté incluida), esquiva los autos de la bajada y negocia con la Vieja Califa. El recorrido de 2–3 minutos incluye ayudas automáticas por amigo. El trueque entrega los tres scooters por el licor, pero el recibo deja una deuda inquietante y el cierre anuncia «Continuará…». La etapa 3 se incorpora en la versión 0.9.1; quedan las pruebas humanas y en teléfonos físicos.
 
 ## Etapas 1 y 2
 
-La etapa 1 termina sin stock: el Matahombres cierra y manda al grupo a buscar en Parral. La etapa 2 cambia a una persecución frontal con tres carriles, hoyos, suciedad y veredas con personas durmiendo. La camanchaca persigue al protagonista y Coté, la sexta amiga, la frena con su grito. [Jugar la etapa 2](etapa2.html?v=0.9.0) · [Recorrido y narrativa](ETAPA_2.md).
+La etapa 1 termina sin stock: el Matahombres cierra y manda al grupo a buscar en Parral. La etapa 2 cambia a una persecución frontal con tres carriles, hoyos, suciedad y veredas con personas durmiendo. La camanchaca persigue al protagonista y Coté, la sexta amiga, la frena con su grito. [Jugar la etapa 2](etapa2.html?v=0.9.1) · [Recorrido y narrativa](ETAPA_2.md).
 
 La etapa 2 termina con los seis bajo el acoplado de un camión, frente al clandestino «El Vecino». Coté grita «CORREEEE!!» y después vuelve a tranquilizar a sus amigos. La compra del licor queda para la etapa 3. Los guardados de las dos etapas se conservan por separado.
 

@@ -1,7 +1,7 @@
 /* Carrera frontal independiente: conserva el guardado y la campaña de la etapa 1. */
 (() => {'use strict';
 const M=window.Magdaleno,P=window.Parral,$=id=>document.getElementById(id),canvas=$('game');
-const coarse=matchMedia('(pointer:coarse), (max-width:900px)'),portrait=matchMedia('(orientation:portrait)');
+const coarse=matchMedia('(pointer:coarse), (any-pointer:coarse) and (max-width:900px)'),portrait=matchMedia('(orientation:portrait)');
 let manual=false,last=0,acc=0,lastHud='',hudWait=0,selected=new URLSearchParams(location.search).get('hero');
 if(!M.order.includes(selected))selected=M.order[0];P.state='title';P.anim=0;P.session=null;P.loaded=false;
 P.readSave=()=>{try{const s=JSON.parse(localStorage.getItem(P.saveKey)||'null');if(!s||s.version!==1||!M.order.includes(s.hero)||![...P.checkpoints,P.length].includes(s.checkpoint)||typeof s.finished!=='boolean'||s.finished!==(s.checkpoint===P.length)||![s.falls,s.time].every(v=>Number.isFinite(v)&&v>=0))return null;return s;}catch{return null;}};
@@ -59,7 +59,7 @@ let startPoint=null;canvas.addEventListener('pointerdown',e=>{if(P.state==='play
 for(const el of [canvas,$('runner-touch')])el.addEventListener('contextmenu',e=>e.preventDefault());
 function select(hero){selected=hero;document.querySelectorAll('[data-hero]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.hero===hero)));}
 for(const id of M.order){const button=document.createElement('button');button.type='button';button.dataset.hero=id;button.innerHTML='<img src="assets/'+id+'.png" alt=""><span>'+M.heroes[id].name.toUpperCase()+'</span>';button.setAttribute('aria-label','Correr por Parral con '+M.heroes[id].name);button.onclick=()=>select(id);$('runner-heroes').append(button);}select(selected);
-$('runner-start').onclick=()=>P.start(selected);$('runner-continue').onclick=()=>P.start(selected,true);$('runner-pause').onclick=P.pause;$('runner-resume').onclick=P.pause;$('runner-retry').onclick=()=>P.start(P.session.hero,true);$('runner-menu').onclick=()=>{P.session=null;state('title');select(selected);layout();};$('sound-button').onclick=()=>M.audio.toggle();
+$('runner-start').onclick=()=>M.confirmRestart($('runner-start'),!!(P.memorySave||P.readSave()),()=>P.start(selected));document.querySelector('.runner-header>a').addEventListener('click',event=>{if(P.state==='play'){event.preventDefault();P.pause();}});$('runner-continue').onclick=()=>P.start(selected,true);$('runner-pause').onclick=P.pause;$('runner-resume').onclick=P.pause;$('runner-retry').onclick=()=>P.start(P.session.hero,true);$('runner-menu').onclick=()=>{P.session=null;state('title');select(selected);layout();};$('sound-button').onclick=()=>M.audio.toggle();
 $('runner-ending-toggle').onclick=()=>{const modal=$('runner-modal');modal.hidden=!modal.hidden;$('runner-ending-toggle').textContent=modal.hidden?'VER CIERRE':'VER ESCENA';};
 $('runner-stage3').onclick=()=>{if(P.state==='ending')location.href='etapa3.html?hero='+encodeURIComponent(P.session.hero);};
 // Solo las seis identidades usadas en esta etapa; los jefes no se descargan aquí.

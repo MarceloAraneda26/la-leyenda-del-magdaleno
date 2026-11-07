@@ -31,10 +31,10 @@ window.Magdaleno.assetBounds={
     "h": 144
   },
   "carabinero": {
-    "x": 221,
-    "y": 62,
-    "w": 828,
-    "h": 1148
+    "x": 90,
+    "y": 25,
+    "w": 339,
+    "h": 470
   },
   "cote": {
     "x": 15,
@@ -43,9 +43,9 @@ window.Magdaleno.assetBounds={
     "h": 144
   },
   "matahombres": {
-    "x": 186,
-    "y": 10,
-    "w": 922,
-    "h": 1231
+    "x": 75,
+    "y": 4,
+    "w": 378,
+    "h": 503
   }
 };

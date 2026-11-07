@@ -8,10 +8,9 @@ S.kinds={hole:{name:'HOYO',hint:'SALTA O CAMBIA DE CARRIL',jump:27,reach:.43,spa
 S.pickCompanions=(hero,seed)=>{const pool=[...M.order,'cote'].filter(id=>id!==hero),random=M.rng(seed);for(let i=pool.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}return pool.slice(0,2);};
 S.makeObstacles=seed=>{const random=M.rng(seed^0x78b3),rows=[];let i=0;for(let at=150;at<S.length-80;at+=at<S.downhillAt?112:140){
  if(S.rescueAt.some(r=>Math.abs(at-r)<125))continue;
- const safe=Math.floor(random()*3)-1,blocked=[-1,0,1].filter(l=>l!==safe),lanes=i%3===2?blocked:[blocked[Math.floor(random()*2)]];
+ const safe=Math.floor(random()*3)-1,blocked=[-1,0,1].filter(l=>l!==safe),double=at>=S.downhillAt?i%4!==3:i%3===2,lanes=double?blocked:[blocked[Math.floor(random()*2)]];
  for(const [j,lane]of lanes.entries())rows.push({id:'scooter-'+i+'-'+j,at,lane,kind:at>=S.downhillAt?'car':i%4===0?'hole':i%4===1?'cone':'car',color:Math.floor(random()*5),checked:false});i++;
  }return rows;};
 S.nominalSpeed=distance=>distance<S.downhillAt?25+Math.min(5,distance/350):46+Math.min(16,(distance-S.downhillAt)/36);
-S.intro='En «El Vecino» tampoco queda Magdaleno. Un dato apunta a Buenos Aires: la botillería «El Muñeco».\nSe reparten scooters y salen a buscar. Dos amigos quedaron atrapados en el camino: libéralos para que se sumen.\nDespués viene la bajada. Ahí los autos no son decoración.';
 S.vendor='La Vieja Califa acomoda su delantal. Parece una almacenera cualquiera, pero los mira como si ya supiera a qué vienen.\n«Magdaleno tengo. Plata no quiero: déjenme los tres scooters y hacemos trato».\nHace una pausa demasiado larga. Después acerca la botella.';
 })();
