@@ -1,9 +1,10 @@
+const primeCampaign=require('./campaign-fixture.cjs');
 /* Etapa 3: recorridos completos con entradas reales, sorteo persistente, rescates y trueque. */
 const {chromium}=require('./browser.cjs'),fs=require('fs'),path=require('path'),assert=require('assert/strict');
 const root=path.resolve(__dirname,'..'),base=process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/';
 (async()=>{const b=await chromium.launch({headless:true,channel:'chrome'});try{
  const page=await b.newPage({viewport:{width:1365,height:768}}),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});
- await page.goto(base+'etapa3.html?qa=1');await page.waitForFunction(()=>Scooter.loaded);await page.evaluate(()=>__scooter.setManual());
+ await primeCampaign(page,2);await page.goto(base+'etapa3.html?qa=1');await page.waitForFunction(()=>Scooter.loaded);await page.evaluate(()=>__scooter.setManual());
  const report=await page.evaluate(()=>{const a=__scooter,S=a.S,M=a.M,result={campaigns:[],collisions:[]};localStorage.setItem(M.SAVE_KEY,'stage-one-preserved');localStorage.setItem('magdaleno_parral_v1','stage-two-preserved');
  const tap=code=>{a.key(code,true);S.tick(M.STEP);a.key(code,false);};
  for(const [index,hero]of M.order.entries()){S.start(hero,false,501+index*71);let frames=0,rescues=0;while(S.state==='play'&&frames++<16000){const s=S.session;if(s.waiting!==null){tap('KeyE');rescues++;continue;}const next=s.obstacles.find(o=>!o.checked&&o.at+S.kinds[o.kind].span>s.distance);let key=null;if(next&&next.at-s.distance<130){const blocked=s.obstacles.filter(o=>!o.checked&&o.at===next.at).map(o=>o.lane),safe=[-1,0,1].filter(l=>!blocked.includes(l)).sort((a,b)=>Math.abs(a-s.targetLane)-Math.abs(b-s.targetLane))[0];if(safe!==s.targetLane)key=safe<s.targetLane?'ArrowUp':'ArrowDown';}if(key)tap(key);else S.tick(M.STEP);}

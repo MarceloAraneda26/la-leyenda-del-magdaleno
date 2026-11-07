@@ -1,9 +1,10 @@
+const primeCampaign=require('./campaign-fixture.cjs');
 /* Cámara frontal: el entorno se aleja, la colisión coincide con los pies y Coté mantiene escala humana. */
 const {chromium}=require('./browser.cjs'),assert=require('assert/strict'),fs=require('fs'),path=require('path');
 const root=path.resolve(__dirname,'..'),base=process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/';
 (async()=>{const browser=await chromium.launch({headless:true,channel:'chrome'});try{
  const page=await browser.newPage({viewport:{width:1280,height:768}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto(base+'etapa2.html?qa=1');await page.waitForFunction(()=>Parral.loaded);
+ await primeCampaign(page,1);await page.goto(base+'etapa2.html?qa=1');await page.waitForFunction(()=>Parral.loaded);
  const report=await page.evaluate(()=>{const a=__parral,P=a.P,M=a.M,result=[];a.setManual();P.start('marcelo');
   for(const [W,H]of [[960,340],[960,540],[960,760],[720,1280]]){
    const canvas=document.getElementById('game');canvas.width=W;canvas.height=H;P.width=W;P.height=H;P.session.coteJoined=true;P.session.distance=60;P.session.obstacles=[{id:'camera',at:100,lane:0,kind:'hole'}];

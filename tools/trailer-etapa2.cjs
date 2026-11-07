@@ -1,3 +1,4 @@
+const primeCampaign=require('./campaign-fixture.cjs');
 /* Mini tráiler de 10 segundos de la etapa 2: motor real, carrera guionizada y música sintetizada. No muestra el cierre. */
 const {chromium}=require('./browser.cjs');
 const fs=require('fs'),path=require('path'),{spawn,spawnSync}=require('child_process'),{once}=require('events');
@@ -56,7 +57,7 @@ function encoder(name,size,audio,filter){
  const audio=soundtrack(),filter=loudness(audio),wide=encoder('Magdaleno_etapa2_10s_16x9.mp4','1920:1080',audio,filter),vertical=encoder('Magdaleno_etapa2_10s_9x16.mp4','1080:1920',audio,filter);
  const browser=await chromium.launch({headless:true,channel:'chrome',args:['--mute-audio']});
  const page=await browser.newPage({viewport:{width:1280,height:768}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto(base+'etapa2.html?qa=1&hero=marcelo');await page.waitForFunction(()=>window.Parral?.loaded);
+ await primeCampaign(page,1);await page.goto(base+'etapa2.html?qa=1&hero=marcelo');await page.waitForFunction(()=>window.Parral?.loaded);
  await page.evaluate(({TIMES,SCENES,DURATION,FPS})=>{
   const a=__parral,P=a.P,M=a.M,game=document.getElementById('game'),outWide=document.createElement('canvas'),outTall=document.createElement('canvas');a.setManual();M.audio.muted=true;
   outWide.width=960;outWide.height=540;outTall.width=720;outTall.height=1280;

@@ -1,7 +1,8 @@
 {
-  "gameVersion": "0.9.1",
+  "gameVersion": "0.9.2",
   "saveSchema": 1,
   "stage3SaveSchema": 2,
-  "stage": "11.1: correcciones del QA de producción",
-  "date": "2026-11-06"
+  "stage": "11.2: campaña lineal con desbloqueo por etapas",
+  "date": "2026-11-07",
+  "campaignSaveSchema": 1
 }

@@ -1,5 +1,14 @@
 # Cambios de versión
 
+## 0.9.2: campaña lineal · 7 de noviembre de 2026
+
+- Completar la etapa 1 desbloquea la 2; completar la 2 desbloquea la 3. El cierre del trueque completa la campaña.
+- Menú de progreso con etapas disponibles y bloqueadas. Los enlaces directos y el inicio del motor respetan el mismo requisito.
+- Registro de desbloqueos independiente de los puntos de control: repetir una etapa anterior no vuelve a bloquear las siguientes.
+- Reconocimiento de partidas anteriores válidas, sin reescribirlas; respaldo en la sesión si no se puede guardar permanentemente. Actualización entre pestañas.
+- Recursos de campaña incluidos en la caché sin conexión y en el paquete de publicación.
+- Prueba dedicada de progresión, bloqueo, migraciones, pantallas móviles y funcionamiento sin conexión en `tools/campaign-check.cjs`. Las pruebas de etapas aisladas declaran sus etapas previas como completadas mediante una preparación exclusiva de las herramientas.
+
 ## 0.9.1: correcciones del QA de producción · 6 de noviembre de 2026
 
 - Etapa 1 más liviana: los dos jefes pasan de 1,18 MB a 82 KB en total, reducidos a 512 px y con sus límites recalculados.

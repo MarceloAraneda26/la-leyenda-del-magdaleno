@@ -1,6 +1,12 @@
 # La Leyenda del Magdaleno
 
-## Versión móvil 0.9.1 · tres etapas
+## Versión móvil 0.9.2 · campaña de tres etapas
+
+La campaña se juega en orden: **1. El Matahombres de la montaña → 2. El Vecino → 3. La Vieja Califa de El Muñeco**. Completar una etapa desbloquea la siguiente. El menú muestra el progreso y los enlaces directos también respetan los bloqueos. Las etapas desbloqueadas se pueden repetir sin perder acceso a las posteriores.
+
+[Jugar la campaña](index.html?v=0.9.2).
+
+Los desbloqueos se guardan en este navegador y dispositivo, aparte de los puntos de control. Las partidas válidas anteriores se reconocen al actualizar: una partida de etapa 2 conserva el acceso a la 2; una de etapa 3 conserva el acceso a las tres. No se borran las partidas existentes. Si el navegador impide el guardado permanente, se intenta conservar la campaña durante la pestaña.
 
 [Jugar La Bajada de Buenos Aires](etapa3.html?v=0.9.1) · [Historia y controles](ETAPA_3.md). El Vecino tampoco tiene Magdaleno: conduce hacia El Muñeco, libera a dos compañeros sorteados entre los otros cinco amigos (Coté incluida), esquiva los autos de la bajada y negocia con la Vieja Califa. El recorrido de 2–3 minutos incluye ayudas automáticas por amigo. El trueque entrega los tres scooters por el licor, pero el recibo deja una deuda inquietante y el cierre anuncia «Continuará…». La etapa 3 se incorpora en la versión 0.9.1; quedan las pruebas humanas y en teléfonos físicos.
 

@@ -1,5 +1,13 @@
 # Desarrollo por etapas
 
+## Campaña lineal · 0.9.2
+
+- [x] Acceso secuencial: etapa 1 → etapa 2 → etapa 3.
+- [x] Bloqueos en el menú, en enlaces directos y al iniciar cada etapa.
+- [x] Desbloqueos persistentes y repetición de etapas sin perderlos.
+- [x] Compatibilidad con partidas anteriores y recursos sin conexión.
+- [x] Prueba dedicada en `tools/campaign-check.cjs`.
+
 ## Correcciones del QA de producción · 0.9.1
 
 - [x] Hallazgos del QA sobre 0.9.0 corregidos; el detalle está en CAMBIOS.md.

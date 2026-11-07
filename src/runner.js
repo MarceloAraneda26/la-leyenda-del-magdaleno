@@ -15,7 +15,7 @@ function state(value){P.state=value;M.state={title:'title',play:'play',paused:'p
 function modal(kicker,title,copy){$('runner-modal-kicker').textContent=kicker;$('runner-modal-title').textContent=title;$('runner-modal-copy').textContent=copy;}
 P.pause=()=>{if(P.state==='play'){modal('LA CAMANCHACA TAMBIÉN ESPERA','UN RESPIRO',P.saveAvailable===false?'La carrera sigue en memoria: conserva esta pestaña abierta.':'El último cruce alcanzado queda guardado.');state('paused');}else if(P.state==='paused'&&!(coarse.matches&&portrait.matches)){state('play');canvas.focus({preventScroll:true});}};
 M.pause=P.pause;
-P.start=function(hero=selected,continuing=false){const save=continuing?(P.memorySave||P.readSave()):null;if(continuing&&!save)return;hero=save?.hero||hero;if(!M.order.includes(hero))hero=M.order[0];selected=hero;
+P.start=function(hero=selected,continuing=false){if(!M.campaign.require(2))return false;const save=continuing?(P.memorySave||P.readSave()):null;if(continuing&&!save)return;hero=save?.hero||hero;if(!M.order.includes(hero))hero=M.order[0];selected=hero;
  const checkpoint=save?.finished?P.length:(save?.checkpoint||0);P.session={hero,distance:checkpoint,checkpoint:Math.min(checkpoint,1560),lane:0,targetLane:0,jumpLeft:0,jumpY:0,health:3,gap:84,cooldown:0,relief:0,shoutAge:99,inv:0,slow:0,stumble:0,elapsed:save?.time||0,falls:save?.falls||0,coteJoined:checkpoint>=P.coteAt,finished:!!save?.finished,liquorBought:false,obstacles:P.makeObstacles().filter(o=>o.at>checkpoint+24).map(o=>({...o,checked:false})),seenShops:new Set(P.shops.filter(b=>b.at<checkpoint).map(b=>b.at)),runTime:0};
  P.message=null;P.saveAvailable=true;state('play');M.audio.init();M.audio.zone=0;canvas.focus({preventScroll:true});
  if(save?.finished){finish();return;}P.save();P.notice(checkpoint?'DESDE EL ÚLTIMO CRUCE · LA BÚSQUEDA SIGUE':'PARRAL. TODAS CERRADAS. LA CAMANCHACA VIENE BAJANDO.',5);layout();
@@ -30,7 +30,7 @@ function hit(obstacle){const s=P.session;if(s.inv>0)return;const kind=P.kinds[ob
  P.notice(obstacle.kind==='sleeper'?'FRENA Y RODÉALO. HAY ALGUIEN DURMIENDO.':obstacle.kind==='poop'?'PATINAZO. LA NOCHE TAMBIÉN TIENE TRAMPAS.':'¡UN HOYO! RECUPERA EL PASO.');if(s.health<=0)fail('TRES TROPIEZOS. TOCA RECUPERAR EL AIRE.');
 }
 function fail(reason){const s=P.session;if(P.state!=='play')return;s.falls++;P.save();modal('EL CRUCE ANTERIOR TE ESPERA',s.gap<=0?'TE ALCANZÓ LA CAMANCHACA.':'UN TROPEZÓN DE MÁS.',reason+'\nPuedes reintentar desde el último cruce.');state('failed');}
-function finish(){const s=P.session;s.finished=true;s.distance=P.length;s.gap=Math.max(50,s.gap);s.liquorBought=false;P.save();modal('ETAPA 2 COMPLETADA · AHORA SON SEIS',P.ending.title,P.ending.copy);state('ending');M.audio.sfx('win');}
+function finish(){const s=P.session;s.finished=true;s.distance=P.length;s.gap=Math.max(50,s.gap);s.liquorBought=false;P.save();M.campaign.complete(2,s.hero);modal('ETAPA 2 COMPLETADA · AHORA SON SEIS',P.ending.title,P.ending.copy);state('ending');M.audio.sfx('win');}
 P.tick=function(dt){
  if(M.tap('pause')&&['play','paused'].includes(P.state)){P.pause();M.pressed={};return;}
  if(P.state!=='play'){M.pressed={};return;}const s=P.session;
