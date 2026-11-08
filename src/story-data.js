@@ -14,7 +14,7 @@ M.stories={
   line('camanchaca','Mañana hay que madrugar… responder correos… pagar cuentas…'),
   line('cote','Ahora no. Mis amigos necesitan un respiro. ¡Sigue de largo!'),
   line(others[0],'Esperen. Al frente sigue una luz encendida. Dice «El Vecino».'),
-  line('vecino','Bajen la voz, que esto es un clandestino. ¿Qué andan buscando a esta hora?'),
+  line('vecino','Bajen la voz. Me dicen el Vecino Clandestino por algo. ¿Qué andan buscando a esta hora?'),
   line(hero,'Coñac Magdaleno. Bajamos de la montaña, cruzamos la niebla… no nos diga que tampoco queda.'),
   line('vecino','Agotado. Pero prueben en «El Muñeco», en el barrio Buenos Aires. Está al otro lado de la bajada.'),
   line(others[1],scooter[others[1]]),

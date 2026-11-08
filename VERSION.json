@@ -1,8 +1,8 @@
 {
-  "gameVersion": "0.9.3",
+  "gameVersion": "0.9.4",
   "saveSchema": 1,
   "stage3SaveSchema": 2,
-  "stage": "11.3: conversaciones de cierre y transiciones narrativas",
+  "stage": "11.4: identidad del Vecino Clandestino",
   "date": "2026-11-07",
   "campaignSaveSchema": 1
 }

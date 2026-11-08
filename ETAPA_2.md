@@ -1,5 +1,7 @@
 # Etapa 2 · La Camanchaca de Parral
 
+**Vecino Clandestino:** el botillero de «El Vecino» tiene unos 50 años, contextura robusta, peinado ochentero con volumen y pelo más largo en la nuca, y camisa azul petróleo entreabierta. Su retrato muestra hombros y cuello anchos, mejillas llenas y leves señales de edad. En los diálogos aparece con su apodo «Vecino Clandestino».
+
 En la versión 0.9.3, llegar al acoplado abre una conversación de diez frases con el protagonista, dos amigos, Coté, la camanchaca y el botillero de El Vecino. El dato de El Muñeco y la salida en scooters se explican antes de habilitar la continuación. SEGUIR, Enter o espacio avanzan una frase; la carrera queda detenida.
 
 El guardado conserva `endingDialogue` (identificador, índice de la frase y finalización). Continuar retoma la misma frase. El cierre permite volver a ver la conversación sin alterar el guardado ni los desbloqueos. Las partidas antiguas terminadas mantienen sus accesos.

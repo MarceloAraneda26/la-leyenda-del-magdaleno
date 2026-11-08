@@ -1,5 +1,10 @@
 # Cambios de versión
 
+## 0.9.4: Vecino Clandestino · 7 de noviembre de 2026
+
+- El botillero se presenta como «Vecino Clandestino».
+- Retrato actualizado: unos 50 años, contextura robusta, peinado ochentero y camisa entreabierta.
+
 ## 0.9.3: conversaciones de cierre · 7 de noviembre de 2026
 
 - Etapa 2: conversación bajo el acoplado, respuesta a la camanchaca, encuentro con el botillero de El Vecino y preparación de la salida en scooters.
