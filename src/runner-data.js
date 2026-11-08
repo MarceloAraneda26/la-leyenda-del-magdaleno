@@ -10,5 +10,5 @@ P.blocks=[{at:0,name:'CENTRO DE PARRAL'},{at:520,name:'LAS CORTINAS ABAJO'},{at:
 // El centro alterna obstáculos que se saltan con personas durmiendo: quedarse ahí saltando no alcanza para llegar.
 P.makeObstacles=()=>{const rows=[],types=['hole','poop','sleeper','hole','poop','sleeper','hole'],center=['hole','sleeper','poop','sleeper','hole'];let i=0,c=0;
 for(let at=80;at<P.length-100;at+=48){const safe=[0,1,-1,0,-1,1][i%6],blocked=[-1,0,1].filter(l=>l!==safe);const lanes=i<5?[blocked[i%2]]:i%4===0?blocked:[blocked[i%2]];for(const [j,lane]of lanes.entries())rows.push({id:'obstacle-'+i+'-'+j,at,lane,kind:lane===0?center[c++%center.length]:types[(i+j)%types.length]});i++;}return rows;};
-P.ending={title:'UN VECINO DESPIERTO.',copy:'Bajo el acoplado del camión se reúnen los seis.\nCoté: «Ya, respiremos. Estamos todos».\nAl frente, una luz se enciende en «El Vecino», el clandestino.\nLa botella tendrá que esperar a la etapa 3.',teaser:'EL VECINO · CONTINUARÁ EN LA ETAPA 3'};
+P.ending={title:'RUMBO A BUENOS AIRES.',copy:'El grupo escapa de la camanchaca y se reúne bajo el acoplado.\nEn «El Vecino» tampoco queda Magdaleno. El dato es «El Muñeco», en Buenos Aires.\nEl siguiente tramo será en scooter. La búsqueda continúa.',teaser:'EL VECINO · CONTINUARÁ EN LA ETAPA 3'};
 })();

@@ -1,9 +1,10 @@
+const primeStory=require('./story-fixture.cjs');
 const primeCampaign=require('./campaign-fixture.cjs');
 /* Prueba la persecución con entradas reales del motor, sin invulnerabilidad. */
 const {chromium}=require('./browser.cjs'),fs=require('fs'),path=require('path'),assert=require('assert/strict');
 const root=path.resolve(__dirname,'..'),base=process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/';
 (async()=>{const b=await chromium.launch({headless:true,channel:'chrome'});try{
- const page=await b.newPage({viewport:{width:1365,height:768}}),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});await primeCampaign(page,1);await page.goto(base+'etapa2.html?qa=1');await page.waitForFunction(()=>window.Parral?.loaded);await page.evaluate(()=>__parral.setManual());
+ const page=await b.newPage({viewport:{width:1365,height:768}}),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});await primeStory(page);await primeCampaign(page,1);await page.goto(base+'etapa2.html?qa=1');await page.waitForFunction(()=>window.Parral?.loaded);await page.evaluate(()=>__parral.setManual());
  const result=await page.evaluate(()=>{const a=__parral,P=a.P,M=a.M,output={campaigns:[],collisions:[],checks:[]};localStorage.setItem(M.SAVE_KEY,'stage-one-save-must-stay');
   function tap(code){a.key(code,true);P.tick(M.STEP);a.key(code,false);}
   for(const hero of M.order){P.start(hero);let frames=0,shouts=0;while(P.state==='play'&&frames++<10000){const s=P.session,next=s.obstacles.find(o=>!o.checked&&o.at>s.distance);let key=null;if(next&&next.at-s.distance<42){const blocked=s.obstacles.filter(o=>!o.checked&&o.at===next.at).map(o=>o.lane),safe=[-1,0,1].filter(l=>!blocked.includes(l)).sort((x,y)=>Math.abs(x-s.targetLane)-Math.abs(y-s.targetLane))[0];if(s.targetLane!==safe)key=safe>s.targetLane?'ArrowRight':'ArrowLeft';}if(s.coteJoined&&s.cooldown<=0&&s.gap<105){tap('KeyV');shouts++;}else if(key)tap(key);else P.tick(M.STEP);}output.campaigns.push({...P.snapshot(),hero,frames,shouts,falls:P.session.falls,elapsed:P.session.elapsed});}

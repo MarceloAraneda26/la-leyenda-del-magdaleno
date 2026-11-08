@@ -1,5 +1,13 @@
 # Desarrollo por etapas
 
+## Conversaciones de cierre · 0.9.3
+
+- [x] Conversación en El Vecino para enlazar la huida con la salida en scooters.
+- [x] Negociación con la Vieja Califa y conversación posterior al trueque.
+- [x] Intervenciones del protagonista y de los acompañantes de la partida.
+- [x] Guardado por frase y repetición desde los cierres.
+- [x] Pruebas de narrativa, campaña y lectura en tamaños móviles emulados.
+
 ## Campaña lineal · 0.9.2
 
 - [x] Acceso secuencial: etapa 1 → etapa 2 → etapa 3.

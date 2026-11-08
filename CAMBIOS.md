@@ -1,5 +1,14 @@
 # Cambios de versión
 
+## 0.9.3: conversaciones de cierre · 7 de noviembre de 2026
+
+- Etapa 2: conversación bajo el acoplado, respuesta a la camanchaca, encuentro con el botillero de El Vecino y preparación de la salida en scooters.
+- Etapa 3: presentación y negociación con la Vieja Califa antes de aceptar el trueque; conversación posterior con los dos acompañantes sorteados antes del recibo y «Continuará…».
+- Retratos, nombres, contador de frases, botón SEGUIR y avance con Enter o espacio. Entradas suaves, lectura en vertical u horizontal y respeto a movimiento reducido.
+- La acción queda detenida durante las charlas. No se puede comerciar antes de conversar ni desbloquear la etapa 3 antes del cierre de la 2 en una partida nueva.
+- Guardado de la frase actual y repetición voluntaria de las conversaciones sin volver a comprar. Compatibilidad con partidas terminadas de versiones anteriores y recursos offline.
+- Prueba narrativa dedicada en `tools/story-check.cjs`, además de las regresiones de campaña y de las etapas.
+
 ## 0.9.2: campaña lineal · 7 de noviembre de 2026
 
 - Completar la etapa 1 desbloquea la 2; completar la 2 desbloquea la 3. El cierre del trueque completa la campaña.

@@ -1,8 +1,8 @@
 {
-  "gameVersion": "0.9.2",
+  "gameVersion": "0.9.3",
   "saveSchema": 1,
   "stage3SaveSchema": 2,
-  "stage": "11.2: campaña lineal con desbloqueo por etapas",
+  "stage": "11.3: conversaciones de cierre y transiciones narrativas",
   "date": "2026-11-07",
   "campaignSaveSchema": 1
 }

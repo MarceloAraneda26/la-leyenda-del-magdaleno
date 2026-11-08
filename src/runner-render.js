@@ -72,7 +72,7 @@ function hideout(W,H,s){sky(W,H,P.anim);F(0,H*.5,W,H*.5,'#354955');
  F(290,468,396,22,'#0d2533');text('LOS SEIS. POR FIN EN EL MISMO LADO.',488,483,11,'#c1d8ce','center');F(668,55,196,18,'#172938');text('UNA LUZ SIGUE ENCENDIDA.',766,67,11,'#c9c7b1','center');g.restore();
 }
 P.render=function(){const W=P.width||960,H=P.height||540,s=P.session,t=P.anim||0;g.setTransform(1,0,0,1,0,0);g.imageSmoothingEnabled=false;P.center=W/2-(s?.lane||0)*13;P.horizon=Math.round(H*.25);P.ground=Math.round(H*.72);P.half=M.clamp(H*.9,300,425);
- if(P.state==='ending'&&s){hideout(W,H,s);return;}const distance=s?.distance||t*3;sky(W,H,t);road(W,H,distance);city(distance);fog(W,H,t,s?.gap||85,s?.relief||0);
+ if(['story','ending'].includes(P.state)&&s){hideout(W,H,s);return;}const distance=s?.distance||t*3;sky(W,H,t);road(W,H,distance);city(distance);fog(W,H,t,s?.gap||85,s?.relief||0);
  const obstacles=s?.obstacles||P.makeObstacles();for(const o of [...obstacles].sort((a,b)=>a.at-b.at))if(o.at-distance<=0)obstacle(o,distance);
  if(s?.coteJoined){const helper=P.helperLayout();M.character('cote',helper.x,helper.y,helper.height,{time:t,walk:s.relief<=0&&P.state==='play',speed:.75,cast:s.relief>0,armed:false});scream(W,H,s,{x:helper.x,y:helper.y-helper.height*.82});}
  const hero=s?.hero||M.order[0],height=P.actorHeight(H),x=P.center+(s?.lane||0)*P.half*.64,y=P.ground-(s?.jumpY||0);

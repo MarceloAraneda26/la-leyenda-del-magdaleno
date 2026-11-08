@@ -1,6 +1,10 @@
 # Etapa 2 · La Camanchaca de Parral
 
-Primera versión jugable: cámara frontal, tres carriles y carrera automática. Continúa desde la montaña o entra directamente desde `etapa2.html`. Se puede correr con Marcelo, Ruzio, Pulga, Tobi o Pallo. Coté es la sexta integrante y acompaña como apoyo.
+En la versión 0.9.3, llegar al acoplado abre una conversación de diez frases con el protagonista, dos amigos, Coté, la camanchaca y el botillero de El Vecino. El dato de El Muñeco y la salida en scooters se explican antes de habilitar la continuación. SEGUIR, Enter o espacio avanzan una frase; la carrera queda detenida.
+
+El guardado conserva `endingDialogue` (identificador, índice de la frase y finalización). Continuar retoma la misma frase. El cierre permite volver a ver la conversación sin alterar el guardado ni los desbloqueos. Las partidas antiguas terminadas mantienen sus accesos.
+
+Primera versión jugable: cámara frontal, tres carriles y carrera automática. Se desbloquea al completar la etapa 1; los enlaces directos también respetan ese requisito. Se puede correr con Marcelo, Ruzio, Pulga, Tobi o Pallo. Coté es la sexta integrante y acompaña como apoyo.
 
 ## Nuevo cierre de la etapa 1
 

@@ -1,6 +1,10 @@
 # Etapa 3 · La Bajada de Buenos Aires
 
-Etapa incluida en la versión 0.9.0. Abrir `etapa3.html` o continuar desde el cierre de la etapa 2. Se usan scooters eléctricos de pie y dos compañeros al azar, con Coté incluida en el sorteo, según lo confirmado por el usuario.
+Desde la versión 0.9.3, la llegada abre siete frases de negociación con la Vieja Califa y los dos amigos que fueron rescatados. Solo después aparece la decisión de entregar los scooters. Al aceptar, otras seis frases explican el recibo sospechoso; el recibo y «Continuará…» se presentan después de esa charla.
+
+El guardado conserva `arrivalDialogue` y `endingDialogue`, además del sorteo y del estado del trueque. Salir a mitad de una charla permite retomarla. Las conversaciones se pueden repetir sin volver a entregar scooters y las partidas de versiones anteriores siguen siendo válidas.
+
+Etapa incluida en la versión 0.9.0. Se desbloquea al cerrar la conversación de la etapa 2; los enlaces directos también respetan ese requisito. Se usan scooters eléctricos de pie y dos compañeros al azar, con Coté incluida en el sorteo, según lo confirmado por el usuario.
 
 ## Decisiones de cierre confirmadas
 

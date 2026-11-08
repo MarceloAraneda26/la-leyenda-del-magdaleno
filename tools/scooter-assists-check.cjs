@@ -1,7 +1,8 @@
+const primeStory=require('./story-fixture.cjs');
 const primeCampaign=require('./campaign-fixture.cjs');
 const {chromium}=require('./browser.cjs'),assert=require('assert/strict'),fs=require('fs'),path=require('path');
 const root=path.resolve(__dirname,'..'),base=process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/';
-(async()=>{const b=await chromium.launch({headless:true,channel:'chrome'});try{const p=await b.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));await primeCampaign(p,2);await p.goto(base+'etapa3.html?qa=1');await p.waitForFunction(()=>Scooter.loaded);
+(async()=>{const b=await chromium.launch({headless:true,channel:'chrome'});try{const p=await b.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));await primeStory(p);await primeCampaign(p,2);await p.goto(base+'etapa3.html?qa=1');await p.waitForFunction(()=>Scooter.loaded);
  const r=await p.evaluate(()=>{const a=__scooter,S=a.S,M=a.M;a.setManual();const setup=id=>{const hero=id==='marcelo'?'ruzio':'marcelo',seed=Array.from({length:1000},(_,i)=>Math.imul(i+1,2654435761)>>>0).find(seed=>S.pickCompanions(hero,seed)[0]===id);S.start(hero,false,seed);const s=S.session;s.rescued=[id];s.distance=S.rescueAt[0]+30;s.obstacles=[];s.inv=0;s.speed=30;return s;};
  let s=setup('marcelo');s.obstacles=[{at:s.distance+190,lane:0,kind:'car',checked:false}];a.step();const marcelo={hint:s.routeHint,used:s.helpUses.marcelo};
  s=setup('ruzio');s.obstacles=[{at:s.distance+2,lane:0,kind:'car',checked:false}];a.step();const blocked=s.health;s.inv=0;s.obstacles=[{at:s.distance+2,lane:0,kind:'car',checked:false}];a.step();const ruzio={blocked,second:s.health,used:s.helpUses.ruzio,cooldown:s.helpCooldowns.ruzio};

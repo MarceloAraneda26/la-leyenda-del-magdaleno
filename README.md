@@ -1,10 +1,12 @@
 # La Leyenda del Magdaleno
 
-## Versión móvil 0.9.2 · campaña de tres etapas
+## Versión móvil 0.9.3 · campaña de tres etapas
+
+Los cierres de las etapas 2 y 3 tienen conversaciones con retratos, avance manual y guardado por frase. En El Vecino hablan el protagonista, sus amigos, Coté, la camanchaca y el botillero; en El Muñeco participan la Vieja Califa y los dos compañeros realmente rescatados. La charla del trueque y la del recibo se muestran por separado. Se pueden repetir desde la pantalla de cierre.
 
 La campaña se juega en orden: **1. El Matahombres de la montaña → 2. El Vecino → 3. La Vieja Califa de El Muñeco**. Completar una etapa desbloquea la siguiente. El menú muestra el progreso y los enlaces directos también respetan los bloqueos. Las etapas desbloqueadas se pueden repetir sin perder acceso a las posteriores.
 
-[Jugar la campaña](index.html?v=0.9.2).
+[Jugar la campaña](index.html?v=0.9.3).
 
 Los desbloqueos se guardan en este navegador y dispositivo, aparte de los puntos de control. Las partidas válidas anteriores se reconocen al actualizar: una partida de etapa 2 conserva el acceso a la 2; una de etapa 3 conserva el acceso a las tres. No se borran las partidas existentes. Si el navegador impide el guardado permanente, se intenta conservar la campaña durante la pestaña.
 
