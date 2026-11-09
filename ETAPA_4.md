@@ -214,7 +214,7 @@ Prueba automática: `node tools/etapa4-check.cjs [protagonista]` recorre las sei
 
 Limitaciones actuales:
 - Figuras, escenarios, Don Mario, pasteros y viejas sapas están dibujados por código como borrador. Las figuras escolares reutilizan la cara de los sprites actuales.
-- Sin guardado a mitad de etapa ni música propia.
+- Sin música propia. Desde 0.10.1 el avance se guarda por recuerdo, parte y tramo; el PONG se retoma desde 0 a 0.
 - Duración real menor a la estimada: la calle y el PONG son cortos.
 - Balance sin probar con personas.
 

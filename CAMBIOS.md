@@ -1,5 +1,12 @@
 # Cambios de versión
 
+## 0.10.1: guardado y encuadres de la etapa 4 · 8 de noviembre de 2026
+
+- La etapa 4 guarda el avance al pasar cada recuerdo, al entrar a cada parte y en cada tramo de la calle. El menú ofrece «CONTINUAR» con el protagonista y la parte guardados. Empezar de nuevo pide confirmación. El guardado es propio de la etapa y no toca las partidas de las etapas anteriores.
+- El PONG se retoma desde el inicio del partido, 0 a 0.
+- El salto de Marcelo sobre la reja queda completo dentro del cuadro del recuerdo, y el retrato de Don Mario muestra todo su pelo.
+- En celular, el comentario de la huincha pasa a la esquina inferior derecha y ya no tapa al protagonista ni el recuerdo.
+
 ## 0.10.0: etapa 4 · 8 de noviembre de 2026
 
 - Nueva etapa 4, «Los recuerdos y el último Magdaleno», en `etapa4.html`: botella falsa, huincha con un recuerdo escolar por amigo, regreso con reflexión, camino a los arcades contra pasteros y viejas sapas, PONG contra Don Mario y final compartiendo el Magdaleno.

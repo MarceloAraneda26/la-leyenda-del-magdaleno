@@ -7,6 +7,8 @@
 - [x] PONG a 5 puntos contra Don Mario y final compartiendo el Magdaleno.
 - [x] Se desbloquea al cerrar la etapa 3 y completa la campaña de cuatro etapas. [Jugar](etapa4.html) · [Diseño](ETAPA_4.md).
 - [x] Prueba de recorrido en `tools/etapa4-check.cjs`.
+- [x] Guardado por recuerdo, parte y tramo, con su prueba en `tools/etapa4-save-check.cjs` (0.10.1).
+- [x] Encuadre completo del salto de Marcelo y del retrato de Don Mario (0.10.1).
 - [ ] Revisión de los textos base por parte del usuario.
 - [ ] Prueba con personas y teléfonos físicos.
 
