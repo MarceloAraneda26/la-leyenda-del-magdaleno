@@ -14,9 +14,17 @@ function nextLine(){if(!dlg)return;dlg.i++;if(dlg.i<dlg.lines.length){paintDialo
 $('e4-next').onclick=nextLine;
 document.addEventListener('keydown',e=>{if(!dlg||!['Enter','Space'].includes(e.code))return;e.preventDefault();e.stopImmediatePropagation();if(!e.repeat)nextLine();},true);
 M.pause=()=>{if(M.state!=='play')return;paused=true;M.state='paused';$('e4-pause').hidden=false;M.clearInput();};
-$('e4-resume').onclick=()=>{paused=false;$('e4-pause').hidden=true;setMode(mode);};
+function resume(){if(!paused||rotated)return;paused=false;$('e4-pause').hidden=true;setMode(mode);}
+$('e4-resume').onclick=resume;
+// Esc o P también sacan de la pausa; se detiene aquí para que el motor no vuelva a pausar con la misma tecla.
+document.addEventListener('keydown',e=>{if(!paused||!['Escape','KeyP'].includes(e.code))return;e.preventDefault();e.stopImmediatePropagation();if(!e.repeat)resume();},true);
 $('e4-menu').onclick=()=>{paused=false;$('e4-pause').hidden=true;toTitle();};
 $('e4-pause-button').onclick=()=>M.pause();
+$('sound-button').onclick=()=>M.audio.toggle();M.audio.reflect();
+// Celular en vertical: aviso de girar y pausa, igual que en las otras etapas.
+const touchMQ=matchMedia('(pointer:coarse), (any-pointer:coarse) and (max-width:900px)'),portraitMQ=matchMedia('(orientation:portrait)');let rotated=false;
+function checkRotate(){rotated=touchMQ.matches&&portraitMQ.matches;$('e4-rotate').hidden=!rotated;if(rotated){M.clearInput();M.pause();}}
+touchMQ.addEventListener('change',checkRotate);portraitMQ.addEventListener('change',checkRotate);
 // ---------- Parte 1 y 3: escenas en El Muñeco ----------
 const cs={sub:'',t:0,fog:0};
 function part1(){cs.sub='bottle';cs.t=0;cs.fog=.15;setMode('cut');caption('');say(E.fakeBottle,()=>{cs.sub='fog';cs.t=0;},{location:'BOTILLERÍA EL MUÑECO · BUENOS AIRES',last:'ENTRAR A LA CAMANCHACA'});}
@@ -38,7 +46,8 @@ function drawCut(){if(cs.sub==='bottle'||cs.sub==='fog'){muneco(0);M.character(h
 const hu={};
 function startHuincha(){const order=E.memoryOrder.filter(id=>id!==hero).concat([hero]);hu.frames=order.map((id,i)=>({id,x:820+i*720,t:0,seen:0}));hu.x=160;hu.end=hu.frames.at(-1).x+560;hu.dir=1;hu.walk=false;hu.leaving=0;view.x=0;setMode('huincha');caption(E.enter[hero]);hu.greet=time+4.5;}
 function activeFrame(){return hu.frames.find(f=>Math.abs(hu.x-f.x)<300);}
-function updateHuincha(dt){const dir=(M.down('right')?1:0)-(M.down('left')?1:0);hu.walk=!!dir&&!hu.leaving;if(dir&&!hu.leaving){hu.dir=dir;hu.x=M.clamp(hu.x+dir*230*dt,80,hu.end);}
+// Frente a un recuerdo se camina más lento (unos 5 s por recuerdo) para alcanzar a leer el comentario.
+function updateHuincha(dt){const dir=(M.down('right')?1:0)-(M.down('left')?1:0);hu.walk=!!dir&&!hu.leaving;if(dir&&!hu.leaving){hu.dir=dir;hu.x=M.clamp(hu.x+dir*(activeFrame()?115:230)*dt,80,hu.end);}
  const f=activeFrame();for(const fr of hu.frames)if(fr===f){fr.t+=dt;fr.seen+=dt;}
  if(hu.leaving){if(time-hu.leaving>3.2)part3();}
  else if(hu.x>=hu.end-4){hu.leaving=time;caption(E.leave[hero]);}
@@ -123,10 +132,11 @@ function heroButtons(){const box=$('e4-heroes');box.innerHTML='';for(const id of
 $('e4-start').onclick=()=>begin(1);document.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>begin(+b.dataset.part));$('e4-again').onclick=toTitle;
 function update(dt){if(M.tap('pause')&&M.state==='play'){M.pause();return;}if(mode==='cut')updateCut(dt);else if(mode==='huincha')updateHuincha(dt);else if(mode==='street')updateStreet(dt);else if(mode==='pong')updatePong(dt);const c=$('e4-caption');if(c.dataset.until&&time>+c.dataset.until)caption('');}
 function render(){if(mode==='title'){street(g,time*20);fogLayer(.25);}else if(mode==='cut')drawCut();else if(mode==='huincha')drawHuincha();else if(mode==='street')drawStreet();else if(mode==='pong')drawPong();}
-function step(dt){time+=dt;if(!paused&&(!dlg||mode==='cut'))update(dt);M.pressed={};}
+// El reloj solo avanza cuando el juego corre: en pausa no vencen avisos ni temporizadores.
+function step(dt){if(rotated&&M.state==='play')M.pause();if(!paused&&(!dlg||mode==='cut')){time+=dt;update(dt);}M.pressed={};}
 let last=performance.now(),acc=0;function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;if(!qa){acc+=dt;while(acc>=M.STEP){step(M.STEP);acc-=M.STEP;}}render();requestAnimationFrame(frame);}
 async function load(){M.images={};M.bounds={};await Promise.all([...M.order,'cote'].map(id=>new Promise((ok,fail)=>{const i=new Image();i.onload=()=>{M.images[id]=i;M.bounds[id]=M.assetBounds?.[id]||{x:0,y:0,w:i.width,h:i.height};ok();};i.onerror=()=>fail(new Error(id));i.src='../assets/'+id+'.png';})));}
-load().then(()=>{heroButtons();$('e4-start').disabled=false;$('e4-start').textContent='COMENZAR LA ETAPA 4';toTitle();E.loaded=true;requestAnimationFrame(frame);}).catch(e=>{$('e4-start').textContent='NO SE PUDIERON CARGAR LOS SPRITES';console.error(e);});
+load().then(()=>{checkRotate();heroButtons();$('e4-start').disabled=false;$('e4-start').textContent='COMENZAR LA ETAPA 4';toTitle();E.loaded=true;requestAnimationFrame(frame);}).catch(e=>{$('e4-start').textContent='NO SE PUDIERON CARGAR LOS SPRITES';console.error(e);});
 // Ganchos de prueba con ?qa=1: paso manual y acceso al estado.
 window.__e4={E,M,step:(n=1)=>{for(let i=0;i<n;i++)step(M.STEP);render();},render,begin,setHero:id=>{hero=id;},mode:()=>mode,dialog:()=>dlg&&{i:dlg.i,n:dlg.lines.length,who:dlg.lines[dlg.i].who},next:nextLine,hu,st,pg,cs,key:(c,down)=>M.input(c,down)};
 })();
