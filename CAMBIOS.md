@@ -1,5 +1,11 @@
 # Cambios de versión
 
+## 0.10.2: huincha con pausa en cada recuerdo · 8 de noviembre de 2026
+
+- En el primer pase, el protagonista se detiene frente a cada recuerdo. La escena corre completa, con su momento importante, y recién entonces aparece «SEGUIR →» (también con Enter, E o espacio). El recuerdo propio dura un poco más.
+- El contador cuenta recuerdos completados y el guardado se hace al completar cada uno.
+- Los recuerdos ya vistos se pueden volver a mirar caminando, sin detenerse.
+
 ## 0.10.1: guardado y encuadres de la etapa 4 · 8 de noviembre de 2026
 
 - La etapa 4 guarda el avance al pasar cada recuerdo, al entrar a cada parte y en cada tramo de la calle. El menú ofrece «CONTINUAR» con el protagonista y la parte guardados. Empezar de nuevo pide confirmación. El guardado es propio de la etapa y no toca las partidas de las etapas anteriores.

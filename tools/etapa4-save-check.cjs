@@ -8,11 +8,11 @@ const B=process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/',out=path.join(_
  await open();const before=await p.evaluate(()=>Object.fromEntries(['magdaleno_campaign_v1','magdaleno_capitulo1_v1','magdaleno_parral_v1','magdaleno_scooter_v1'].map(k=>[k,localStorage.getItem(k)])));
  r.sinGuardado=await p.isVisible('#e4-continue');assert.equal(r.sinGuardado,false);
  // Huincha: dos recuerdos vistos.
- await p.evaluate(()=>{const a=__e4;a.setHero('tobi');a.begin(1);while(a.dialog())a.next();a.step(200);a.key('ArrowRight',true);while(a.hu.frames.filter(f=>f.seen>.5).length<2)a.step(1);a.key('ArrowRight',false);});
+ await p.evaluate(()=>{const a=__e4;a.setHero('tobi');a.begin(1);while(a.dialog())a.next();a.step(200);const walk=c=>{a.key('ArrowRight',true);let n=0;while(c()&&n++<60*600){a.step(1);if(a.hu.focus&&a.hu.ready){a.key('Enter',true);a.step(1);a.key('Enter',false);a.key('ArrowRight',true);}}a.key('ArrowRight',false);};walk(()=>a.hu.frames.filter(f=>f.seen).length<2);});
  let k=await reload();assert(k.visible&&k.texto.includes('TOBI')&&k.texto.includes('LOS RECUERDOS'),k.texto);await p.click('#e4-continue');
  r.huincha=await p.evaluate(()=>({mode:__e4.mode(),vistos:__e4.hu.frames.filter(f=>f.seen>.5).map(f=>f.id),x:Math.round(__e4.hu.x),siguiente:__e4.hu.frames.find(f=>!f.seen)?.x}));assert.equal(r.huincha.mode,'huincha');assert.equal(r.huincha.vistos.length,2);assert(r.huincha.x<r.huincha.siguiente);
  // Regreso.
- await p.evaluate(()=>{const a=__e4;a.key('ArrowRight',true);while(a.mode()==='huincha')a.step(1);a.key('ArrowRight',false);});k=await reload();assert(k.texto.includes('EL REGRESO'),k.texto);await p.click('#e4-continue');await p.waitForTimeout(1200);
+ await p.evaluate(()=>{const a=__e4;const walk=c=>{a.key('ArrowRight',true);let n=0;while(c()&&n++<60*600){a.step(1);if(a.hu.focus&&a.hu.ready){a.key('Enter',true);a.step(1);a.key('Enter',false);a.key('ArrowRight',true);}}a.key('ArrowRight',false);};walk(()=>a.mode()==='huincha');});k=await reload();assert(k.texto.includes('EL REGRESO'),k.texto);await p.click('#e4-continue');await p.waitForTimeout(1200);
  r.regreso=await p.evaluate(()=>({mode:__e4.mode(),dialogo:__e4.dialog()?.n}));assert.equal(r.regreso.mode,'cut');assert(r.regreso.dialogo>0);
  // Calle: alcanzar el tramo 2.
  await p.evaluate(()=>{const a=__e4;while(a.dialog())a.next();a.step(1);a.st.p.x=2050;a.step(2);});k=await reload();assert(k.texto.includes('TRAMO 2 DE 3'),k.texto);await p.click('#e4-continue');

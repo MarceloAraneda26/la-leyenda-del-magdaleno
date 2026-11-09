@@ -6,7 +6,7 @@ let hero=(()=>{const q=new URLSearchParams(location.search).get('hero'),c=M.camp
 const others=()=>E.friends.filter(id=>id!==hero);
 const rand=M.rng(4242);
 // ---------- Utilidades de interfaz ----------
-function setMode(next){mode=next;document.documentElement.dataset.e4=next;M.state=['huincha','street','pong'].includes(next)&&!dlg&&!paused?'play':'paused';M.clearInput();}
+function setMode(next){mode=next;$('e4-hu-next').hidden=!(next==='huincha'&&hu.focus&&hu.ready);document.documentElement.dataset.e4=next;M.state=['huincha','street','pong'].includes(next)&&!dlg&&!paused?'play':'paused';M.clearInput();}
 function caption(text,secs=0){const c=$('e4-caption');c.hidden=!text;if(c.textContent!==text)c.textContent=text||'';c.dataset.until=secs?String(time+secs):'';}
 function say(lines,done,opts={}){dlg={lines:lines.map(([who,text])=>({who:who==='hero'?hero:who,text})),i:0,done,location:opts.location||'',last:opts.last||'SEGUIR →'};$('e4-dialog').hidden=false;M.state='paused';M.clearInput();paintDialog();$('e4-next').focus({preventScroll:true});}
 function paintDialog(){const l=dlg.lines[dlg.i],role=M.heroes[l.who]?.role||{cote:'AMIGA',mario:'DUEÑO DE LOS ARCADES',camanchaca:'LA VOZ DE LOS PENDIENTES'}[l.who]||'';$('e4-location').textContent=dlg.location;$('e4-count').textContent=(dlg.i+1)+' / '+dlg.lines.length;$('e4-speaker').textContent=E.names[l.who]||l.who;$('e4-role').textContent=role;$('e4-line').textContent=l.text;$('e4-next').textContent=dlg.i===dlg.lines.length-1?dlg.last:'SEGUIR →';D.portrait($('e4-portrait'),l.who);$('accessible-status').textContent=(E.names[l.who]||l.who)+': '+l.text;}
@@ -52,18 +52,25 @@ function drawCut(){if(cs.sub==='bottle'||cs.sub==='fog'){muneco(0);M.character(h
  if(cs.sub==='share')drawShare();}
 // ---------- Parte 2: la huincha de recuerdos ----------
 const hu={};
-function startHuincha(seen=[]){const order=E.memoryOrder.filter(id=>id!==hero).concat([hero]);hu.frames=order.map((id,i)=>({id,x:820+i*720,t:0,seen:seen.includes(id)?1:0}));const next=hu.frames.find(f=>!f.seen);hu.x=next?Math.max(160,next.x-340):hu.frames.at(-1).x+320;save('huincha',{seen:hu.frames.filter(f=>f.seen).map(f=>f.id)});hu.end=hu.frames.at(-1).x+560;hu.dir=1;hu.walk=false;hu.leaving=0;view.x=0;setMode('huincha');caption(E.enter[hero]);hu.greet=time+4.5;}
+function startHuincha(seen=[]){const order=E.memoryOrder.filter(id=>id!==hero).concat([hero]);hu.frames=order.map((id,i)=>({id,x:820+i*720,t:0,seen:seen.includes(id)?1:0}));const next=hu.frames.find(f=>!f.seen);hu.x=next?Math.max(160,next.x-340):hu.frames.at(-1).x+320;save('huincha',{seen:hu.frames.filter(f=>f.seen).map(f=>f.id)});hu.focus=null;hu.ready=false;hu.go=false;hu.end=hu.frames.at(-1).x+560;hu.dir=1;hu.walk=false;hu.leaving=0;view.x=0;setMode('huincha');caption(E.enter[hero]);hu.greet=time+4.5;}
 function activeFrame(){return hu.frames.find(f=>Math.abs(hu.x-f.x)<300);}
-// Frente a un recuerdo se camina más lento (unos 5 s por recuerdo) para alcanzar a leer el comentario.
-function updateHuincha(dt){const dir=(M.down('right')?1:0)-(M.down('left')?1:0);hu.walk=!!dir&&!hu.leaving;if(dir&&!hu.leaving){hu.dir=dir;hu.x=M.clamp(hu.x+dir*(activeFrame()?115:230)*dt,80,hu.end);}
- const f=activeFrame();for(const fr of hu.frames)if(fr===f){fr.t+=dt;const was=fr.seen;fr.seen+=dt;if(was<=.5&&fr.seen>.5)save('huincha',{seen:hu.frames.filter(x=>x.seen>.5).map(x=>x.id)});}
+// En el primer pase el protagonista se detiene frente a cada recuerdo: la escena corre completa y se sigue con SEGUIR.
+// Su propio recuerdo dura un poco más. Después se puede volver a mirarlos caminando.
+const LOOK={tobi:7,marcelo:6.5,pallo:5.5,ruzio:6.5,pulga:7,cote:5};
+function finishFocus(){const f=hu.focus;f.seen=1;hu.focus=null;hu.ready=false;hu.go=false;$('e4-hu-next').hidden=true;M.clearInput();save('huincha',{seen:hu.frames.filter(x=>x.seen).map(x=>x.id)});}
+function updateHuincha(dt){
+ if(hu.focus){const f=hu.focus;f.t+=dt;hu.walk=false;hu.x=M.lerp(hu.x,f.x,Math.min(1,dt*6));caption(E.comments[f.id][hero]);
+  if(!hu.ready&&f.t>=LOOK[f.id]*(f.id===hero?1.5:1)){hu.ready=true;$('e4-hu-next').hidden=false;$('accessible-status').textContent='Recuerdo completo. Pulsa SEGUIR para continuar.';}
+  if(hu.ready&&(hu.go||M.tap('interact')||M.tap('jump')))finishFocus();hu.go=false;view.x=M.clamp(hu.x-330,0,hu.end+260-W);return;}
+ const dir=(M.down('right')?1:0)-(M.down('left')?1:0);hu.walk=!!dir&&!hu.leaving;if(dir&&!hu.leaving){hu.dir=dir;hu.x=M.clamp(hu.x+dir*230*dt,80,hu.end);}
+ const f=activeFrame();if(f&&!f.seen&&!hu.leaving&&Math.abs(hu.x-f.x)<40){hu.focus=f;f.t=0;hu.ready=false;hu.go=false;M.clearInput();caption(E.comments[f.id][hero]);return;}if(f)f.t+=dt;
  if(hu.leaving){if(time-hu.leaving>3.2)part3();}
  else if(hu.x>=hu.end-4){hu.leaving=time;caption(E.leave[hero]);}
  else if(f)caption(E.comments[f.id][hero]);else if(time<hu.greet)caption(E.enter[hero]);else caption(hu.frames.every(fr=>fr.seen>0)?'→ Sigue caminando':'→ Camina para ver los recuerdos');
  view.x=M.clamp(hu.x-330,0,hu.end+260-W);}
 function drawHuincha(){const bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#1b2733');bg.addColorStop(1,'#43545e');g.fillStyle=bg;g.fillRect(0,0,W,H);
  R(g,0,36,W,314,'#0d0d10');for(let i=0;i<40;i++){const x=i*26-(view.x%26);R(g,x,44,13,10,'#3a3934');R(g,x,333,13,10,'#3a3934');}
- const f0=activeFrame();for(const f of hu.frames){const sx=f.x-view.x-220;if(sx>W+40||sx<-480)continue;const act=f===f0;D.frame(g,sx,72,440,250,act);D.scene(g,f.id,f.t,sx,72,440,250,act);T(g,E.memoryTitle[f.id],f.x-view.x,26,15,act?'#f0ca8a':'#8b9aa3');}
+ const f0=hu.focus||activeFrame();for(const f of hu.frames){const sx=f.x-view.x-220;if(sx>W+40||sx<-480)continue;const act=f===f0;D.frame(g,sx,72,440,250,act);D.scene(g,f.id,f.t,sx,72,440,250,act);T(g,E.memoryTitle[f.id],f.x-view.x,26,15,act?'#f0ca8a':'#8b9aa3');}
  R(g,0,400,W,140,'#2f3e48');g.save();g.globalAlpha=.35;for(let i=0;i<8;i++){g.fillStyle='#aeb8b6';g.beginPath();g.ellipse((i*190-view.x*.6+time*20)%(W+240)-120,470+(i%3)*18,150,22,0,0,Math.PI*2);g.fill();}g.restore();
  M.character(hero,hu.x-view.x,470,130,{walk:hu.walk,dir:hu.dir,time});
  const seen=hu.frames.filter(f=>f.seen>.5).length;T(g,'RECUERDOS '+seen+' / '+hu.frames.length,20,388,13,'#d8cfb7','left');}
@@ -137,7 +144,7 @@ function drawShare(){const bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,
 function toTitle(){refreshContinue();$('e4-parts').hidden=!(M.campaign.snapshot().completed>=4);setMode('title');caption('');$('e4-end').hidden=true;$('e4-dialog').hidden=true;dlg=null;$('e4-title').hidden=false;}
 function begin(part){if(!M.campaign.require(4))return;$('e4-title').hidden=true;$('e4-end').hidden=true;M.audio.init();({1:part1,2:startHuincha,3:part3,4:()=>startStreet(0),5:startPongIntro,6:part6})[part]();}
 function heroButtons(){const box=$('e4-heroes');box.innerHTML='';for(const id of E.heroes){const b=document.createElement('button');b.type='button';b.textContent=E.names[id].toUpperCase();b.setAttribute('aria-pressed',String(id===hero));b.onclick=()=>{hero=id;heroButtons();};box.append(b);}}
-$('e4-start').onclick=()=>M.confirmRestart($('e4-start'),!!readSave(),()=>begin(1));$('e4-continue').onclick=resumeSave;document.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>begin(+b.dataset.part));$('e4-again').onclick=toTitle;
+$('e4-start').onclick=()=>M.confirmRestart($('e4-start'),!!readSave(),()=>begin(1));$('e4-continue').onclick=resumeSave;$('e4-hu-next').onclick=()=>{if(hu.focus&&hu.ready)hu.go=true;};document.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>begin(+b.dataset.part));$('e4-again').onclick=toTitle;
 function update(dt){if(M.tap('pause')&&M.state==='play'){M.pause();return;}if(mode==='cut')updateCut(dt);else if(mode==='huincha')updateHuincha(dt);else if(mode==='street')updateStreet(dt);else if(mode==='pong')updatePong(dt);const c=$('e4-caption');if(c.dataset.until&&time>+c.dataset.until)caption('');}
 function render(){if(mode==='title'){street(g,time*20);fogLayer(.25);}else if(mode==='cut')drawCut();else if(mode==='huincha')drawHuincha();else if(mode==='street')drawStreet();else if(mode==='pong')drawPong();}
 // El reloj solo avanza cuando el juego corre: en pausa no vencen avisos ni temporizadores.
