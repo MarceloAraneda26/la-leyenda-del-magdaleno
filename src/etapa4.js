@@ -1,8 +1,8 @@
-/* Prototipo local de la etapa 4. No se publica: tools/build-web.cjs no copia la carpeta prototipo. */
+/* Etapa 4: los recuerdos y el último Magdaleno. Huincha de recuerdos, camino a los arcades y PONG contra Don Mario. */
 (() => {'use strict';
 const M=window.Magdaleno,E=window.Etapa4,D=E.draw,$=id=>document.getElementById(id),R=D.R,T=D.T;
 const g=M.ctx,W=960,H=540,G=455,qa=new URLSearchParams(location.search).has('qa');
-let hero='marcelo',mode='title',paused=false,time=0,dlg=null;const view={x:0};
+let hero=(()=>{const q=new URLSearchParams(location.search).get('hero'),c=M.campaign?.snapshot().hero;return E.heroes.includes(q)?q:E.heroes.includes(c)?c:'marcelo';})(),mode='title',paused=false,time=0,dlg=null;const view={x:0};
 const others=()=>E.friends.filter(id=>id!==hero);
 const rand=M.rng(4242);
 // ---------- Utilidades de interfaz ----------
@@ -37,7 +37,7 @@ function street(g,cam,{neon=false,end=0}={}){const sky=g.createLinearGradient(0,
 function muneco(cam){street(g,cam);const x=520-cam;R(g,x,190,360,G-190,'#4d3a33');R(g,x,190,360,14,'#2e2320');R(g,x+30,210,300,40,'#1a1416');T(g,'EL MUÑECO',x+180,240,26,'#f0c27a');R(g,x+40,280,120,90,'#d6a35b');for(let i=0;i<4;i++)R(g,x+52+i*28,292,10,30,'#5a2a18');R(g,x+210,300,80,G-300,'#21181a');}
 function fogLayer(a){if(a<=0)return;g.save();g.globalAlpha=Math.min(1,a);g.fillStyle='#9daaad';g.fillRect(0,0,W,H);g.restore();g.save();g.globalAlpha=Math.min(.8,a);for(let i=0;i<14;i++){const x=(i*173+time*30*(i%3+1))%(W+300)-150,y=60+(i*71)%420;g.fillStyle=['#82979d','#aeb8b6','#c3cbc8'][i%3];g.beginPath();g.ellipse(x,y,170,40,0,0,Math.PI*2);g.fill();}g.restore();}
 function drawBottle(x,y){R(g,x,y,10,24,'#5a2a18');R(g,x+3,y-8,4,9,'#5a2a18');R(g,x+1,y+8,8,7,'#e6d29a');}
-function updateCut(dt){cs.t+=dt;if(cs.sub==='fog'){cs.fog=Math.min(1.2,.15+cs.t*.7);if(cs.t>1.6)startHuincha();}if(cs.sub==='return')cs.fog=Math.max(0,1-cs.t*.8);if(cs.sub==='share'&&cs.t>.9&&$('e4-end').hidden){$('e4-end').hidden=false;$('e4-again').focus({preventScroll:true});}}
+function updateCut(dt){cs.t+=dt;if(cs.sub==='fog'){cs.fog=Math.min(1.2,.15+cs.t*.7);if(cs.t>1.6)startHuincha();}if(cs.sub==='return')cs.fog=Math.max(0,1-cs.t*.8);if(cs.sub==='share'&&cs.t>.9&&$('e4-end').hidden){M.campaign.complete(4,hero);$('e4-end').hidden=false;$('e4-again').focus({preventScroll:true});}}
 function drawCut(){if(cs.sub==='bottle'||cs.sub==='fog'){muneco(0);M.character(hero,360,G,140,{time,dir:1});drawBottle(382,G-78);fogLayer(cs.fog);return;}
  if(cs.sub==='return'){muneco(0);const list=others(),shown=dlg?Math.max(0,dlg.i):list.length;M.character(hero,360,G,140,{time,dir:1});if(dlg&&dlg.i===0)T(g,'?',360,G-160,30,'#ffe39a');list.slice(0,shown).forEach((id,i)=>M.character(id,i<3?120+i*72:560+(i-3)*80,G,id==='cote'?132:136,{time,dir:i<3?1:-1}));fogLayer(cs.fog);return;}
  if(cs.sub==='black'){R(g,0,0,W,H,'#000');return;}
@@ -126,8 +126,8 @@ function drawShare(){const bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,
  R(g,W/2-110,G-70,220,12,'#7b5c3a');R(g,W/2-100,G-58,10,58,'#5f4630');R(g,W/2+90,G-58,10,58,'#5f4630');drawBottle(W/2-5,G-104);for(let i=0;i<6;i++)R(g,W/2-96+i*36,G-86,10,16,'#e6eef4b0');
  const group=[hero,...others()];group.forEach((id,i)=>{const side=i%2?1:-1,slot=Math.floor(i/2),x=W/2+side*(170+slot*70),dir=-side;M.character(id,x,G,id==='cote'?136:140,{time,dir});});}
 // ---------- Menú y bucle ----------
-function toTitle(){setMode('title');caption('');$('e4-end').hidden=true;$('e4-dialog').hidden=true;dlg=null;$('e4-title').hidden=false;}
-function begin(part){$('e4-title').hidden=true;$('e4-end').hidden=true;M.audio.init();({1:part1,2:startHuincha,3:part3,4:()=>startStreet(0),5:startPongIntro,6:part6})[part]();}
+function toTitle(){$('e4-parts').hidden=!(M.campaign.snapshot().completed>=4);setMode('title');caption('');$('e4-end').hidden=true;$('e4-dialog').hidden=true;dlg=null;$('e4-title').hidden=false;}
+function begin(part){if(!M.campaign.require(4))return;$('e4-title').hidden=true;$('e4-end').hidden=true;M.audio.init();({1:part1,2:startHuincha,3:part3,4:()=>startStreet(0),5:startPongIntro,6:part6})[part]();}
 function heroButtons(){const box=$('e4-heroes');box.innerHTML='';for(const id of E.heroes){const b=document.createElement('button');b.type='button';b.textContent=E.names[id].toUpperCase();b.setAttribute('aria-pressed',String(id===hero));b.onclick=()=>{hero=id;heroButtons();};box.append(b);}}
 $('e4-start').onclick=()=>begin(1);document.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>begin(+b.dataset.part));$('e4-again').onclick=toTitle;
 function update(dt){if(M.tap('pause')&&M.state==='play'){M.pause();return;}if(mode==='cut')updateCut(dt);else if(mode==='huincha')updateHuincha(dt);else if(mode==='street')updateStreet(dt);else if(mode==='pong')updatePong(dt);const c=$('e4-caption');if(c.dataset.until&&time>+c.dataset.until)caption('');}
@@ -135,7 +135,7 @@ function render(){if(mode==='title'){street(g,time*20);fogLayer(.25);}else if(mo
 // El reloj solo avanza cuando el juego corre: en pausa no vencen avisos ni temporizadores.
 function step(dt){if(rotated&&M.state==='play')M.pause();if(!paused&&(!dlg||mode==='cut')){time+=dt;update(dt);}M.pressed={};}
 let last=performance.now(),acc=0;function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;if(!qa){acc+=dt;while(acc>=M.STEP){step(M.STEP);acc-=M.STEP;}}render();requestAnimationFrame(frame);}
-async function load(){M.images={};M.bounds={};await Promise.all([...M.order,'cote'].map(id=>new Promise((ok,fail)=>{const i=new Image();i.onload=()=>{M.images[id]=i;M.bounds[id]=M.assetBounds?.[id]||{x:0,y:0,w:i.width,h:i.height};ok();};i.onerror=()=>fail(new Error(id));i.src='../assets/'+id+'.png';})));}
+async function load(){M.images={};M.bounds={};await Promise.all([...M.order,'cote'].map(id=>new Promise((ok,fail)=>{const i=new Image();i.onload=()=>{M.images[id]=i;M.bounds[id]=M.assetBounds?.[id]||{x:0,y:0,w:i.width,h:i.height};ok();};i.onerror=()=>fail(new Error(id));i.src='assets/'+id+'.png';})));}
 load().then(()=>{checkRotate();heroButtons();$('e4-start').disabled=false;$('e4-start').textContent='COMENZAR LA ETAPA 4';toTitle();E.loaded=true;requestAnimationFrame(frame);}).catch(e=>{$('e4-start').textContent='NO SE PUDIERON CARGAR LOS SPRITES';console.error(e);});
 // Ganchos de prueba con ?qa=1: paso manual y acceso al estado.
 window.__e4={E,M,step:(n=1)=>{for(let i=0;i<n;i++)step(M.STEP);render();},render,begin,setHero:id=>{hero=id;},mode:()=>mode,dialog:()=>dlg&&{i:dlg.i,n:dlg.lines.length,who:dlg.lines[dlg.i].who},next:nextLine,hu,st,pg,cs,key:(c,down)=>M.input(c,down)};

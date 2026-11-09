@@ -1,4 +1,4 @@
-/* Prototipo etapa 4: solo lo que no cubren styles.css, etapa2.css y story.css. */
+/* Etapa 4: solo lo que no cubren styles.css, etapa2.css y story.css. */
 .runner-stage>canvas{width:100%;height:100%;display:block;object-fit:contain;image-rendering:pixelated}
 .runner-header{justify-content:flex-start}.runner-header>a{margin-right:auto}
 .e4-badge{font:700 10px system-ui;letter-spacing:1px;color:#e4bf83;border:1px solid #8a6a35;padding:4px 8px;border-radius:3px}

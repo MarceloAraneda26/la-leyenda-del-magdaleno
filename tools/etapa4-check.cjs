@@ -1,9 +1,9 @@
-/* Recorrido automático del prototipo de la etapa 4 con controles normales y capturas. Uso: node prototipo/etapa4-check.cjs [héroe] */
-const {chromium}=require('../tools/browser.cjs'),fs=require('fs'),path=require('path'),assert=require('assert/strict');
+/* Recorrido automático de la etapa 4 con controles normales y capturas. Uso: node tools/etapa4-check.cjs [héroe] */
+const {chromium}=require('./browser.cjs'),unlock=require('./campaign-fixture.cjs'),fs=require('fs'),path=require('path'),assert=require('assert/strict');
 const B=process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/',hero=process.argv[2]||'marcelo',out=process.env.E4_SHOTS||path.join(__dirname,'../qa/etapa4');fs.mkdirSync(out,{recursive:true});
 (async()=>{const b=await chromium.launch({headless:true,channel:'chrome'});const errors=[];try{
- const p=await b.newPage({viewport:{width:1280,height:720}});p.on('pageerror',e=>errors.push(String(e)));p.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
- await p.goto(B+'prototipo/etapa4.html?qa=1');await p.waitForFunction(()=>window.Etapa4?.loaded);await p.screenshot({path:out+'/0_menu.png'});
+ const p=await b.newPage({viewport:{width:1280,height:720}});await unlock(p,3);p.on('pageerror',e=>errors.push(String(e)));p.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+ await p.goto(B+'etapa4.html?qa=1');await p.waitForFunction(()=>window.Etapa4?.loaded);await p.screenshot({path:out+'/0_menu.png'});
  const shot=async n=>{await p.evaluate(()=>__e4.render());await p.screenshot({path:out+'/'+n+'.png'});};
  const drain=async(max=40)=>{for(let i=0;i<max&&await p.evaluate(()=>!!__e4.dialog());i++)await p.evaluate(()=>__e4.next());};
  const r={hero};await p.evaluate(h=>{__e4.setHero(h);__e4.begin(1);},hero);await shot('1_botella');await drain();await p.evaluate(()=>__e4.step(200));assert.equal(await p.evaluate(()=>__e4.mode()),'huincha');
@@ -22,6 +22,6 @@ const B=process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/',hero=process.ar
  await p.evaluate(()=>{__e4.begin(4);__e4.key('ArrowRight',true);__e4.step(170);__e4.key('ArrowRight',false);__e4.step(200);});await shot('4_calle_pelea');
  await p.evaluate(()=>{__e4.begin(5);});await drain();await p.evaluate(()=>{__e4.step(200);});await shot('4_pong_juego');
  // Móvil horizontal.
- const m=await b.newContext({viewport:{width:844,height:390},isMobile:true,hasTouch:true,deviceScaleFactor:2});const mp=await m.newPage();mp.on('pageerror',e=>errors.push(String(e)));await mp.goto(B+'prototipo/etapa4.html?qa=1');await mp.waitForFunction(()=>window.Etapa4?.loaded);await mp.screenshot({path:out+'/6_movil_menu.png'});await mp.evaluate(()=>{__e4.begin(4);__e4.step(30);__e4.render();});await mp.screenshot({path:out+'/6_movil_calle.png'});await mp.evaluate(()=>{__e4.begin(2);__e4.step(30);__e4.render();});await mp.screenshot({path:out+'/6_movil_huincha.png'});await m.close();
+ const m=await b.newContext({viewport:{width:844,height:390},isMobile:true,hasTouch:true,deviceScaleFactor:2});const mp=await m.newPage();await unlock(mp,3);mp.on('pageerror',e=>errors.push(String(e)));await mp.goto(B+'etapa4.html?qa=1');await mp.waitForFunction(()=>window.Etapa4?.loaded);await mp.screenshot({path:out+'/6_movil_menu.png'});await mp.evaluate(()=>{__e4.begin(4);__e4.step(30);__e4.render();});await mp.screenshot({path:out+'/6_movil_calle.png'});await mp.evaluate(()=>{__e4.begin(2);__e4.step(30);__e4.render();});await mp.screenshot({path:out+'/6_movil_huincha.png'});await m.close();
  r.errores=errors;console.log(JSON.stringify(r,null,1));assert.equal(errors.length,0,'Errores de página: '+errors.join(' | '));
 }finally{await b.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

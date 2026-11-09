@@ -1,12 +1,12 @@
 /* Progreso de campaña separado de los puntos de control de cada etapa. */
 (() => {
 'use strict';
-const M=window.Magdaleno,key='magdaleno_campaign_v1',paths=['','index.html','etapa2.html','etapa3.html'];
+const M=window.Magdaleno,key='magdaleno_campaign_v1',paths=['','index.html','etapa2.html','etapa3.html','etapa4.html'],last=4;
 const stage=Number(document.documentElement.dataset.campaignStage||1);
 const C=M.campaign={key,stage},heroes=M.order;
 let record={version:1,completed:0,hero:null},gate=null,permanent=false;
 const read=k=>{try{return JSON.parse(localStorage.getItem(k)||'null');}catch{return null;}};
-const valid=r=>r?.version===1&&Number.isInteger(r.completed)&&r.completed>=0&&r.completed<=3&&(r.hero===null||heroes.includes(r.hero));
+const valid=r=>r?.version===1&&Number.isInteger(r.completed)&&r.completed>=0&&r.completed<=last&&(r.hero===null||heroes.includes(r.hero));
 const nonnegative=n=>Number.isFinite(n)&&n>=0;
 
 // Reconoce los formatos previos, sin modificar ni borrar sus puntos de control.
@@ -41,12 +41,12 @@ function sync(){
  if(record.completed>0)persist();
  return record;
 }
-C.canEnter=n=>Number.isInteger(n)&&n>=1&&n<=3&&n<=sync().completed+1;
-C.snapshot=()=>({...sync(),unlocked:Math.min(3,record.completed+1)});
+C.canEnter=n=>Number.isInteger(n)&&n>=1&&n<=last&&n<=sync().completed+1;
+C.snapshot=()=>({...sync(),unlocked:Math.min(last,record.completed+1)});
 C.href=(n,hero=record.hero)=>paths[n]+(heroes.includes(hero)?'?hero='+encodeURIComponent(hero):'');
 C.complete=(n,hero)=>{if(!C.canEnter(n))return false;record={version:1,completed:Math.max(record.completed,n),hero:heroes.includes(hero)?hero:record.hero};persist();C.refresh();return true;};
 
-function reason(n){return n===2?'Completa la etapa 1, en la montaña, para continuar hacia Parral.':record.completed<1?'Completa primero la etapa 1 y después la etapa 2 para llegar a Buenos Aires.':'Completa la etapa 2, en Parral, para subir al scooter.';}
+function reason(n){return n===4?(record.completed<2?'Completa las etapas anteriores para llegar a la última.':'Completa la etapa 3, en Buenos Aires, para seguir con la última.'):n===2?'Completa la etapa 1, en la montaña, para continuar hacia Parral.':record.completed<1?'Completa primero la etapa 1 y después la etapa 2 para llegar a Buenos Aires.':'Completa la etapa 2, en Parral, para subir al scooter.';}
 function closeGate(){if(!gate)return;gate.remove();gate=null;document.querySelector('main').inert=false;document.documentElement.classList.remove('campaign-locked');}
 C.showGate=(n,required=false)=>{
  sync();if(gate)gate.remove();permanent=required;
@@ -63,15 +63,15 @@ C.refresh=()=>{
  sync();document.documentElement.dataset.campaignReady='true';
  document.querySelectorAll('a[href]').forEach(link=>{
   const url=new URL(link.href,location.href);if(url.origin!==location.origin)return;
-  const name=url.pathname.split('/').at(-1),n=name==='etapa2.html'?2:name==='etapa3.html'?3:0;if(!n)return;
+  const name=url.pathname.split('/').at(-1),n=paths.indexOf(name);if(n<2)return;
   const locked=n>record.completed+1;link.dataset.campaignLink=n;link.setAttribute('aria-disabled',String(locked));link.classList.toggle('campaign-link-locked',locked);link.title=locked?reason(n):'Etapa '+n+' disponible';
  });
- document.querySelectorAll('[data-campaign-status]').forEach(label=>{label.textContent=record.completed===3?'CAMPAÑA COMPLETADA · PUEDES REPETIR LAS TRES ETAPAS':'CAMPAÑA · '+record.completed+'/3 ETAPAS COMPLETADAS';});
+ document.querySelectorAll('[data-campaign-status]').forEach(label=>{label.textContent=record.completed===last?'CAMPAÑA COMPLETADA · PUEDES REPETIR LAS CUATRO ETAPAS':'CAMPAÑA · '+record.completed+'/'+last+' ETAPAS COMPLETADAS';});
  document.querySelectorAll('.campaign-nav a').forEach(link=>{const n=Number(link.dataset.stage);link.href=C.href(n);link.textContent='ETAPA '+n+(n>record.completed+1?' · BLOQUEADA':n<=record.completed?' · ✓':' · JUGAR');if(n===stage)link.setAttribute('aria-current','page');});
  if(stage>record.completed+1){if(!gate||permanent)C.showGate(stage,true);}else if(gate&&permanent)closeGate();
 };
-const menu=document.querySelector('#title-screen .selection-heading,#start-menu .runner-heroes');
-if(menu){const nav=document.createElement('nav');nav.className='campaign-nav';nav.setAttribute('aria-label','Progreso de la campaña');const status=document.createElement('span');status.dataset.campaignStatus='';nav.append(status);for(let n=1;n<=3;n++){const link=document.createElement('a');link.href=paths[n];link.dataset.stage=n;nav.append(link);}menu.before(nav);}
+const menu=document.querySelector('#title-screen .selection-heading,#start-menu .runner-heroes,#e4-title .runner-heroes');
+if(menu){const nav=document.createElement('nav');nav.className='campaign-nav';nav.setAttribute('aria-label','Progreso de la campaña');const status=document.createElement('span');status.dataset.campaignStatus='';nav.append(status);for(let n=1;n<=last;n++){const link=document.createElement('a');link.href=paths[n];link.dataset.stage=n;nav.append(link);}menu.before(nav);}
 document.addEventListener('click',event=>{const link=event.target.closest('a[data-campaign-link]');if(link&&!C.canEnter(Number(link.dataset.campaignLink))){event.preventDefault();event.stopImmediatePropagation();C.showGate(Number(link.dataset.campaignLink),stage>record.completed+1);}},true);
 document.addEventListener('keydown',event=>{if(!gate)return;if(event.key==='Escape'&&!permanent){closeGate();return;}if(event.key==='Tab'){const items=[...gate.querySelectorAll('a,button')],first=items[0],last=items.at(-1);if(event.shiftKey&&(document.activeElement===first||document.activeElement===gate)){event.preventDefault();last.focus();}else if(!event.shiftKey&&(document.activeElement===last||document.activeElement===gate)){event.preventDefault();first.focus();}}});
 window.addEventListener('storage',event=>{if([key,M.SAVE_KEY,'magdaleno_parral_v1','magdaleno_scooter_v1',null].includes(event.key))C.refresh();});

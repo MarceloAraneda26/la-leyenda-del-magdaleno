@@ -1,5 +1,15 @@
 # Desarrollo por etapas
 
+## Capítulo jugable 4: los recuerdos y el último Magdaleno · 0.10.0
+
+- [x] Botella falsa, huincha con los seis recuerdos escolares, regreso con reflexión y llegada del equipo.
+- [x] Camino a los arcades contra pasteros y viejas sapas, con tres tramos, puntos de control y ayudas del equipo.
+- [x] PONG a 5 puntos contra Don Mario y final compartiendo el Magdaleno.
+- [x] Se desbloquea al cerrar la etapa 3 y completa la campaña de cuatro etapas. [Jugar](etapa4.html) · [Diseño](ETAPA_4.md).
+- [x] Prueba de recorrido en `tools/etapa4-check.cjs`.
+- [ ] Revisión de los textos base por parte del usuario.
+- [ ] Prueba con personas y teléfonos físicos.
+
 ## Conversaciones de cierre · 0.9.3
 
 - [x] Conversación en El Vecino para enlazar la huida con la salida en scooters.

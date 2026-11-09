@@ -1,6 +1,6 @@
 # Etapa 4 · Los recuerdos y el último Magdaleno
 
-Estado: diseño con prototipo local, 8 de noviembre de 2026. El prototipo está en `prototipo/etapa4.html` y no está en producción: `tools/build-web.cjs` no copia esa carpeta ni este documento. Lo marcado como **confirmado** viene del usuario; lo marcado como **propuesta** está por decidir.
+Estado: publicada en la versión 0.10.0 (8 de noviembre de 2026) en `etapa4.html`. Se desbloquea al terminar la etapa 3. Los textos son la versión base y quedan por revisar.
 
 Nota de nombres: en `ETAPAS.md` las secciones «Etapa 4A» y «Etapa 4B» son fases del desarrollo, no esta cuarta etapa del juego.
 
@@ -193,9 +193,9 @@ Escritos con las muletillas y el tono que el juego ya usa para cada uno. En cada
 | Pallo | La wea po weon. El Magdaleno no es el objetivo. Lo importante es con quién lo compartimos. |
 | Coté | Ya entendí. El Magdaleno nunca fue lo importante. Lo importante es con quién lo compartimos. |
 
-## Prototipo local
+## Implementación
 
-Para abrirlo hay que levantar el servidor local (`node tools/server.cjs`) y entrar a `http://127.0.0.1:4173/prototipo/etapa4.html`. El menú permite elegir protagonista y saltar a cualquiera de las seis partes.
+Se juega en `etapa4.html` y el código está en `src/etapa4.js`, `src/etapa4-data.js`, `src/etapa4-draw.js` y `etapa4.css`. Al completar la campaña, el menú permite saltar a cualquiera de las seis partes.
 
 Qué incluye:
 - **Parte 1:** conversación de la botella falsa en El Muñeco y entrada de la camanchaca.
@@ -210,11 +210,11 @@ Qué incluye:
 
 Controles: ← → caminar, Espacio saltar, Z golpear, ↑ ↓ en el PONG, Esc pausa. En celular aparecen botones táctiles según la parte.
 
-Prueba automática: `node prototipo/etapa4-check.cjs [protagonista]` recorre las seis partes con controles normales y guarda capturas en `qa/etapa4/`. Con Marcelo, Tobi y Pallo terminó sin errores de página: 6 recuerdos, calle en unos 51 s simulados sin morir y PONG ganado 5 a 0. El bot del PONG sigue la pelota a la perfección, así que ese marcador no mide la dificultad para una persona.
+Prueba automática: `node tools/etapa4-check.cjs [protagonista]` recorre las seis partes con controles normales y guarda capturas en `qa/etapa4/`. Con Marcelo, Tobi y Pallo terminó sin errores de página: 6 recuerdos, calle en unos 51 s simulados sin morir y PONG ganado 5 a 0. El bot del PONG sigue la pelota a la perfección, así que ese marcador no mide la dificultad para una persona.
 
-Limitaciones del prototipo:
+Limitaciones actuales:
 - Figuras, escenarios, Don Mario, pasteros y viejas sapas están dibujados por código como borrador. Las figuras escolares reutilizan la cara de los sprites actuales.
-- Sin guardado, música propia ni integración con la campaña lineal.
+- Sin guardado a mitad de etapa ni música propia.
 - Duración real menor a la estimada: la calle y el PONG son cortos.
 - Balance sin probar con personas.
 
@@ -230,4 +230,4 @@ Limitaciones del prototipo:
 
 ## Próximo paso
 
-Revisar los comentarios base. Con eso se puede pasar este borrador a `ETAPA_4.md` y armar un prototipo local, sin publicarlo, empezando por un recuerdo de la huincha y el PONG.
+Revisar los comentarios base. La etapa ya está publicada con esos textos; cualquier ajuste se hace en `src/etapa4-data.js`.

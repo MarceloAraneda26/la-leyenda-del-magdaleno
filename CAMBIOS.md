@@ -1,5 +1,15 @@
 # Cambios de versión
 
+## 0.10.0: etapa 4 · 8 de noviembre de 2026
+
+- Nueva etapa 4, «Los recuerdos y el último Magdaleno», en `etapa4.html`: botella falsa, huincha con un recuerdo escolar por amigo, regreso con reflexión, camino a los arcades contra pasteros y viejas sapas, PONG contra Don Mario y final compartiendo el Magdaleno.
+- El recuerdo del protagonista va al final de la huincha y cada comentario cambia según quién mira. Frente a cada recuerdo se camina más lento para alcanzar a leer.
+- Tres tramos con puntos de control, ayudas por turno del equipo y el grito de Coté. Revancha ilimitada en el PONG.
+- La campaña pasa a cuatro etapas: el cierre de la etapa 3 ofrece seguir a la 4 y la etapa 4 completa la campaña. Al terminarla, el menú de la etapa permite ir directo a cada parte.
+- Controles de teclado y táctiles, aviso para girar el celular, pausa con Esc o P y recursos incluidos en la caché sin conexión.
+- La etapa no guarda la partida a mitad de camino: al salir se vuelve a empezar desde la botella.
+- Prueba de recorrido en `tools/etapa4-check.cjs`.
+
 ## 0.9.4: Vecino Clandestino · 7 de noviembre de 2026
 
 - El botillero se presenta como «Vecino Clandestino».

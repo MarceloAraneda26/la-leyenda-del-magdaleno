@@ -1,4 +1,4 @@
-/* Prototipo local de la etapa 4: textos y datos. Todo el texto es la versión base de ETAPA_4.md, para ajustar. */
+/* Etapa 4: textos y datos. Los textos son la versión base de ETAPA_4.md. */
 (() => {'use strict';
 const E=window.Etapa4={};
 E.heroes=['marcelo','ruzio','pulga','tobi','pallo'];

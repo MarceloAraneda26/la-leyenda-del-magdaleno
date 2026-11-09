@@ -1,4 +1,4 @@
-/* Prototipo etapa 4: figuras escolares, escenas de recuerdos, enemigos y Don Mario. Todo dibujado por código. */
+/* Etapa 4: figuras escolares, escenas de recuerdos, enemigos y Don Mario. Todo dibujado por código. */
 (() => {'use strict';
 const M=window.Magdaleno,E=window.Etapa4,D=E.draw={};
 const C={pants:'#6c717a',pantsDark:'#53585f',sweater:'#1e2c4f',sweaterDark:'#16213d',shirt:'#e9e4d6',shoe:'#15171c',skin:'#c99c7c',skinDark:'#ad8063',burdeo:'#6e1f33',burdeoLight:'#8f2b44',blazer:'#1b2647',gold:'#d6b45f'};
