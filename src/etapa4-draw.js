@@ -184,21 +184,52 @@ D.prop=function(g,kind,x,G,t){
   R(g,x+150,228,20,28,'#ffd94f');R(g,x+170,234,6,14,'#ffd94f');R(g,x+150,228,20,6,'#fff3d6');g.restore();R(g,x+20,286,74,62,'#1a2028');g.save();g.globalAlpha=.6;R(g,x+24,290,66,54,'#e0b05a');g.restore();R(g,x+55,290,2,54,'#1a2028');R(g,x+120,300,54,G-300,'#1a2028');R(g,x+124,304,46,50,'#e0b05a30');return;}};
 // Farol con cono de luz.
 D.lamp=function(g,x,G,t){R(g,x,250,6,G-250,'#3a4048');R(g,x,250,30,5,'#3a4048');R(g,x+22,253,16,7,'#ffe39a');g.save();g.globalAlpha=.1+Math.sin(t*3+x)*.01;P(g,[[x+24,260],[x+36,260],[x+76,G],[x-16,G]],'#ffe39a');g.restore();};
-// Don Mario: 50 a 60 años, pelo canoso largo y ondulado, barba gris, polera gris sin mangas y short rojo.
-D.mario=function(g,x,y,o={}){const k=(o.h||150)/150,t=o.t||0;g.save();g.translate(Math.round(x),Math.round(y));g.scale(k*(o.dir||1),k);
- R(g,-14,-52,11,44,'#c49473');R(g,4,-52,11,44,'#c49473');R(g,-16,-8,15,8,'#3a3330');R(g,3,-8,15,8,'#3a3330');
- R(g,-18,-76,37,26,'#c8323a');R(g,-18,-60,37,4,'#a8282f');R(g,-2,-76,3,20,'#a8282f');
- R(g,-20,-124,40,50,'#8d9196');R(g,-20,-124,40,6,'#7c8085');R(g,-12,-124,24,8,'#c49473');
- const arm=o.give!=null?-1.35*o.give:o.wave?Math.sin(t*6)*.5-1.4:0;g.save();g.translate(-25,-120);R(g,0,0,8,40,'#c49473');R(g,0,40,8,8,'#b4846a');g.restore();g.save();g.translate(20,-120);g.rotate(arm);R(g,0,0,8,40,'#c49473');R(g,0,40,8,8,'#b4846a');if(o.bottle){R(g,-2,44,12,26,'#5a2a18');R(g,1,36,6,10,'#5a2a18');R(g,0,52,10,8,'#e6d29a');}g.restore();
- for(let i=0;i<7;i++){const wv=Math.sin(t*2+i*1.3)*1.5+(i%2?2:0);R(g,-21-wv,-160+i*7,8,9,i%2?'#cfccc6':'#dedcd7');R(g,13+wv,-160+i*7,8,9,i%2?'#dedcd7':'#cfccc6');}
- R(g,-14,-160,28,34,'#c49473');R(g,-16,-168,32,9,'#e0ded9');R(g,-12,-171,10,4,'#d3d0ca');R(g,2,-171,11,4,'#d3d0ca');R(g,-15,-160,6,6,'#d6d4cf');R(g,9,-160,6,6,'#d6d4cf');
- R(g,-9,-152,7,2,'#bdbab4');R(g,3,-152,7,2,'#bdbab4');R(g,-7,-148,4,4,'#1d1d1d');R(g,4,-148,4,4,'#1d1d1d');R(g,-1,-146,3,7,'#ad8064');
- R(g,-11,-139,22,4,'#a9a6a0');R(g,-13,-136,26,12,'#bcb9b3');R(g,-10,-124,20,6,'#bcb9b3');R(g,-6,-118,12,4,'#a9a6a0');R(g,-4,-134,8,3,'#7b4b45');g.restore();};
+// Don Mario: unos 60 años, melena larga, crespa y abultada, castaño oscuro con canas; barba gris oscura;
+// polera gris sin mangas, short rojo y zapatillas blancas. Se dibuja con contorno como los enemigos.
+const MARIO={skin:'#c49473',skinSh:'#a97c5f',hair:'#35261e',hairHi:'#5a4433',gray:'#8a847e',grayDk:'#665e57',beard:'#55524e',beardHi:'#7a7672',beardDk:'#3d3a37'};
+// Mechones crespos: bloques que juntos forman la melena; el contorno les da borde de nube.
+const MARIO_BACK=[[-186,12],[-181,20],[-176,26],[-170,31],[-164,34],[-158,36],[-152,37],[-146,38],[-140,38],[-134,37],[-128,36],[-122,35],[-116,33],[-110,31]].map(([y,hw],i)=>{const j=[0,2,-1,1,-2,1][i%6];return[-hw+j,y,hw*2-j+(i%3?1:-1),7];}).concat([[-33,-106,12,10],[-19,-104,11,9],[-6,-105,10,8],[8,-104,11,9],[21,-106,12,10]]);
+const MARIO_FRONT=[[-16,-176,15,12],[1,-176,15,12],[-21,-170,10,10],[11,-170,10,10],[-20,-164,8,40],[12,-164,8,40],[-27,-130,12,24],[15,-130,12,24]];
+function curls(g,c,list,sw,grey){const ink=c('x')===INK;for(const [x0,y0,w,h] of list){const x=x0+(x0<-10?-sw:x0>4?sw:0);R(g,x,y0,w,h,c(MARIO.hair));if(ink)continue;
+ for(let yy=y0+1,r=0;yy<y0+h-2;yy+=4,r++)for(let xx=x+1+(r&1)*3;xx<x+w-3;xx+=6){const n=((xx*73+yy*151)%16+16)%16,hi=n<grey?MARIO.gray:n<grey+2?MARIO.grayDk:MARIO.hairHi;R(g,xx,yy,3,1,hi);R(g,xx-1,yy+1,1,2,hi);R(g,xx+1,yy+2,2,1,'#21160f');}}}
+D.mario=function(g,x,y,o={}){const k=(o.h||150)/150,t=o.t||0,S=MARIO;g.save();g.translate(Math.round(x),Math.round(y));g.scale(k*(o.dir||1),k);
+ const sw=Math.round(Math.sin(t*2)*1.2),arm=o.give!=null?-1.35*o.give:o.wave?Math.sin(t*6)*.5-1.4:0;
+ outlined(g,c=>{
+  // Melena por detrás de la espalda.
+  curls(g,c,MARIO_BACK,sw,2);
+  // Brazo de atrás.
+  R(g,-28,-120,8,40,c(S.skin));R(g,-28,-120,3,40,c(S.skinSh));R(g,-28,-80,8,8,c('#b4846a'));
+  // Piernas, calcetines y zapatillas blancas.
+  for(const lx of [-13,3]){R(g,lx,-50,10,40,c(S.skin));R(g,lx,-50,3,40,c(S.skinSh));R(g,lx+3,-32,5,2,c(S.skinSh));R(g,lx,-14,10,5,c('#f0ede6'));
+   R(g,lx-2,-10,16,7,c('#f2efe8'));R(g,lx+10,-8,4,5,c('#e4e0d6'));R(g,lx+3,-8,6,2,c('#9aa0a8'));R(g,lx-2,-3,16,3,c('#c9c3b6'));}
+  // Short rojo.
+  P(g,[[-18,-78],[19,-78],[21,-48],[2,-48],[1,-58],[-1,-58],[-2,-48],[-19,-48]],c('#c8323a'));P(g,[[-18,-78],[-11,-78],[-12,-48],[-19,-48]],c('#a8282f'));R(g,-18,-78,37,4,c('#a8282f'));R(g,10,-70,6,1,c('#8f2128'));
+  // Hombros y polera gris sin mangas, con algo de guata.
+  R(g,-21,-126,9,10,c(S.skin));R(g,13,-126,9,10,c(S.skin));
+  P(g,[[-12,-130],[12,-130],[15,-118],[20,-110],[22,-92],[23,-80],[21,-74],[-21,-74],[-23,-80],[-22,-92],[-20,-110],[-15,-118]],c('#8d9196'));
+  P(g,[[-12,-130],[-7,-130],[-12,-112],[-15,-92],[-15,-74],[-21,-74],[-23,-80],[-22,-92],[-20,-110],[-15,-118]],c('#777b80'));
+  R(g,-21,-77,42,3,c('#6f7378'));R(g,4,-96,12,1,c('#7c8085'));R(g,-6,-130,12,6,c(S.skin));R(g,-7,-125,14,2,c('#7c8085'));
+  // Cuello y cara.
+  R(g,-6,-136,12,8,c(S.skinSh));R(g,-13,-166,26,34,c(S.skin));R(g,-13,-166,4,34,c('#b0805f'));
+  R(g,-6,-159,12,1,c(S.skinSh));
+  R(g,-10,-155,8,2,c('#3f3a36'));R(g,2,-155,8,2,c('#3f3a36'));R(g,-9,-151,6,3,c('#efe8de'));R(g,3,-151,6,3,c('#efe8de'));R(g,-7,-151,3,3,c('#1d1d1d'));R(g,5,-151,3,3,c('#1d1d1d'));
+  R(g,-11,-149,2,1,c(S.skinSh));R(g,10,-149,2,1,c(S.skinSh));R(g,-1,-149,4,9,c('#ad8064'));R(g,2,-142,2,2,c('#94694f'));
+  // Barba gris oscura con bigote.
+  P(g,[[-14,-143],[14,-143],[14,-130],[9,-121],[3,-117],[-3,-117],[-9,-121],[-14,-130]],c(S.beard));R(g,-10,-142,20,4,c(S.beardDk));
+  if(c('x')!==INK){for(let yy=-138,r=0;yy<-121;yy+=3,r++)for(let xx=-12+(r&1)*3;xx<11;xx+=5)if(Math.abs(xx+1)<13-(yy>-130?(yy+130)*1.2:0)){const n=((xx*31+yy*17)%8+8)%8;R(g,xx,yy,n<3?2:1,2,n<3?S.beardHi:S.beardDk);}}
+  R(g,-4,-135,8,2,c('#6e3e38'));
+  // Melena por delante: chasquilla partida al medio y mechones que caen sobre los hombros.
+  curls(g,c,MARIO_FRONT,sw,4);R(g,-1,-176,2,10,c('#21160f'));
+  // Brazo de adelante (gira para saludar o entregar la botella).
+  g.save();g.translate(20,-120);g.rotate(arm);R(g,0,0,8,40,c(S.skin));R(g,5,0,3,40,c(S.skinSh));R(g,0,40,8,8,c('#b4846a'));
+  if(o.bottle){R(g,-2,44,12,26,c('#5a2a18'));R(g,1,36,6,10,c('#5a2a18'));R(g,0,52,10,8,c('#e6d29a'));}g.restore();
+ });
+ g.restore();};
 // Mano del brazo que entrega (misma transformación que D.mario), para pasar la botella de mano en mano.
 D.marioHand=(x,y,o={})=>{const k=(o.h||150)/150,dir=o.dir||1,a=-1.35*(o.give||0),lx=20+4*Math.cos(a)-44*Math.sin(a),ly=-120+4*Math.sin(a)+44*Math.cos(a);return{x:x+lx*k*dir,y:y+ly*k};};
 // Retrato de diálogo de 96 px.
 D.portrait=function(c,id){const g=c.getContext('2d');g.imageSmoothingEnabled=false;g.clearRect(0,0,96,96);g.fillStyle='#203748';g.fillRect(0,0,96,96);const img=M.images[id],b=M.bounds[id];
  if(img&&b){const sw=b.w*.64,sh=b.h*.34,k=Math.min(88/sw,90/sh);g.drawImage(img,b.x+(b.w-sw)/2,b.y,sw,sh,(96-sw*k)/2,96-sh*k,sw*k,sh*k);return;}
- if(id==='mario'){g.save();g.translate(48,224);g.scale(1.25,1.25);D.mario(g,0,0,{h:150});g.restore();return;}
+ if(id==='mario'){g.save();g.translate(48,234);g.scale(1.25,1.25);D.mario(g,0,0,{h:150});g.restore();return;}
  if(id==='camanchaca'){for(let i=0;i<7;i++){g.fillStyle=['#82979d','#9daaad','#aeb8b6'][i%3];g.fillRect(6+i%3*3,12+i*9,75-i%2*12,12);}g.fillStyle='#dce0cc';g.fillRect(21,30,9,6);g.fillRect(63,30,9,6);}};
 })();

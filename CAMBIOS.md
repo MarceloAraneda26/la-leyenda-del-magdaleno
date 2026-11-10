@@ -1,5 +1,11 @@
 # Cambios de versión
 
+## 0.10.8: nuevo aspecto de Don Mario · 9 de noviembre de 2026
+
+- Don Mario tiene unos 60 años, melena larga, crespa y abultada, castaño oscuro con canas, partida al medio y cayendo sobre los hombros, y barba gris oscura con bigote.
+- Polera gris sin mangas, short rojo y zapatillas blancas, con contorno oscuro y sombreado como los enemigos y los amigos.
+- El retrato del diálogo se ajustó para que la melena quepa. La botella sigue pasando de su mano a la del protagonista.
+
 ## 0.10.7: caras de escolares sin barba · 9 de noviembre de 2026
 
 - En los seis recuerdos de colegio los amigos mantienen su cara de adulto, pero sin barba ni bigote. Se rellenan con el tono de piel de cada uno y se dibuja una boca simple donde quedaba tapada.

@@ -77,7 +77,7 @@ El protagonista despierta en Buenos Aires, frente a El Muñeco, sin saber cuánt
 
 ## Parte 5 · El PONG contra Don Mario
 
-**Confirmado:** Don Mario es una leyenda urbana, un personaje de ficción del juego. Tiene entre 50 y 60 años, pelo canoso, largo y ondulado, barba grisácea, polera gris sin mangas y short rojo. Para entregar el Magdaleno hay que ganarle en un PONG en su máquina arcade.
+**Confirmado:** Don Mario es una leyenda urbana, un personaje de ficción del juego. Tiene unos 60 años, melena larga, crespa y abultada de rockero, castaño oscuro con canas, barba gris oscura, polera gris sin mangas, short rojo y zapatillas blancas (definido por el usuario el 9 de noviembre de 2026). Para entregar el Magdaleno hay que ganarle en un PONG en su máquina arcade.
 
 **Propuesta:**
 - La pantalla de la máquina ocupa el escenario, con estética retro.

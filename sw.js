@@ -1,5 +1,5 @@
 /* Solo recursos del juego. Los vídeos del tráiler no se precargan. */
-const CACHE='magdaleno-mobile-0.10.7';
+const CACHE='magdaleno-mobile-0.10.8';
 const FILES=['./','./index.html','./styles.css','./mobile.css','./campaign.css','./story.css','./src/story-data.js','./src/story.js','./src/campaign.js','./manifest.webmanifest','./src/data.js','./assets/bounds.js','./src/core.js','./src/render.js','./src/enemies.js','./src/visuals.js','./src/powers.js','./src/melee.js','./src/game.js','./src/chapter.js','./src/soundtrack.js','./src/mobile.js','./assets/marcelo.png','./assets/ruzio.png','./assets/pulga.png','./assets/tobi.png','./assets/pallo.png','./assets/carabinero.webp','./assets/matahombres.webp','./assets/icon-192.png','./assets/icon-512.png','./movil.html','./etapa2.html','./etapa2.css','./src/runner-data.js','./src/runner-render.js','./src/runner.js','./assets/cote.png'];
 FILES.push('./etapa4.html','./etapa4.css','./src/etapa4-data.js','./src/etapa4-draw.js','./src/etapa4.js');
 FILES.push('./trailer.html','./etapa3.html','./etapa3.css','./src/scooter-data.js','./src/scooter-assists.js','./src/scooter-render.js','./src/scooter.js');
