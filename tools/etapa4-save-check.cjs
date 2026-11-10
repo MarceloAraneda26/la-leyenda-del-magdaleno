@@ -22,7 +22,7 @@ const B=process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/',out=path.join(_
  r.pongAntes=await p.evaluate(()=>__e4.mode());k=await reload();assert(k.texto.includes('EL PONG'),k.texto);await p.click('#e4-continue');
  r.pong=await p.evaluate(()=>({mode:__e4.mode(),me:__e4.pg.me,him:__e4.pg.him}));assert.deepEqual(r.pong,{mode:'pong',me:0,him:0});
  // Final.
- await p.evaluate(()=>__e4.begin(6));k=await reload();assert(k.texto.includes('EL FINAL'),k.texto);await p.click('#e4-continue');await p.waitForTimeout(1300);await p.evaluate(()=>__e4.step(80));r.final=await p.isVisible('#e4-end');assert(r.final);
+ await p.evaluate(()=>__e4.begin(6));k=await reload();assert(k.texto.includes('EL FINAL'),k.texto);await p.click('#e4-continue');await p.waitForTimeout(1300);await p.evaluate(()=>__e4.step(60*6));r.saltarVisible=await p.isVisible('#e4-skip');await p.click('#e4-skip');await p.evaluate(()=>__e4.step(2));r.final=await p.isVisible('#e4-end');assert(r.saltarVisible&&r.final);
  // Empezar de nuevo pide confirmación y no borra al primer toque.
  await p.click('#e4-again');await p.click('#e4-start');r.confirmacion=await p.textContent('#e4-start');assert.match(r.confirmacion,/BORRAR/);r.sigueEnMenu=await p.isVisible('#e4-title');assert(r.sigueEnMenu);
  // Guardado inválido: se descarta.

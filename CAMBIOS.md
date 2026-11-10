@@ -1,5 +1,13 @@
 # Cambios de versión
 
+## 0.10.5: entrega, brindis y créditos · 9 de noviembre de 2026
+
+- Al ganar el PONG, Don Mario extiende el brazo y le pasa la botella al protagonista, que la levanta: «EL ÚLTIMO MAGDALENO».
+- En la mesa, cada amigo toma su vaso, lo levanta y saltan juntos con el «¡SALUD!», entre papel picado.
+- Créditos con los cinco amigos y Coté, las cuatro etapas, los personajes que aparecen y el protagonista de la partida. Se pueden saltar con «SALTAR CRÉDITOS →», Enter, E o espacio.
+- La campaña se registra como completada al llegar a la mesa, antes de los créditos. La pantalla final indica «Campaña completada: 4 de 4 etapas» y el protagonista.
+- Las pruebas de recorrido y guardado cubren la entrega, el brindis, los créditos y su salto.
+
 ## 0.10.4: PONG más grande en celular · 9 de noviembre de 2026
 
 - En pantallas táctiles el campo del PONG ocupa casi todo el lienzo (700 de ancho en vez de 540). En un celular de 844×390 la pelota pasa de unos 9 a 13 píxeles y en uno de 568×320, de 7 a 10,5. La pelota deja una estela suave para seguirla mejor.

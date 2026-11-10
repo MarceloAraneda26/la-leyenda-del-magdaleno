@@ -12,6 +12,8 @@
 - [x] Huincha con pausa en cada recuerdo y avance con SEGUIR (0.10.2).
 - [x] Combate con el arma y la definitiva de cada protagonista, ayudas distintas del equipo y aviso del chisme, con su prueba en `tools/etapa4-combat-check.cjs` (0.10.3).
 - [x] PONG más grande en celular, con su prueba en `tools/etapa4-pong-check.cjs` (0.10.4).
+- [x] Entrega de la botella, brindis con reacciones y créditos al cerrar la campaña (0.10.5).
+- [ ] Cierre del «favor» de la Vieja Califa y continuidad con los acompañantes de la etapa 3 (por definir con el usuario).
 - [ ] Revisión de los textos base por parte del usuario.
 - [ ] Prueba con personas y teléfonos físicos.
 

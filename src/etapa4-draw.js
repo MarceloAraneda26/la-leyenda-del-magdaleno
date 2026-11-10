@@ -96,11 +96,13 @@ D.mario=function(g,x,y,o={}){const k=(o.h||150)/150,t=o.t||0;g.save();g.translat
  R(g,-14,-52,11,44,'#c49473');R(g,4,-52,11,44,'#c49473');R(g,-16,-8,15,8,'#3a3330');R(g,3,-8,15,8,'#3a3330');
  R(g,-18,-76,37,26,'#c8323a');R(g,-18,-60,37,4,'#a8282f');R(g,-2,-76,3,20,'#a8282f');
  R(g,-20,-124,40,50,'#8d9196');R(g,-20,-124,40,6,'#7c8085');R(g,-12,-124,24,8,'#c49473');
- const arm=o.wave?Math.sin(t*6)*.5-1.4:0;g.save();g.translate(-25,-120);R(g,0,0,8,40,'#c49473');R(g,0,40,8,8,'#b4846a');g.restore();g.save();g.translate(20,-120);g.rotate(arm);R(g,0,0,8,40,'#c49473');R(g,0,40,8,8,'#b4846a');if(o.bottle){R(g,-2,44,12,26,'#5a2a18');R(g,1,36,6,10,'#5a2a18');R(g,0,52,10,8,'#e6d29a');}g.restore();
+ const arm=o.give!=null?-1.35*o.give:o.wave?Math.sin(t*6)*.5-1.4:0;g.save();g.translate(-25,-120);R(g,0,0,8,40,'#c49473');R(g,0,40,8,8,'#b4846a');g.restore();g.save();g.translate(20,-120);g.rotate(arm);R(g,0,0,8,40,'#c49473');R(g,0,40,8,8,'#b4846a');if(o.bottle){R(g,-2,44,12,26,'#5a2a18');R(g,1,36,6,10,'#5a2a18');R(g,0,52,10,8,'#e6d29a');}g.restore();
  for(let i=0;i<7;i++){const wv=Math.sin(t*2+i*1.3)*1.5+(i%2?2:0);R(g,-21-wv,-160+i*7,8,9,i%2?'#cfccc6':'#dedcd7');R(g,13+wv,-160+i*7,8,9,i%2?'#dedcd7':'#cfccc6');}
  R(g,-14,-160,28,34,'#c49473');R(g,-16,-168,32,9,'#e0ded9');R(g,-12,-171,10,4,'#d3d0ca');R(g,2,-171,11,4,'#d3d0ca');R(g,-15,-160,6,6,'#d6d4cf');R(g,9,-160,6,6,'#d6d4cf');
  R(g,-9,-152,7,2,'#bdbab4');R(g,3,-152,7,2,'#bdbab4');R(g,-7,-148,4,4,'#1d1d1d');R(g,4,-148,4,4,'#1d1d1d');R(g,-1,-146,3,7,'#ad8064');
  R(g,-11,-139,22,4,'#a9a6a0');R(g,-13,-136,26,12,'#bcb9b3');R(g,-10,-124,20,6,'#bcb9b3');R(g,-6,-118,12,4,'#a9a6a0');R(g,-4,-134,8,3,'#7b4b45');g.restore();};
+// Mano del brazo que entrega (misma transformación que D.mario), para pasar la botella de mano en mano.
+D.marioHand=(x,y,o={})=>{const k=(o.h||150)/150,dir=o.dir||1,a=-1.35*(o.give||0),lx=20+4*Math.cos(a)-44*Math.sin(a),ly=-120+4*Math.sin(a)+44*Math.cos(a);return{x:x+lx*k*dir,y:y+ly*k};};
 // Retrato de diálogo de 96 px.
 D.portrait=function(c,id){const g=c.getContext('2d');g.imageSmoothingEnabled=false;g.clearRect(0,0,96,96);g.fillStyle='#203748';g.fillRect(0,0,96,96);const img=M.images[id],b=M.bounds[id];
  if(img&&b){const sw=b.w*.64,sh=b.h*.34,k=Math.min(88/sw,90/sh);g.drawImage(img,b.x+(b.w-sw)/2,b.y,sw,sh,(96-sw*k)/2,96-sh*k,sw*k,sh*k);return;}

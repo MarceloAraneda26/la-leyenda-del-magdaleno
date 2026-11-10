@@ -45,11 +45,13 @@ function street(g,cam,{neon=false,end=0}={}){const sky=g.createLinearGradient(0,
 function muneco(cam){street(g,cam);const x=520-cam;R(g,x,190,360,G-190,'#4d3a33');R(g,x,190,360,14,'#2e2320');R(g,x+30,210,300,40,'#1a1416');T(g,'EL MUÑECO',x+180,240,26,'#f0c27a');R(g,x+40,280,120,90,'#d6a35b');for(let i=0;i<4;i++)R(g,x+52+i*28,292,10,30,'#5a2a18');R(g,x+210,300,80,G-300,'#21181a');}
 function fogLayer(a){if(a<=0)return;g.save();g.globalAlpha=Math.min(1,a);g.fillStyle='#9daaad';g.fillRect(0,0,W,H);g.restore();g.save();g.globalAlpha=Math.min(.8,a);for(let i=0;i<14;i++){const x=(i*173+time*30*(i%3+1))%(W+300)-150,y=60+(i*71)%420;g.fillStyle=['#82979d','#aeb8b6','#c3cbc8'][i%3];g.beginPath();g.ellipse(x,y,170,40,0,0,Math.PI*2);g.fill();}g.restore();}
 function drawBottle(x,y){R(g,x,y,10,24,'#5a2a18');R(g,x+3,y-8,4,9,'#5a2a18');R(g,x+1,y+8,8,7,'#e6d29a');}
-function updateCut(dt){cs.t+=dt;if(cs.sub==='fog'){cs.fog=Math.min(1.2,.15+cs.t*.7);if(cs.t>1.6)startHuincha();}if(cs.sub==='return')cs.fog=Math.max(0,1-cs.t*.8);if(cs.sub==='share'&&cs.t>.9&&$('e4-end').hidden){M.campaign.complete(4,hero);$('e4-end').hidden=false;$('e4-again').focus({preventScroll:true});}}
+function updateCut(dt){cs.t+=dt;if(cs.sub==='fog'){cs.fog=Math.min(1.2,.15+cs.t*.7);if(cs.t>1.6)startHuincha();}if(cs.sub==='return')cs.fog=Math.max(0,1-cs.t*.8);if(cs.sub==='give'&&cs.t>3.4)part6();
+ if(cs.sub==='share'){if(!cs.done){cs.done=true;M.campaign.complete(4,hero);}if(!cs.salud&&cs.t>1.9){cs.salud=true;M.audio.sfx('win');}if(cs.t>5.2)startCredits();}
+ if(cs.sub==='credits'&&(cs.skip||M.tap('interact')||M.tap('jump')||M.tap('attack')||cs.t>creditsTime()+2.5))endCredits();}
 function drawCut(){if(cs.sub==='bottle'||cs.sub==='fog'){muneco(0);M.character(hero,360,G,140,{time,dir:1});drawBottle(382,G-78);fogLayer(cs.fog);return;}
  if(cs.sub==='return'){muneco(0);const list=others(),shown=dlg?Math.max(0,dlg.i):list.length;M.character(hero,360,G,140,{time,dir:1});if(dlg&&dlg.i===0)T(g,'?',360,G-160,30,'#ffe39a');list.slice(0,shown).forEach((id,i)=>M.character(id,i<3?120+i*72:560+(i-3)*80,G,id==='cote'?132:136,{time,dir:i<3?1:-1}));fogLayer(cs.fog);return;}
  if(cs.sub==='black'){R(g,0,0,W,H,'#000');return;}
- if(cs.sub==='share')drawShare();}
+ if(cs.sub==='give')drawGive();if(cs.sub==='share')drawShare(cs.t);if(cs.sub==='credits')drawCredits();if(cs.sub==='end')drawShare(4.4);}
 // ---------- Parte 2: la huincha de recuerdos ----------
 const hu={};
 function startHuincha(seen=[]){const order=E.memoryOrder.filter(id=>id!==hero).concat([hero]);hu.frames=order.map((id,i)=>({id,x:820+i*720,t:0,seen:seen.includes(id)?1:0}));const next=hu.frames.find(f=>!f.seen);hu.x=next?Math.max(160,next.x-340):hu.frames.at(-1).x+320;save('huincha',{seen:hu.frames.filter(f=>f.seen).map(f=>f.id)});hu.focus=null;hu.ready=false;hu.go=false;hu.end=hu.frames.at(-1).x+560;hu.dir=1;hu.walk=false;hu.leaving=0;view.x=0;setMode('huincha');caption(E.enter[hero]);hu.greet=time+4.5;}
@@ -171,7 +173,7 @@ function updatePong(dt){if(pg.over)return;const k=pg.k,half=36*pg.sy,br=7*k,up=M
  const hit=(px,py,dir)=>{if(Math.sign(b.vx)!==-dir)return;if(Math.abs(b.x-px)<14*k&&Math.abs(b.y-py)<half+6*k){b.vx=dir*Math.min(640*pg.sx,Math.abs(b.vx)*1.07);b.vy=(b.y-py)/(40*pg.sy)*330*pg.sy;b.x=px+dir*14*k;M.audio.tone(dir>0?520:390,dir>0?520:390,.05);if(dir>0)pg.err=(rand()-.5)*(60+Math.abs(b.vx)/pg.sx*.16)*pg.sy;}};
  hit(F.x+24*k,pg.py,1);hit(F.x+F.w-24*k,pg.my,-1);
  if(b.x<F.x){pg.him++;pg.ball=null;pg.wait=1;M.audio.sfx('hurt');}else if(b.x>F.x+F.w){pg.me++;pg.ball=null;pg.wait=1;M.audio.sfx('checkpoint');}
- if(pg.me>=E.pong.target){pg.over=true;say([['mario',E.mario.win],['hero','Gracias, Don Mario. Esta vez sabemos qué hacer con él.']],part6,{location:'ARCADES DON MARIO',last:'COMPARTIR EL MAGDALENO'});}
+ if(pg.me>=E.pong.target){pg.over=true;say([['mario',E.mario.win],['hero','Gracias, Don Mario. Esta vez sabemos qué hacer con él.']],partGive,{location:'ARCADES DON MARIO',last:'RECIBIR EL MAGDALENO'});}
  else if(pg.him>=E.pong.target){pg.over=true;say([['mario',E.mario.lose]],()=>{pongReset();},{location:'ARCADES DON MARIO',last:'REVANCHA'});}}
 function drawPong(){const k=pg.k,t=pg.touch,bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#160f26');bg.addColorStop(1,'#2a1d3d');g.fillStyle=bg;g.fillRect(0,0,W,H);for(let i=0;i<5;i++){R(g,20+i*200,120,120,300,'#21183a');R(g,34+i*200,140,92,70,'#5be3ff22');}
  R(g,F.x-40,F.y-56,F.w+80,F.h+150,'#3a2457');R(g,F.x-40,F.y-56,F.w+80,10,'#ff4fa3');R(g,F.x-14,F.y-14,F.w+28,F.h+28,'#0d0a12');R(g,F.x,F.y,F.w,F.h,'#04060a');
@@ -183,16 +185,43 @@ function drawPong(){const k=pg.k,t=pg.touch,bg=g.createLinearGradient(0,0,0,H);b
  R(g,F.x-40,F.y+F.h+30,F.w+80,64,'#2b1b42');T(g,E.names[hero].toUpperCase(),F.x+60,F.y+F.h+66,14,'#f0ca8a');T(g,'DON MARIO',F.x+F.w-60,F.y+F.h+66,14,'#ff8fd0');
  M.character(hero,100,H-10,150,{time,dir:1});D.mario(g,875,H-10,{h:176,t:time,dir:-1});}
 // ---------- Parte 6: final ----------
-function part6(){save('final');cs.sub='black';cs.t=0;setMode('cut');caption('');setTimeout(()=>{cs.sub='share';cs.t=0;},qa?0:900);}
-function drawShare(){const bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#2b1d38');bg.addColorStop(1,'#5a3a3c');g.fillStyle=bg;g.fillRect(0,0,W,H);for(let i=0;i<4;i++){R(g,40+i*240,110,150,250,'#21183a');R(g,56+i*240,130,118,80,'#5be3ff2a');}R(g,0,G,W,H-G,'#3a2a2e');
+function part6(){save('final');cs.sub='black';cs.t=0;cs.done=false;cs.salud=false;setMode('cut');caption('');setTimeout(()=>{cs.sub='share';cs.t=0;},qa?0:900);}
+// Cierre: Don Mario entrega la botella, el grupo brinda y pasan los créditos.
+const ease=v=>{v=M.clamp(v,0,1);return v*v*(3-2*v);};
+// Pose del brazo de adelante para recibir, levantar o brindar; sin herramienta.
+const armRig=(a,b)=>({variant:'toast',front:[a,b],back:null,crouch:0,lean:0,lift:0,jump:0,scale:1,tool:null});
+function arcadeRoom(){const bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#2b1d38');bg.addColorStop(1,'#5a3a3c');g.fillStyle=bg;g.fillRect(0,0,W,H);for(let i=0;i<4;i++){R(g,40+i*240,110,150,250,'#21183a');R(g,56+i*240,130,118,80,'#5be3ff2a');}R(g,0,G,W,H-G,'#3a2a2e');}
+function glass(x,y){R(g,x-5,y-13,10,15,'#e6eef4b8');R(g,x-4,y-7,8,8,'#c98a3a');}
+function rays(x,y,k){g.save();g.globalAlpha=.55*k;for(let i=0;i<10;i++){const a=i*Math.PI/5+time*.8,r=34+Math.sin(time*6+i)*6;R(g,x+Math.cos(a)*r-3,y+Math.sin(a)*r-3,6,6,i%2?'#ffe39a':'#ffb35c');}g.restore();}
+function partGive(){save('final');cs.sub='give';cs.t=0;cs.skip=false;setMode('cut');caption('');}
+function drawGive(){arcadeRoom();const t=cs.t,give=ease((t-.3)/.7)*(1-ease((t-2.4)/.6)),mo={h:176,t:time,dir:-1,give};D.mario(g,640,G,mo);
+ const recv=ease((t-.9)/.5),lift=ease((t-2.0)/.6);M.character(hero,400,G,150,{time,dir:1,rig:armRig(M.lerp(M.lerp(.12,1.25,recv),2.45,lift),M.lerp(M.lerp(.2,.35,recv),.05,lift))});
+ const mh=D.marioHand(640,G,mo),hh=M.rigOut[hero]?.front||{x:440,y:G-60},u=ease((t-1.1)/.7),bx=M.lerp(mh.x,hh.x,u),by=M.lerp(mh.y,hh.y,u)-Math.sin(u*Math.PI)*40;
+ if(lift>0)rays(bx,by-6,lift);drawBottle(bx-5,by-14);
+ if(t>2.1){g.save();g.globalAlpha=ease((t-2.1)/.4);T(g,'EL ÚLTIMO MAGDALENO',W/2,120,30,'#ffe39a');g.restore();}}
+// Brindis: cada uno toma su vaso, lo levanta y salta con el «¡SALUD!». t fijo deja la escena quieta detrás del cierre.
+function drawShare(t){arcadeRoom();
  g.save();g.globalAlpha=.25;g.fillStyle='#ffd9a0';g.beginPath();g.ellipse(W/2,G-60,360,140,0,0,Math.PI*2);g.fill();g.restore();
- R(g,W/2-110,G-70,220,12,'#7b5c3a');R(g,W/2-100,G-58,10,58,'#5f4630');R(g,W/2+90,G-58,10,58,'#5f4630');drawBottle(W/2-5,G-104);for(let i=0;i<6;i++)R(g,W/2-96+i*36,G-86,10,16,'#e6eef4b0');
- const group=[hero,...others()];group.forEach((id,i)=>{const side=i%2?1:-1,slot=Math.floor(i/2),x=W/2+side*(170+slot*70),dir=-side;M.character(id,x,G,id==='cote'?136:140,{time,dir});});}
+ R(g,W/2-110,G-70,220,12,'#7b5c3a');R(g,W/2-100,G-58,10,58,'#5f4630');R(g,W/2+90,G-58,10,58,'#5f4630');drawBottle(W/2-5,G-104);if(t<1)for(let i=0;i<6;i++)glass(W/2-91+i*36,G-72);
+ const group=[hero,...others()];group.forEach((id,i)=>{const side=i%2?1:-1,slot=Math.floor(i/2),x=W/2+side*(170+slot*70),dir=-side,raise=ease((t-1-i*.08)/.5),h=t-1.9-i*.06,hop=h>0&&h<.45?Math.sin(h/.45*Math.PI)*18:0;
+  M.character(id,x,G-hop,id==='cote'?136:140,{time,dir,air:hop>0,rig:armRig(M.lerp(.12,2.15,raise),M.lerp(.2,.1,raise))});if(t>=1){const p=M.rigOut[id]?.front;if(p)glass(p.x,p.y);}});
+ if(t>1.9){const k=ease((t-1.9)/.3);rays(W/2,G-215,k);g.save();g.globalAlpha=k;T(g,'¡SALUD!',W/2,140,40+Math.max(0,1-(t-1.9)*3)*12,'#ffe39a');g.restore();
+  const cols=['#ffe39a','#ff8fd0','#7ec7a4','#6aa7d8','#e07a5f'];for(let i=0;i<46;i++){const x=(i*211)%W+Math.sin(time*2+i)*14,y=((t-1.9)*130+i*53)%(G-40);R(g,x,y,5,5,cols[i%5]);}}}
+function creditLines(){let y=0;return E.credits.map(([text,kind])=>{if(kind==='head')y+=30;if(kind==='title'&&y)y+=50;const line={text:text.replace('{hero}',E.names[hero].toUpperCase()),kind,y};y+={title:70,head:30,name:36,line:30}[kind];return line;});}
+const CREDIT_SPEED=52;
+// Los textos nacen justo sobre el grupo (y = H-100) y se detienen con la última línea al centro.
+function creditsTime(){const l=creditLines(),last=l[l.length-1].y;return(H/2-80+last)/CREDIT_SPEED;}
+function startCredits(){cs.sub='credits';cs.t=0;cs.skip=false;$('e4-skip').hidden=false;}
+function endCredits(){cs.sub='end';$('e4-skip').hidden=true;$('e4-end-note').textContent='Campaña completada: 4 de 4 etapas · Protagonista: '+E.names[hero];$('e4-end').hidden=false;$('e4-again').focus({preventScroll:true});}
+function drawCredits(){const bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#0b1020');bg.addColorStop(1,'#241634');g.fillStyle=bg;g.fillRect(0,0,W,H);const sr=M.rng(91);for(let i=0;i<70;i++)R(g,sr()*W,sr()*H,2,2,'#9fb2c8');
+ const lines=creditLines(),last=lines[lines.length-1].y,scroll=Math.min(cs.t*CREDIT_SPEED,H/2-80+last),style={title:[30,'#f0ca8a'],head:[13,'#8fa5b5'],name:[22,'#e8f4ff'],line:[16,'#d8cfb7']};
+ for(const l of lines){const y=H-100+l.y-scroll;if(y<-40||y>H-100)continue;const [size,col]=style[l.kind];g.save();g.globalAlpha=M.clamp((y-40)/60,0,1)*M.clamp((H-100-y)/40,0,1);T(g,l.text,W/2,y,size,col);g.restore();}
+ [hero,...others()].forEach((id,i)=>M.character(id,W/2-190+i*76,H-14,id==='cote'?66:70,{time,dir:1,alpha:.9}));}
 // ---------- Menú y bucle ----------
-function toTitle(){refreshContinue();$('e4-parts').hidden=!(M.campaign.snapshot().completed>=4);setMode('title');caption('');$('e4-end').hidden=true;$('e4-dialog').hidden=true;dlg=null;$('e4-title').hidden=false;}
+function toTitle(){refreshContinue();$('e4-parts').hidden=!(M.campaign.snapshot().completed>=4);setMode('title');caption('');$('e4-end').hidden=true;$('e4-skip').hidden=true;$('e4-dialog').hidden=true;dlg=null;$('e4-title').hidden=false;}
 function begin(part){if(!M.campaign.require(4))return;$('e4-title').hidden=true;$('e4-end').hidden=true;M.audio.init();({1:part1,2:startHuincha,3:part3,4:()=>startStreet(0),5:startPongIntro,6:part6})[part]();}
 function heroButtons(){const box=$('e4-heroes');box.innerHTML='';for(const id of E.heroes){const b=document.createElement('button');b.type='button';b.textContent=E.names[id].toUpperCase();b.setAttribute('aria-pressed',String(id===hero));b.onclick=()=>{hero=id;heroButtons();};box.append(b);}}
-$('e4-start').onclick=()=>M.confirmRestart($('e4-start'),!!readSave(),()=>begin(1));$('e4-continue').onclick=resumeSave;$('e4-hu-next').onclick=()=>{if(hu.focus&&hu.ready)hu.go=true;};document.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>begin(+b.dataset.part));$('e4-again').onclick=toTitle;
+$('e4-start').onclick=()=>M.confirmRestart($('e4-start'),!!readSave(),()=>begin(1));$('e4-continue').onclick=resumeSave;$('e4-hu-next').onclick=()=>{if(hu.focus&&hu.ready)hu.go=true;};document.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>begin(+b.dataset.part));$('e4-again').onclick=toTitle;$('e4-skip').onclick=()=>{cs.skip=true;};
 function update(dt){if(M.tap('pause')&&M.state==='play'){M.pause();return;}if(mode==='cut')updateCut(dt);else if(mode==='huincha')updateHuincha(dt);else if(mode==='street')updateStreet(dt);else if(mode==='pong')updatePong(dt);const c=$('e4-caption');if(c.dataset.until&&time>+c.dataset.until)caption('');}
 function render(){if(mode==='title'){street(g,time*20);fogLayer(.25);}else if(mode==='cut')drawCut();else if(mode==='huincha')drawHuincha();else if(mode==='street')drawStreet();else if(mode==='pong')drawPong();}
 // El reloj solo avanza cuando el juego corre: en pausa no vencen avisos ni temporizadores.

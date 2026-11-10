@@ -18,7 +18,14 @@ const B=process.env.MAGDALENO_BASE_URL||'http://127.0.0.1:4173/',hero=process.ar
  r.calle=res;assert.equal(res.mode,'pong');
  // PONG: el bot sigue la pelota.
  await shot('4_pong_inicio');await drain();const pong=await p.evaluate(()=>{const a=__e4;let f=0,matches=0;while(f++<60*300){const pg=a.pg;if(a.dialog()){a.next();matches++;continue;}if(a.mode()!=='pong')break;const target=pg.ball?pg.ball.y:300;a.key('ArrowUp',target<pg.py-8);a.key('ArrowDown',target>pg.py+8);a.step(1);if(f===600)a.render();}a.key('ArrowUp',false);a.key('ArrowDown',false);return{frames:f,me:a.pg.me,him:a.pg.him,mode:a.mode(),dialogs:matches};});
- r.pong=pong;await p.evaluate(()=>__e4.step(80));await shot('5_final');assert.equal(await p.evaluate(()=>!document.getElementById('e4-end').hidden),true);
+ r.pong=pong;
+ // Cierre: entrega de Don Mario, brindis, créditos (se saltan con Enter) y pantalla final.
+ await p.evaluate(()=>__e4.step(110));await shot('5_entrega');await p.evaluate(()=>__e4.step(100));await p.waitForTimeout(50);await p.evaluate(()=>__e4.step(140));await shot('5_brindis');
+ r.campanaAntesDeCreditos=await p.evaluate(()=>__e4.M.campaign.snapshot().completed);await p.evaluate(()=>__e4.step(260));await shot('5_creditos');
+ r.creditos=await p.evaluate(()=>({sub:__e4.cs.sub,saltar:!document.getElementById('e4-skip').hidden}));
+ await p.evaluate(()=>{const a=__e4;a.key('Enter',true);a.step(1);a.key('Enter',false);a.step(2);});await shot('5_final');
+ r.cierre=await p.evaluate(()=>({sub:__e4.cs.sub,fin:!document.getElementById('e4-end').hidden,nota:document.getElementById('e4-end-note').textContent,saltar:!document.getElementById('e4-skip').hidden}));
+ assert.equal(r.campanaAntesDeCreditos,4);assert.deepEqual(r.creditos,{sub:'credits',saltar:true});assert(r.cierre.fin&&!r.cierre.saltar&&/4 de 4/.test(r.cierre.nota),JSON.stringify(r.cierre));
  // Mitad de una pelea, para revisar enemigos.
  await p.evaluate(()=>{__e4.begin(4);__e4.key('ArrowRight',true);__e4.step(170);__e4.key('ArrowRight',false);__e4.step(200);});await shot('4_calle_pelea');
  await p.evaluate(()=>{__e4.begin(5);});await drain();await p.evaluate(()=>{__e4.step(200);});await shot('4_pong_juego');
