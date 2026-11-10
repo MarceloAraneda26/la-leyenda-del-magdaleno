@@ -1,8 +1,8 @@
 {
-  "gameVersion": "0.10.5",
+  "gameVersion": "0.10.6",
   "saveSchema": 1,
   "stage3SaveSchema": 2,
-  "stage": "12.5: entrega, brindis y créditos del final",
+  "stage": "12.6: arte de enemigos y ciudad en la etapa 4",
   "date": "2026-11-09",
   "campaignSaveSchema": 1,
   "stage4SaveSchema": 1

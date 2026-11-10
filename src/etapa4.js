@@ -37,9 +37,15 @@ function resumeSave(){const r=readSave();if(!r||!M.campaign.require(4))return fa
 const cs={sub:'',t:0,fog:0};
 function part1(){cs.sub='bottle';cs.t=0;cs.fog=.15;setMode('cut');caption('');say(E.fakeBottle,()=>{cs.sub='fog';cs.t=0;},{location:'BOTILLERÍA EL MUÑECO · BUENOS AIRES',last:'ENTRAR A LA CAMANCHACA'});}
 function part3(){save('regreso');cs.sub='return';cs.t=0;cs.fog=1;setMode('cut');caption('');const lines=[['hero',E.reflection[hero]],...others().map(id=>[id,E.arrive[id]])];setTimeout(()=>{if(mode==='cut'&&cs.sub==='return')say(lines,()=>startStreet(0),{location:'BUENOS AIRES · DE VUELTA EN EL PRESENTE',last:'IR DONDE DON MARIO'});},qa?0:900);}
-function street(g,cam,{neon=false,end=0}={}){const sky=g.createLinearGradient(0,0,0,G);sky.addColorStop(0,'#0e1a30');sky.addColorStop(1,'#3a3550');g.fillStyle=sky;g.fillRect(0,0,W,H);const sr=M.rng(77);for(let i=0;i<60;i++)R(g,(sr()*2400-cam*.05)%W+(sr()<0?W:0),sr()*230,2,2,'#9fb2c8');
+// Con props (solo en la calle de la parte 4) aparecen postes, faroles, hitos de cada tramo y el brillo de neón al acercarse a los arcades.
+const HOUSE_PAL=[['#5e6f7c','#7a6658','#5d6a59','#6b5f72'],['#6f7a5a','#8a7458','#5f7468','#7c6a5a'],['#3d3a52','#47405e','#3a4658','#4a3c50']];
+function street(g,cam,{neon=false,end=0,props=null}={}){const sky=g.createLinearGradient(0,0,0,G);sky.addColorStop(0,'#0e1a30');sky.addColorStop(1,'#3a3550');g.fillStyle=sky;g.fillRect(0,0,W,H);const sr=M.rng(77);for(let i=0;i<60;i++)R(g,(sr()*2400-cam*.05)%W+(sr()<0?W:0),sr()*230,2,2,'#9fb2c8');
+ const glow=props?M.clamp((cam-3300)/1900,0,1):0;if(glow>0){const gr=g.createLinearGradient(0,110,0,300);gr.addColorStop(0,'#ff4fa300');gr.addColorStop(1,'#ff4fa3');g.save();g.globalAlpha=glow*.35;g.fillStyle=gr;g.fillRect(0,110,W,190);g.restore();}
  for(let i=-1;i<9;i++){const x=i*150-(cam*.4)%150;R(g,x,250,130,G-250,'#24304a');R(g,x+18,280,26,30,'#3c4a66');R(g,x+76,280,26,30,i%3?'#c69957':'#3c4a66');}
- for(let i=-1;i<6;i++){const wx=i*260-(cam%260),hue=['#5e6f7c','#7a6658','#5d6a59','#6b5f72'][((Math.floor(cam/260)+i)%4+4)%4];R(g,wx,215,230,G-215,hue);R(g,wx-6,205,242,14,'#3b3437');R(g,wx+24,270,46,52,'#2a3140');R(g,wx+28,274,38,44,((i+Math.floor(cam/260))%2)?'#d4a75e':'#38465c');R(g,wx+140,300,40,G-300,'#2c2522');R(g,wx+150,270,52,22,'#2a3140');}
+ if(props){for(let i=-1;i<5;i++){const px=i*340-(cam*.7)%340;R(g,px,168,7,G-168,'#2b2630');R(g,px-14,176,35,4,'#2b2630');}R(g,0,182,W,1,'#1d1a22');R(g,0,190,W,1,'#1d1a22');}
+ for(let i=-1;i<6;i++){const wx=i*260-(cam%260),n=Math.floor(cam/260)+i,world=n*260,tr=!props?0:world<2000?0:world<3900?1:2,hue=HOUSE_PAL[tr][(n%4+4)%4];R(g,wx,215,230,G-215,hue);R(g,wx-6,205,242,14,'#3b3437');R(g,wx+24,270,46,52,'#2a3140');R(g,wx+28,274,38,44,(n%2)?(tr===2?'#5be3ff80':'#d4a75e'):'#38465c');R(g,wx+140,300,40,G-300,'#2c2522');R(g,wx+150,270,52,22,'#2a3140');}
+
+ if(props){for(const p of props){const sx=p.x-cam;if(sx>W+10||sx+D.PROP_W[p.kind]<-10)continue;D.prop(g,p.kind,sx,G,time);}for(let lx=300+Math.floor((cam-400)/520)*520;lx<cam+W+60;lx+=520)if(lx>=300)D.lamp(g,lx-cam,G,time);}
  R(g,0,G,W,H-G,'#3a3f48');R(g,0,G,W,8,'#8f8d86');for(let i=0;i<12;i++)R(g,i*96-(cam%96),G+46,48,5,'#d8cf9a');
  if(end){const x=end-cam;R(g,x-30,170,420,G-170,'#1c1630');R(g,x-30,170,420,16,'#2f2547');const glow=.6+Math.sin(time*5)*.25;g.globalAlpha=glow;R(g,x-8,190,376,46,'#ff4fa3');g.globalAlpha=1;R(g,x-2,196,364,34,'#1c1630');T(g,'ARCADES DON MARIO',x+180,222,24,'#ff8fd0');R(g,x+120,300,120,G-300,'#0c0a14');R(g,x+128,308,104,G-316,'#5be3ff30');for(let i=0;i<3;i++){R(g,x+i*130-6,260,70,32,'#5be3ff');R(g,x+i*130-2,264,62,24,'#132033');}}}
 function muneco(cam){street(g,cam);const x=520-cam;R(g,x,190,360,G-190,'#4d3a33');R(g,x,190,360,14,'#2e2320');R(g,x+30,210,300,40,'#1a1416');T(g,'EL MUÑECO',x+180,240,26,'#f0c27a');R(g,x+40,280,120,90,'#d6a35b');for(let i=0;i<4;i++)R(g,x+52+i*28,292,10,30,'#5a2a18');R(g,x+210,300,80,G-300,'#21181a');}
@@ -126,7 +132,7 @@ function updateStreet(dt){const p=st.p,S=E.street;if(st.dead){if(time-st.dead>1.
  const lo=st.lock?st.lock.left+40:40,hi=st.lock?st.lock.right-40:S.length-40;p.x=M.clamp(p.x,lo,hi);
  if(p.atk>0){p.atk=Math.max(0,p.atk-dt);let n=0;for(const e of st.enemies){if(e.flee||p.hits.has(e)||!weaponHits(p,boxOf(e)))continue;p.hits.add(e);hitEnemy(e,1,p.x);n++;}if(n){p.energy=Math.min(100,p.energy+Math.min(8,n*4));M.audio.melee(hero,'impact');}}
  // Puntos de control al entrar a un tramo nuevo.
- S.tramos.forEach((tr,i)=>{if(i>st.tramo&&p.x>=tr.start){st.tramo=i;p.hp=100;save('calle',{tramo:i});caption('TRAMO '+(i+1)+' DE 3 · PUNTO DE CONTROL',3);}});
+ S.tramos.forEach((tr,i)=>{if(i>st.tramo&&p.x>=tr.start){st.tramo=i;p.hp=100;save('calle',{tramo:i});caption('TRAMO '+(i+1)+' DE 3 · '+tr.name+' · PUNTO DE CONTROL',3);}});
  if(!st.lock){const w=st.waves.find(w=>!w.spawned&&p.x>=w.at);if(w)spawn(w);}
  for(const e of st.enemies){e.t+=dt;e.hurt=Math.max(0,e.hurt-dt);e.sayT=Math.max(0,e.sayT-dt);const dx=p.x-e.x,ad=Math.abs(dx);
   if(e.flee){e.x+=e.face*340*dt;continue;}if(e.stun>0){e.stun-=dt;e.walk=false;continue;}e.face=Math.sign(dx)||e.face;e.cd-=dt;e.walk=false;
@@ -145,7 +151,7 @@ function updateStreet(dt){const p=st.p,S=E.street;if(st.dead){if(time-st.dead>1.
  st.fx.forEach(f=>f.t-=dt);st.fx=st.fx.filter(f=>f.t>0);
  if(!st.lock&&p.ult<=0&&st.waves.every(w=>w.done)&&p.x>=S.door){startPongIntro();return;}
  const cam=M.clamp(p.x-400,0,S.length-W);view.x=st.lock?M.clamp(cam,st.lock.left,st.lock.right-W):cam;}
-function drawStreet(){const p=st.p;g.save();if(st.shake>0)g.translate((Math.random()-.5)*st.shake,(Math.random()-.5)*st.shake);street(g,view.x,{end:E.street.door-120});
+function drawStreet(){const p=st.p;g.save();if(st.shake>0)g.translate((Math.random()-.5)*st.shake,(Math.random()-.5)*st.shake);street(g,view.x,{end:E.street.door-120,props:E.street.props});
  st.comp.forEach(c=>{const hop=c.act>0?Math.sin((.6-c.act)/.6*Math.PI)*26:0;M.character(c.id,c.x-view.x,G-hop,c.id==='cote'?112:116,{time,walk:Math.abs(c.x-(p.x-p.face*80))>8,dir:p.face,alpha:.92});});
  for(const e of st.enemies){const x=e.x-view.x;if(x<-80||x>W+80)continue;const o={t:e.t,dir:e.face,walk:e.walk||e.flee,hurt:e.hurt>0,wind:e.wind>0||e.windT>0,strike:e.strike>0,throw:e.throwT>0};if(e.kind==='pastero')D.pastero(g,x,e.y,o);else D.sapa(g,x,e.y,o);
   if(e.stun>0)for(let i=0;i<3;i++){const a=time*6+i*2.1;R(g,x+Math.cos(a)*16-3,e.y-132+Math.sin(a)*4,6,6,'#ffe39a');}
@@ -158,7 +164,7 @@ function drawStreet(){const p=st.p;g.save();if(st.shake>0)g.translate((Math.rand
  g.restore();
  const ready=p.energy>=100;R(g,18,16,262,64,'#0b192ad8');T(g,E.names[hero].toUpperCase(),30,36,14,'#f0ca8a','left');R(g,30,44,220,8,'#2a3a48');R(g,30,44,220*p.hp/100,8,p.hp>35?'#7ec7a4':'#e07a5f');
  R(g,30,57,220,6,'#2a3a48');R(g,30,57,220*p.energy/100,6,ready?'#f0ca8a':'#6aa7d8');T(g,ready?(touchMQ.matches?'DEFINITIVA LISTA · ★':'DEFINITIVA LISTA · V'):'ENERGÍA',30,75,10,ready?'#f0ca8a':'#8fa5b5','left');
- const btn=$('e4-ult');if(btn&&btn.classList.contains('is-ready')!==ready)btn.classList.toggle('is-ready',ready);T(g,'TRAMO '+(st.tramo+1)+' / 3',W-24,36,14,'#d8cfb7','right');}
+ const btn=$('e4-ult');if(btn&&btn.classList.contains('is-ready')!==ready)btn.classList.toggle('is-ready',ready);T(g,'TRAMO '+(st.tramo+1)+' / 3 · '+E.street.tramos[st.tramo].name,W-24,36,14,'#d8cfb7','right');}
 // ---------- Parte 5: PONG contra Don Mario ----------
 // En pantallas táctiles el campo ocupa casi todo el lienzo, la pelota crece y las paletas mantienen su proporción; las velocidades se escalan con el campo para que el partido dure lo mismo.
 const pg={k:1,sx:1,sy:1};const F={x:210,y:96,w:540,h:350};

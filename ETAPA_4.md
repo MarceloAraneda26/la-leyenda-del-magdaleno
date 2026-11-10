@@ -205,6 +205,7 @@ Qué incluye:
   - Tres tramos con dos oleadas cada uno contra pasteros (cuerpo a cuerpo) y viejas sapas (lanzan chismes que hay que saltar; desde 0.10.3 levantan el brazo con un «!» medio segundo antes).
   - Desde 0.10.3 el protagonista pelea con su arma de la etapa 1 (Z) y carga energía para su definitiva (V), con el mismo efecto que en la etapa 1.
   - Los enemigos huyen con una frase al ser derrotados.
+  - Desde 0.10.6 los tramos se llaman El Barrio, La Plaza y La Avenida, cada uno con sus lugares, y los enemigos tienen contorno y sombreado como los amigos.
   - El equipo ayuda por turnos, cada uno a su manera: Marcelo aturde, Ruzio golpea el suelo, Pulga remata, Tobi empuja, Pallo cura y Coté espanta con su «CORREEEE!!».
 - **Parte 5:** PONG a 5 puntos contra Don Mario, con revancha si pierdes. Desde 0.10.4, en celular el campo, la pelota y las paletas se ven más grandes.
 - **Parte 6:** desde 0.10.5, Don Mario entrega la botella con un gesto, el grupo brinda con «¡SALUD!» y pasan los créditos, que se pueden saltar. La campaña queda registrada como completada al llegar a la mesa.

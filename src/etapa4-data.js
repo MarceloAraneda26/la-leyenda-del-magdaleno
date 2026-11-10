@@ -28,6 +28,8 @@ E.credits=[['LA LEYENDA DEL MAGDALENO','title'],['LOS CINCO','head'],['MARCELO �
 E.mario={hello:'Nadie se lleva el último Magdaleno sin ganarme una partida.',lose:'¿Otra? La máquina no se cansa y yo tampoco.',win:'Hace años que nadie me ganaba. Llévenselo, pero compártanlo.'};
 E.flee={pastero:['¡YA, YA, ME VOY!','¡NO ERA PA TANTO!','¡ME ACORDÉ DE ALGO!'],sapa:['¡LE VOY A CONTAR A TU MAMÁ!','¡QUÉ ESCÁNDALO!','¡ESTO LO SABE TODA LA CUADRA!']};
 // Parte 4: tres tramos con dos oleadas cada uno; el tramo es el punto de control.
-E.street={length:5600,ground:455,tramos:[{start:120,waves:[{at:700,list:['pastero','pastero']},{at:1450,list:['sapa','pastero','pastero']}]},{start:2000,waves:[{at:2500,list:['sapa','sapa','pastero']},{at:3200,list:['pastero','pastero','pastero','sapa']}]},{start:3900,waves:[{at:4300,list:['pastero','pastero','sapa','sapa']},{at:5000,list:['pastero','pastero','pastero','sapa','sapa']}]}],door:5450};
+E.street={length:5600,ground:455,tramos:[{name:'EL BARRIO',start:120,waves:[{at:700,list:['pastero','pastero']},{at:1450,list:['sapa','pastero','pastero']}]},{name:'LA PLAZA',start:2000,waves:[{at:2500,list:['sapa','sapa','pastero']},{at:3200,list:['pastero','pastero','pastero','sapa']}]},{name:'LA AVENIDA',start:3900,waves:[{at:4300,list:['pastero','pastero','sapa','sapa']},{at:5000,list:['pastero','pastero','pastero','sapa','sapa']}]}],door:5450,
+ // Hitos de cada tramo (posición del borde izquierdo en el mundo).
+ props:[{x:330,kind:'almacen'},{x:1020,kind:'paradero'},{x:1640,kind:'auto'},{x:2150,kind:'plaza'},{x:2950,kind:'kiosco'},{x:3450,kind:'paradero'},{x:4020,kind:'fuente'},{x:4520,kind:'auto'},{x:4780,kind:'schop'}]};
 E.pong={target:5};
 })();

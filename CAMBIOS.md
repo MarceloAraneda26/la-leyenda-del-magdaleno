@@ -1,5 +1,14 @@
 # Cambios de versión
 
+## 0.10.6: arte de enemigos y ciudad · 9 de noviembre de 2026
+
+- Pasteros y viejas sapas con contorno oscuro y sombreado, como los sprites de los amigos. Brazos con mano y brazo de atrás visible.
+- El pastero echa el brazo atrás antes del golpe y lo lanza al frente con líneas de impulso. La vieja sapa levanta el papel del chisme antes de lanzarlo, mueve la boca al hablar y lleva lentes, rulos y cartera.
+- Cada tramo tiene nombre y lugares propios: El Barrio (almacén, paradero y auto), La Plaza (árboles, banca, letrero y kiosco) y La Avenida (fuente de soda y schop con letreros de neón). Las casas cambian de color por tramo.
+- Faroles con luz, postes con cables y un brillo rosado en el horizonte que crece al acercarse a los arcades.
+- El indicador de tramo y el aviso de punto de control muestran el nombre del tramo.
+- Prueba de capturas en `tools/etapa4-art-check.cjs`.
+
 ## 0.10.5: entrega, brindis y créditos · 9 de noviembre de 2026
 
 - Al ganar el PONG, Don Mario extiende el brazo y le pasa la botella al protagonista, que la levanta: «EL ÚLTIMO MAGDALENO».
