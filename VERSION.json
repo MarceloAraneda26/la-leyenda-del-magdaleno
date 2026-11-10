@@ -1,9 +1,9 @@
 {
-  "gameVersion": "0.10.2",
+  "gameVersion": "0.10.3",
   "saveSchema": 1,
   "stage3SaveSchema": 2,
-  "stage": "12.2: huincha con pausa en cada recuerdo",
-  "date": "2026-11-08",
+  "stage": "12.3: combate con armas y definitivas en la etapa 4",
+  "date": "2026-11-09",
   "campaignSaveSchema": 1,
   "stage4SaveSchema": 1
 }

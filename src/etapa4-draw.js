@@ -89,8 +89,8 @@ D.pastero=function(g,x,y,o){const t=o.t||0,dir=o.dir||1,sw=o.walk?Math.sin(t*9):
 D.sapa=function(g,x,y,o){const t=o.t||0,dir=o.dir||1,sw=o.walk?Math.sin(t*8):0;g.save();g.translate(Math.round(x),Math.round(y));g.scale(dir,1);if(o.hurt)g.globalAlpha=.6+Math.sin(t*60)*.4;
  R(g,-10+sw*3,-26,8,20,'#c99c7c');R(g,2-sw*3,-26,8,20,'#c99c7c');R(g,-13+sw*3,-6,13,6,'#d985a8');R(g,1-sw*3,-6,13,6,'#d985a8');
  P(g,[[-16,-82],[16,-82],[22,-24],[-22,-24]],'#8fb7d6');for(let i=0;i<6;i++)R(g,-16+i*6,-74+(i%3)*14,4,4,'#e6eef4');R(g,-14,-56,28,22,'#e9e1d0');
- g.save();g.translate(14,-78);g.rotate(o.throw?-2:.3);R(g,-3,0,7,26,'#8fb7d6');R(g,-3,26,7,6,'#c99c7c');g.restore();R(g,-20,-78,7,24,'#8fb7d6');
- R(g,-11,-106,22,24,'#c99c7c');R(g,-13,-112,26,10,'#9b9895');for(let i=0;i<4;i++)R(g,-13+i*7,-118,6,7,['#e57b9b','#7bc1e5','#e5d27b','#9be57b'][i]);R(g,3,-98,3,3,'#1d1d1d');R(g,-4,-98,3,3,'#1d1d1d');R(g,-6,-102,6,1,'#5a4a42');R(g,-3,-89,10,3,'#8a3d3d');g.restore();};
+ g.save();g.translate(14,-78);g.rotate(o.wind?-2.8:o.throw?-2:.3);R(g,-3,0,7,26,'#8fb7d6');R(g,-3,26,7,6,'#c99c7c');g.restore();R(g,-20,-78,7,24,'#8fb7d6');
+ R(g,-11,-106,22,24,'#c99c7c');R(g,-13,-112,26,10,'#9b9895');for(let i=0;i<4;i++)R(g,-13+i*7,-118,6,7,['#e57b9b','#7bc1e5','#e5d27b','#9be57b'][i]);R(g,3,-98,3,3,'#1d1d1d');R(g,-4,-98,3,3,'#1d1d1d');R(g,-6,-102,6,1,'#5a4a42');R(g,-3,-89,10,o.wind?5:3,'#8a3d3d');if(o.wind)T(g,'!',0,-128,20,'#ffe39a');g.restore();};
 // Don Mario: 50 a 60 años, pelo canoso largo y ondulado, barba gris, polera gris sin mangas y short rojo.
 D.mario=function(g,x,y,o={}){const k=(o.h||150)/150,t=o.t||0;g.save();g.translate(Math.round(x),Math.round(y));g.scale(k*(o.dir||1),k);
  R(g,-14,-52,11,44,'#c49473');R(g,4,-52,11,44,'#c49473');R(g,-16,-8,15,8,'#3a3330');R(g,3,-8,15,8,'#3a3330');

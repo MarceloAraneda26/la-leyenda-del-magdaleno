@@ -1,5 +1,13 @@
 # Cambios de versión
 
+## 0.10.3: combate con armas y definitivas en la etapa 4 · 9 de noviembre de 2026
+
+- En el camino a los arcades, cada protagonista pelea con su arma de la etapa 1 (PC notebook, martillo de campo, regla de profesor, taladro minero o fonendoscopio). El golpe solo cuenta donde llega el arma, como en la etapa 1.
+- Nueva barra de energía: sube con el tiempo, con cada golpe y con cada enemigo que huye. Llena, activa la definitiva propia con V o con el botón ★ en celular: Pulso de Emergencia aturde, Martillo del Cerro avanza por el suelo hacia ambos lados, Clavada del Desquite y Coloso de la Ruta golpean alrededor, y Sutura Arcana golpea hacia adelante y cura.
+- Las ayudas del equipo ahora son distintas: Marcelo aturde, Ruzio golpea el suelo, Pulga remata, Tobi empuja, Pallo cura si falta vida y Coté espanta con su grito.
+- La vieja sapa levanta el brazo con un «!» medio segundo antes de lanzar el chisme.
+- Prueba nueva en `tools/etapa4-combat-check.cjs`.
+
 ## 0.10.2: huincha con pausa en cada recuerdo · 8 de noviembre de 2026
 
 - En el primer pase, el protagonista se detiene frente a cada recuerdo. La escena corre completa, con su momento importante, y recién entonces aparece «SEGUIR →» (también con Enter, E o espacio). El recuerdo propio dura un poco más.

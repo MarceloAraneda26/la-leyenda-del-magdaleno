@@ -75,44 +75,88 @@ function drawHuincha(){const bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(
  M.character(hero,hu.x-view.x,470,130,{walk:hu.walk,dir:hu.dir,time});
  const seen=hu.frames.filter(f=>f.seen>.5).length;T(g,'RECUERDOS '+seen+' / '+hu.frames.length,20,388,13,'#d8cfb7','left');}
 // ---------- Parte 4: camino a los arcades ----------
-const st={};
-function startStreet(tramo){st.tramo=tramo;const tr=E.street.tramos[tramo];st.p={x:tr.start,y:G,vx:0,vy:0,on:true,hp:100,face:1,atk:0,hits:new Set(),inv:0,walk:false};st.enemies=[];st.shots=[];st.fx=[];st.lock=null;st.helpT=2.5;st.helpIdx=0;st.dead=0;st.comp=others().map((id,i)=>({id,x:tr.start-80-i*50}));
- save('calle',{tramo});st.waves=E.street.tramos.flatMap((t,i)=>i>=tramo?t.waves.map(w=>({...w,tramo:i,spawned:false,done:false})):[]);setMode('street');caption('TRAMO '+(tramo+1)+' DE 3 · CAMINO A LOS ARCADES DE DON MARIO',3);}
-function spawn(wave){wave.spawned=true;st.lock={left:wave.at-480,right:wave.at+480,wave};wave.list.forEach((kind,i)=>{const right=kind==='sapa'||i%2===0;st.enemies.push({kind,wave,x:right?wave.at+520+i*50:wave.at-520-i*50,y:G,hp:kind==='sapa'?2:3,cd:.6+i*.4,wind:0,strike:0,throwT:0,hurt:0,face:right?-1:1,flee:false,t:rand()*3,say:'',sayT:0});});M.audio.sfx('checkpoint');}
-function hurtPlayer(d,from){const p=st.p;if(p.inv>0||st.dead)return;p.hp-=d;p.inv=.8;p.vx=Math.sign(p.x-from||1)*240;M.audio.sfx('hurt');if(p.hp<=0){p.hp=0;st.dead=time;caption('TE PILLARON. VUELVES AL INICIO DEL TRAMO.');}}
-function hitEnemy(e,d,from){if(e.flee)return;e.hp-=d;e.hurt=.22;e.x+=Math.sign(e.x-from||1)*26;st.fx.push({x:e.x,y:G-80,t:.25,kind:'spark'});M.audio.sfx('hit');if(e.hp<=0){e.flee=true;e.face=Math.sign(e.x-st.p.x)||1;const l=E.flee[e.kind];e.say=l[Math.floor(rand()*l.length)];e.sayT=1.8;}}
+// Combate con el arma y la definitiva propias de cada amigo, las mismas de la etapa 1 (src/melee.js y src/powers.js).
+// La geometría del arma se calcula a la escala de la etapa 1 (94 px) y se amplía desde los pies a la altura de esta calle.
+const st={},HERO_H=124,K=HERO_H/94;
+const ULT={marcelo:{range:200,dmg:2,stun:1.6},ruzio:{range:330,dmg:3},pulga:{range:200,dmg:3},tobi:{range:220,dmg:3},pallo:{range:420,dmg:2,front:true,heal:true}};
+const HELP={marcelo:'PULSO',ruzio:'MARTILLAZO',pulga:'CLAVADA',tobi:'EMPUJÓN',pallo:'CURACIÓN'};
+const boxOf=e=>{const w=e.kind==='sapa'?44:34;return{x:e.x-w/2,y:e.y-118,w,h:118};};
+function segBox(a,b,box,r){const minX=box.x-r,maxX=box.x+box.w+r,minY=box.y-r,maxY=box.y+box.h+r;let enter=0,leave=1;const dx=b.x-a.x,dy=b.y-a.y;
+ for(const [o,d,lo,hi] of [[a.x,dx,minX,maxX],[a.y,dy,minY,maxY]]){if(Math.abs(d)<1e-8){if(o<lo||o>hi)return false;continue;}let t0=(lo-o)/d,t1=(hi-o)/d;if(t0>t1)[t0,t1]=[t1,t0];enter=Math.max(enter,t0);leave=Math.min(leave,t1);if(enter>leave)return false;}return true;}
+function weaponAt(p,elapsed){M.cam=0;const q=M.meleeGeometry(hero,{x:p.x,y:p.y,face:p.face,vx:p.vx,onGround:p.on,animT:time},elapsed),s=pt=>({x:p.x+(pt.x-p.x)*K,y:p.y+(pt.y-p.y)*K});return{grip:s(q.grip),tip:s(q.tip),r:q.radius*K};}
+function weaponHits(p,box){const el=M.melee.duration-p.atk;if(el<M.melee.activeStart||el>M.melee.activeEnd)return false;if((box.x+box.w/2-p.x)*p.face< -box.w/2)return false;
+ const c=weaponAt(p,el),o=weaponAt(p,Math.max(0,el-M.STEP));return segBox(c.grip,c.tip,box,c.r)||segBox(o.grip,o.tip,box,c.r)||segBox(o.tip,c.tip,box,c.r);}
+function startStreet(tramo){st.tramo=tramo;const tr=E.street.tramos[tramo];st.p={x:tr.start,y:G,vx:0,vy:0,on:true,hp:100,energy:30,face:1,atk:0,atkCd:0,hits:new Set(),inv:0,walk:false,ult:0,ultUsed:false,ultBase:G};st.enemies=[];st.shots=[];st.fx=[];st.effects=[];st.pending=[];st.shake=0;st.lock=null;st.helpT=2.5;st.helpIdx=0;st.dead=0;st.comp=others().map((id,i)=>({id,x:tr.start-80-i*50,act:0}));
+ save('calle',{tramo});st.waves=E.street.tramos.flatMap((t,i)=>i>=tramo?t.waves.map(w=>({...w,tramo:i,spawned:false,done:false})):[]);setMode('street');const tc=touchMQ.matches;caption('TRAMO '+(tramo+1)+' DE 3 · '+(tc?'✊ ':'Z ')+M.weapons[hero].name.toUpperCase()+(tc?' · ★ DEFINITIVA':' · V DEFINITIVA'),3.5);}
+function spawn(wave){wave.spawned=true;st.lock={left:wave.at-480,right:wave.at+480,wave};wave.list.forEach((kind,i)=>{const right=kind==='sapa'||i%2===0;st.enemies.push({kind,wave,x:right?wave.at+520+i*50:wave.at-520-i*50,y:G,hp:kind==='sapa'?2:3,cd:.6+i*.4,wind:0,strike:0,windT:0,throwT:0,stun:0,hurt:0,face:right?-1:1,flee:false,t:rand()*3,say:'',sayT:0});});M.audio.sfx('checkpoint');}
+function hurtPlayer(d,from){const p=st.p;if(p.inv>0||st.dead||p.ult>0)return;p.hp-=d;p.inv=.8;p.vx=Math.sign(p.x-from||1)*240;M.audio.sfx('hurt');if(p.hp<=0){p.hp=0;st.dead=time;caption('TE PILLARON. VUELVES AL INICIO DEL TRAMO.');}}
+function hitEnemy(e,d,from){if(e.flee)return;e.hp-=d;e.hurt=.22;e.wind=0;e.windT=0;e.x+=Math.sign(e.x-from||1)*26;st.fx.push({x:e.x,y:G-80,t:.25,kind:'spark'});M.audio.sfx('hit');if(e.hp<=0){e.flee=true;e.stun=0;e.face=Math.sign(e.x-st.p.x)||1;const l=E.flee[e.kind];e.say=l[Math.floor(rand()*l.length)];e.sayT=1.8;st.p.energy=Math.min(100,st.p.energy+6);}}
+function tryUltimate(){const p=st.p;if(p.ult>0||st.dead)return false;if(p.energy<100||!p.on){caption(p.energy<100?'LA DEFINITIVA NECESITA LA ENERGÍA LLENA':'ACTIVA LA DEFINITIVA DESDE EL SUELO',1.6);return false;}
+ const def=M.powers[hero];p.energy=0;p.ult=def.duration;p.ultUsed=false;p.atk=0;p.vx=0;p.ultBase=p.y;M.audio.power(hero,'start');caption(M.heroes[hero].ultimate.toUpperCase(),2);return true;}
+function applyUltimate(){const p=st.p,u=ULT[hero],contact=hero==='ruzio'?p.x+p.face*76*K:p.x;let dealt=0;
+ for(const e of st.enemies){if(e.flee)continue;const dx=e.x-p.x;if(u.front?!(dx*p.face>=-20&&dx*p.face<u.range):Math.abs(dx)>=u.range)continue;
+  const fn=()=>{if(e.flee)return;hitEnemy(e,u.dmg,p.x);if(u.stun&&!e.flee)e.stun=u.stun;dealt++;};
+  // La onda del martillo avanza por el suelo: llega antes a quien está cerca.
+  if(hero==='ruzio')st.pending.push({t:Math.abs(e.x-contact)/1140,fn});else fn();}
+ let heal=0;if(u.heal){const before=p.hp;p.hp=Math.min(100,p.hp+Math.min(30,10+dealt*8));heal=Math.round(p.hp-before);if(heal>0){M.audio.power('pallo','heal');st.fx.push({x:p.x,y:G-180,t:1.3,kind:'text',text:'+'+heal+' VIDA'});}}
+ const fx=M.powerEffect(hero,{x:p.x,y:p.y,face:p.face},contact,heal);if(fx.r)fx.r*=K;if(fx.range)fx.range*=K;if(fx.end!=null)fx.end=p.x+p.face*u.range;st.effects.push(fx);
+ M.audio.power(hero,'impact');st.shake={tobi:9,ruzio:7,pulga:6}[hero]||4;}
+// Ayudas del equipo: cada amigo aporta a su turno con su propio rasgo; Coté espanta con su grito.
+function teamHelp(near){const p=st.p,list=others(),id=list[st.helpIdx++%list.length],first=near.slice().sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x))[0];st.helpT=3.2;let text='¡'+E.names[id].toUpperCase()+'! '+(HELP[id]||''),at=first.x;
+ if(id==='cote'){near.forEach(e=>{e.x+=Math.sign(e.x-p.x||1)*90;e.hurt=.2;e.wind=0;e.windT=0;});text='CORREEEE!!';at=p.x;}
+ else if(id==='marcelo'){hitEnemy(first,1,p.x);if(!first.flee)first.stun=1.2;}
+ else if(id==='ruzio'){near.filter(e=>Math.abs(e.x-p.x)<220).forEach(e=>hitEnemy(e,1,p.x));st.effects.push({kind:'quake',x:p.x,ox:p.x,y:G,range:220,col:M.heroes.ruzio.color,life:.5,max:.5});at=p.x;}
+ else if(id==='pulga'){hitEnemy(first,2,p.x);st.effects.push({kind:'slam',x:first.x,y:G,r:90,col:M.heroes.pulga.color,life:.45,max:.45});}
+ else if(id==='tobi'){hitEnemy(first,1,p.x);near.forEach(e=>{e.x+=Math.sign(e.x-p.x||1)*120;});}
+ else if(id==='pallo'){if(p.hp<100){p.hp=Math.min(100,p.hp+15);text='¡PALLO! +15 VIDA';at=p.x;}else hitEnemy(first,1,p.x);}
+ st.fx.push({x:at,y:G-165,t:1.1,kind:'text',text});const c=st.comp.find(c=>c.id===id);if(c)c.act=.6;}
 function updateStreet(dt){const p=st.p,S=E.street;if(st.dead){if(time-st.dead>1.6)startStreet(st.tramo);return;}
- const dir=(M.down('right')?1:0)-(M.down('left')?1:0);p.walk=!!dir;if(dir)p.face=dir;const speed=p.atk>0?150:260;p.vx=M.lerp(p.vx,dir*speed,Math.min(1,dt*12));
- if(M.tap('jump')&&p.on){p.vy=-640;p.on=false;M.audio.sfx('jump');}if(M.tap('attack')&&p.atk<=0){p.atk=.3;p.hits.clear();}
- p.vy+=1700*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.y>=G){p.y=G;p.vy=0;p.on=true;}
+ st.shake=Math.max(0,st.shake-dt*24);for(const q of st.pending)q.t-=dt;const due=st.pending.filter(q=>q.t<=0);st.pending=st.pending.filter(q=>q.t>0);due.forEach(q=>q.fn());
+ for(const fx of st.effects)fx.life-=dt;st.effects=st.effects.filter(fx=>fx.life>0);
+ p.energy=Math.min(100,p.energy+dt*1.5);p.atkCd=Math.max(0,p.atkCd-dt);p.inv=Math.max(0,p.inv-dt);
+ if(p.ult>0){const def=M.powers[hero];p.ult=Math.max(0,p.ult-dt);const el=def.duration-p.ult;p.vx=0;if(def.jumpHeight)p.y=p.ultBase-M.powerPose(hero,el).jump*def.jumpHeight*K;
+  if(!p.ultUsed&&el>=def.impact-1e-6){p.ultUsed=true;p.y=p.ultBase;applyUltimate();}if(p.ult<=0){p.y=p.ultBase;p.on=true;p.inv=.3;}}
+ else{const dir=(M.down('right')?1:0)-(M.down('left')?1:0);p.walk=!!dir;if(dir)p.face=dir;const speed=p.atk>0?150:260;p.vx=M.lerp(p.vx,dir*speed,Math.min(1,dt*12));
+  if(M.tap('jump')&&p.on){p.vy=-640;p.on=false;M.audio.sfx('jump');}
+  if((M.tap('attack')||M.down('attack'))&&p.atk<=0&&p.atkCd<=0){p.atk=M.melee.duration;p.atkCd=M.melee.cooldown;p.hits.clear();M.audio.melee(hero,'start');}
+  if(M.tap('ultimate'))tryUltimate();
+  p.vy+=1700*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.y>=G){p.y=G;p.vy=0;p.on=true;}}
  const lo=st.lock?st.lock.left+40:40,hi=st.lock?st.lock.right-40:S.length-40;p.x=M.clamp(p.x,lo,hi);
- p.inv=Math.max(0,p.inv-dt);if(p.atk>0){p.atk-=dt;if(p.atk<.22&&p.atk>.08)for(const e of st.enemies){if(e.flee||p.hits.has(e))continue;if(Math.abs(e.x-(p.x+p.face*48))<58&&Math.abs(e.y-p.y)<110){p.hits.add(e);hitEnemy(e,1,p.x);}}}
+ if(p.atk>0){p.atk=Math.max(0,p.atk-dt);let n=0;for(const e of st.enemies){if(e.flee||p.hits.has(e)||!weaponHits(p,boxOf(e)))continue;p.hits.add(e);hitEnemy(e,1,p.x);n++;}if(n){p.energy=Math.min(100,p.energy+Math.min(8,n*4));M.audio.melee(hero,'impact');}}
  // Puntos de control al entrar a un tramo nuevo.
  S.tramos.forEach((tr,i)=>{if(i>st.tramo&&p.x>=tr.start){st.tramo=i;p.hp=100;save('calle',{tramo:i});caption('TRAMO '+(i+1)+' DE 3 · PUNTO DE CONTROL',3);}});
  if(!st.lock){const w=st.waves.find(w=>!w.spawned&&p.x>=w.at);if(w)spawn(w);}
  for(const e of st.enemies){e.t+=dt;e.hurt=Math.max(0,e.hurt-dt);e.sayT=Math.max(0,e.sayT-dt);const dx=p.x-e.x,ad=Math.abs(dx);
-  if(e.flee){e.x+=e.face*340*dt;continue;}e.face=Math.sign(dx)||e.face;e.cd-=dt;e.walk=false;
+  if(e.flee){e.x+=e.face*340*dt;continue;}if(e.stun>0){e.stun-=dt;e.walk=false;continue;}e.face=Math.sign(dx)||e.face;e.cd-=dt;e.walk=false;
   if(e.kind==='pastero'){if(e.wind>0){e.wind-=dt;if(e.wind<=0){e.strike=.25;if(ad<92&&Math.abs(p.y-e.y)<80)hurtPlayer(12,e.x);}}else if(e.strike>0)e.strike-=dt;else if(ad>66){e.x+=Math.sign(dx)*95*dt;e.walk=true;}else if(e.cd<=0){e.wind=.5;e.cd=1.4;}}
-  else{if(ad<230){e.x-=Math.sign(dx)*70*dt;e.walk=true;}else if(ad>330){e.x+=Math.sign(dx)*80*dt;e.walk=true;}if(st.lock)e.x=M.clamp(e.x,st.lock.left+30,st.lock.right-30);e.throwT=Math.max(0,e.throwT-dt);if(e.cd<=0&&ad<520){e.cd=2.4;e.throwT=.3;st.shots.push({x:e.x+e.face*20,y:G-82,vx:e.face*240,life:4,word:['BLA BLA','¡¿Y ESO?!','CHISME'][Math.floor(rand()*3)]});}}}
+  else{if(e.windT<=0){if(ad<230){e.x-=Math.sign(dx)*70*dt;e.walk=true;}else if(ad>330){e.x+=Math.sign(dx)*80*dt;e.walk=true;}}if(st.lock)e.x=M.clamp(e.x,st.lock.left+30,st.lock.right-30);e.throwT=Math.max(0,e.throwT-dt);
+   // Anticipación: la vieja sapa se prepara medio segundo antes de soltar el chisme.
+   if(e.windT>0){e.windT-=dt;if(e.windT<=0){e.throwT=.3;st.shots.push({x:e.x+e.face*20,y:G-82,vx:e.face*240,life:4,word:['BLA BLA','¡¿Y ESO?!','CHISME'][Math.floor(rand()*3)]});}}
+   else if(e.cd<=0&&ad<520){e.cd=2.4;e.windT=.5;}}}
  // Separación simple entre enemigos.
  const live=st.enemies.filter(e=>!e.flee);for(let i=0;i<live.length;i++)for(let j=i+1;j<live.length;j++){const a=live[i],b=live[j],d=b.x-a.x;if(Math.abs(d)<34){const push=(34-Math.abs(d))/2*(Math.sign(d)||1);a.x-=push;b.x+=push;}}
  for(const s of st.shots){s.x+=s.vx*dt;s.life-=dt;if(Math.abs(s.x-p.x)<26&&s.y>p.y-112&&s.y<p.y-4){s.life=0;hurtPlayer(8,s.x-s.vx);}}st.shots=st.shots.filter(s=>s.life>0);
  st.enemies=st.enemies.filter(e=>!e.flee||Math.abs(e.x-p.x)<900);
  if(st.lock&&!st.enemies.some(e=>e.wave===st.lock.wave&&!e.flee)){st.lock.wave.done=true;st.lock=null;caption('¡SIGAN! → ARCADES DE DON MARIO',2);}
- // Ayudas del equipo: cada amigo aporta a su turno; Coté espanta con su grito.
- st.helpT-=dt;const near=live.filter(e=>Math.abs(e.x-p.x)<340);if(st.helpT<=0&&near.length){const list=others(),id=list[st.helpIdx++%list.length];st.helpT=3.2;if(id==='cote'){near.forEach(e=>{e.x+=Math.sign(e.x-p.x||1)*90;e.hurt=.2;});st.fx.push({x:p.x,y:G-150,t:1.1,kind:'text',text:'CORREEEE!!'});}else{const e=near.sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x))[0];hitEnemy(e,1,p.x);st.fx.push({x:e.x,y:G-150,t:1,kind:'text',text:'¡'+E.names[id].toUpperCase()+'!'});}}
- st.comp.forEach((c,i)=>{const tx=p.x-p.face*(80+i*46);c.x=M.lerp(c.x,tx,Math.min(1,dt*3));});
+ st.helpT-=dt;const near=live.filter(e=>!e.flee&&Math.abs(e.x-p.x)<340);if(st.helpT<=0&&near.length)teamHelp(near);
+ st.comp.forEach((c,i)=>{c.act=Math.max(0,c.act-dt);const tx=p.x-p.face*(80+i*46);c.x=M.lerp(c.x,tx,Math.min(1,dt*3));});
  st.fx.forEach(f=>f.t-=dt);st.fx=st.fx.filter(f=>f.t>0);
- if(!st.lock&&st.waves.every(w=>w.done)&&p.x>=S.door){startPongIntro();return;}
+ if(!st.lock&&p.ult<=0&&st.waves.every(w=>w.done)&&p.x>=S.door){startPongIntro();return;}
  const cam=M.clamp(p.x-400,0,S.length-W);view.x=st.lock?M.clamp(cam,st.lock.left,st.lock.right-W):cam;}
-function drawStreet(){const p=st.p;street(g,view.x,{end:E.street.door-120});
- st.comp.forEach(c=>M.character(c.id,c.x-view.x,G,c.id==='cote'?112:116,{time,walk:Math.abs(c.x-(p.x-p.face*80))>8,dir:p.face,alpha:.92}));
- for(const e of st.enemies){const x=e.x-view.x;if(x<-80||x>W+80)continue;const o={t:e.t,dir:e.face,walk:e.walk||e.flee,hurt:e.hurt>0,wind:e.wind>0,strike:e.strike>0,throw:e.throwT>0};if(e.kind==='pastero')D.pastero(g,x,e.y,o);else D.sapa(g,x,e.y,o);if(e.sayT>0)T(g,e.say,x,e.y-138,13,'#ffe39a');}
+function drawStreet(){const p=st.p;g.save();if(st.shake>0)g.translate((Math.random()-.5)*st.shake,(Math.random()-.5)*st.shake);street(g,view.x,{end:E.street.door-120});
+ st.comp.forEach(c=>{const hop=c.act>0?Math.sin((.6-c.act)/.6*Math.PI)*26:0;M.character(c.id,c.x-view.x,G-hop,c.id==='cote'?112:116,{time,walk:Math.abs(c.x-(p.x-p.face*80))>8,dir:p.face,alpha:.92});});
+ for(const e of st.enemies){const x=e.x-view.x;if(x<-80||x>W+80)continue;const o={t:e.t,dir:e.face,walk:e.walk||e.flee,hurt:e.hurt>0,wind:e.wind>0||e.windT>0,strike:e.strike>0,throw:e.throwT>0};if(e.kind==='pastero')D.pastero(g,x,e.y,o);else D.sapa(g,x,e.y,o);
+  if(e.stun>0)for(let i=0;i<3;i++){const a=time*6+i*2.1;R(g,x+Math.cos(a)*16-3,e.y-132+Math.sin(a)*4,6,6,'#ffe39a');}
+  if(e.sayT>0)T(g,e.say,x,e.y-138,13,'#ffe39a');}
  for(const s of st.shots){const x=s.x-view.x;R(g,x-34,s.y-14,68,24,'#f4efe2');R(g,x-6+Math.sign(s.vx)*-26,s.y+8,8,8,'#f4efe2');T(g,s.word,x,s.y+3,10,'#7a3b3b');}
- const blink=p.inv>0&&Math.floor(time*20)%2;if(!blink)M.character(hero,p.x-view.x,p.y,124,{time,walk:p.walk&&p.on,dir:p.face,punch:p.atk>0,hurt:p.inv>.6});
- if(p.atk>.06){g.save();g.strokeStyle='#ffe9b0';g.lineWidth=5;g.globalAlpha=.8;g.beginPath();const a0=p.face>0?-1.1:Math.PI+1.1,a1=p.face>0?.6:Math.PI-.6;g.arc(p.x-view.x+p.face*20,p.y-62,56,Math.min(a0,a1),Math.max(a0,a1));g.stroke();g.restore();}
+ const rig=p.ult>0?M.powerPose(hero,M.powers[hero].duration-p.ult):M.meleePose(hero,p.atk>0?M.melee.duration-p.atk:-1),blink=p.inv>0&&p.ult<=0&&Math.floor(time*20)%2;
+ if(!blink)M.character(hero,p.x-view.x,p.y,HERO_H,{time,walk:p.ult<=0&&p.walk&&p.on,speed:p.ult<=0&&p.on?Math.min(1,Math.abs(p.vx)/220):0,dir:p.face,hurt:p.inv>.6&&p.ult<=0,air:rig.air??!p.on,rising:rig.rising??p.vy<0,giant:rig.scale||1,attack:-1,rig});
+ for(const fx of st.effects)M.drawEffect(fx,view.x);
  for(const f of st.fx){const x=f.x-view.x;if(f.kind==='spark'){for(let i=0;i<6;i++){const a=i*1.05+time*9;R(g,x+Math.cos(a)*(30-f.t*60),f.y+Math.sin(a)*(30-f.t*60),6,6,i%2?'#ffe39a':'#ff8a5b');}}else T(g,f.text,x,f.y-(1-f.t)*20,16,'#ffe39a');}
- R(g,18,16,250,46,'#0b192ad8');T(g,E.names[hero].toUpperCase(),30,36,14,'#f0ca8a','left');R(g,30,44,220,8,'#2a3a48');R(g,30,44,220*p.hp/100,8,p.hp>35?'#7ec7a4':'#e07a5f');T(g,'TRAMO '+(st.tramo+1)+' / 3',W-24,36,14,'#d8cfb7','right');}
+ g.restore();
+ const ready=p.energy>=100;R(g,18,16,262,64,'#0b192ad8');T(g,E.names[hero].toUpperCase(),30,36,14,'#f0ca8a','left');R(g,30,44,220,8,'#2a3a48');R(g,30,44,220*p.hp/100,8,p.hp>35?'#7ec7a4':'#e07a5f');
+ R(g,30,57,220,6,'#2a3a48');R(g,30,57,220*p.energy/100,6,ready?'#f0ca8a':'#6aa7d8');T(g,ready?(touchMQ.matches?'DEFINITIVA LISTA · ★':'DEFINITIVA LISTA · V'):'ENERGÍA',30,75,10,ready?'#f0ca8a':'#8fa5b5','left');
+ const btn=$('e4-ult');if(btn&&btn.classList.contains('is-ready')!==ready)btn.classList.toggle('is-ready',ready);T(g,'TRAMO '+(st.tramo+1)+' / 3',W-24,36,14,'#d8cfb7','right');}
 // ---------- Parte 5: PONG contra Don Mario ----------
 const pg={};const F={x:210,y:96,w:540,h:350};
 function startPongIntro(){save('pong');setMode('pong');pongReset();pg.wait=99;say([['mario',E.mario.hello]],()=>{pg.wait=1.2;caption('PONG A '+E.pong.target+' PUNTOS · ↑ ↓ PARA MOVER',3);},{location:'ARCADES DON MARIO',last:'JUGAR'});}

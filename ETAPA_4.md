@@ -202,13 +202,14 @@ Qué incluye:
 - **Parte 2:** huincha con los seis recuerdos animados. Desde 0.10.2 el protagonista se detiene frente a cada uno hasta que termina su escena y se sigue con SEGUIR. Los amigos aparecen con uniforme, con la cara de su sprite real. El comentario cambia según el protagonista y su recuerdo va al final.
 - **Parte 3:** reflexión del protagonista y llegada del equipo, uno por uno.
 - **Parte 4:**
-  - Tres tramos con dos oleadas cada uno contra pasteros (cuerpo a cuerpo) y viejas sapas (lanzan chismes que hay que saltar).
+  - Tres tramos con dos oleadas cada uno contra pasteros (cuerpo a cuerpo) y viejas sapas (lanzan chismes que hay que saltar; desde 0.10.3 levantan el brazo con un «!» medio segundo antes).
+  - Desde 0.10.3 el protagonista pelea con su arma de la etapa 1 (Z) y carga energía para su definitiva (V), con el mismo efecto que en la etapa 1.
   - Los enemigos huyen con una frase al ser derrotados.
-  - El equipo ayuda por turnos y Coté espanta con su «CORREEEE!!».
+  - El equipo ayuda por turnos, cada uno a su manera: Marcelo aturde, Ruzio golpea el suelo, Pulga remata, Tobi empuja, Pallo cura y Coté espanta con su «CORREEEE!!».
 - **Parte 5:** PONG a 5 puntos contra Don Mario, con revancha si pierdes.
 - **Parte 6:** corte y escena del grupo compartiendo el Magdaleno.
 
-Controles: ← → caminar, Espacio saltar, Z golpear, ↑ ↓ en el PONG, Esc pausa. En celular aparecen botones táctiles según la parte.
+Controles: ← → caminar, Espacio saltar, Z arma, V definitiva, ↑ ↓ en el PONG, Esc pausa. En celular aparecen botones táctiles según la parte.
 
 Prueba automática: `node tools/etapa4-check.cjs [protagonista]` recorre las seis partes con controles normales y guarda capturas en `qa/etapa4/`. Con Marcelo, Tobi y Pallo terminó sin errores de página: 6 recuerdos, calle en unos 51 s simulados sin morir y PONG ganado 5 a 0. El bot del PONG sigue la pelota a la perfección, así que ese marcador no mide la dificultad para una persona.
 

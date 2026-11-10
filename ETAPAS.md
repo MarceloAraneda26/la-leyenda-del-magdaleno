@@ -10,6 +10,7 @@
 - [x] Guardado por recuerdo, parte y tramo, con su prueba en `tools/etapa4-save-check.cjs` (0.10.1).
 - [x] Encuadre completo del salto de Marcelo y del retrato de Don Mario (0.10.1).
 - [x] Huincha con pausa en cada recuerdo y avance con SEGUIR (0.10.2).
+- [x] Combate con el arma y la definitiva de cada protagonista, ayudas distintas del equipo y aviso del chisme, con su prueba en `tools/etapa4-combat-check.cjs` (0.10.3).
 - [ ] Revisión de los textos base por parte del usuario.
 - [ ] Prueba con personas y teléfonos físicos.
 
