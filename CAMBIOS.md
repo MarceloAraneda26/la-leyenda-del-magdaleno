@@ -1,5 +1,10 @@
 # Cambios de versión
 
+## 0.10.7: caras de escolares sin barba · 9 de noviembre de 2026
+
+- En los seis recuerdos de colegio los amigos mantienen su cara de adulto, pero sin barba ni bigote. Se rellenan con el tono de piel de cada uno y se dibuja una boca simple donde quedaba tapada.
+- Coté no cambia. El protagonista que camina por la huincha sigue con su aspecto de adulto.
+
 ## 0.10.6: arte de enemigos y ciudad · 9 de noviembre de 2026
 
 - Pasteros y viejas sapas con contorno oscuro y sombreado, como los sprites de los amigos. Brazos con mano y brazo de atrás visible.

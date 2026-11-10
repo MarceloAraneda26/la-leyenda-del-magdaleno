@@ -199,7 +199,7 @@ Se juega en `etapa4.html` y el código está en `src/etapa4.js`, `src/etapa4-dat
 
 Qué incluye:
 - **Parte 1:** conversación de la botella falsa en El Muñeco y entrada de la camanchaca.
-- **Parte 2:** huincha con los seis recuerdos animados. Desde 0.10.2 el protagonista se detiene frente a cada uno hasta que termina su escena y se sigue con SEGUIR. Los amigos aparecen con uniforme, con la cara de su sprite real. El comentario cambia según el protagonista y su recuerdo va al final.
+- **Parte 2:** huincha con los seis recuerdos animados. Desde 0.10.2 el protagonista se detiene frente a cada uno hasta que termina su escena y se sigue con SEGUIR. Los amigos aparecen con uniforme, con la cara de su sprite real. Desde 0.10.7 esa cara aparece sin barba ni bigote, para que se vean como escolares. El comentario cambia según el protagonista y su recuerdo va al final.
 - **Parte 3:** reflexión del protagonista y llegada del equipo, uno por uno.
 - **Parte 4:**
   - Tres tramos con dos oleadas cada uno contra pasteros (cuerpo a cuerpo) y viejas sapas (lanzan chismes que hay que saltar; desde 0.10.3 levantan el brazo con un «!» medio segundo antes).

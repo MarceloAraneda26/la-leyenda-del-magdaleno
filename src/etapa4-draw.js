@@ -8,7 +8,26 @@ const P=(g,pts,c)=>{g.fillStyle=c;g.beginPath();pts.forEach(([x,y],i)=>i?g.lineT
 const T=(g,s,x,y,size,c,align='center')=>{g.font='bold '+size+'px monospace';g.textAlign=align;g.fillStyle=c;g.fillText(s,Math.round(x),Math.round(y));g.textAlign='left';};
 D.R=R;D.P=P;D.T=T;
 // Cabeza recortada del sprite real: conserva la cara de cada amigo.
-function spriteHead(g,id,w,dir){const img=M.images?.[id],b=M.bounds?.[id];if(!img||!b)return false;const sw=b.w*.62,sh=b.h*.25,sx=b.x+(b.w-sw)/2,sy=b.y,dh=w*sh/sw;g.save();if(dir<0)g.scale(-1,1);g.drawImage(img,sx,sy,sw,sh,-w/2,-dh,w,dh);g.restore();return dh;}
+// En los recuerdos del colegio los amigos tienen su misma cara, pero sin barba (decisión del usuario, 2026-11-09).
+// Zona de barba en coordenadas del recorte de la cabeza: fila inicial, columnas y, si hace falta, una boca simple [fila, desde, hasta].
+const BEARD={marcelo:{y:27,x:[10,37],mouth:[30,20,28]},ruzio:{y:27,x:[9,37],mouth:[30,21,31],k:.97},pulga:{y:27,x:[6,28]},tobi:{y:23,x:[8,38]},pallo:{y:26,x:[9,29],mouth:[30,15,21],k:.97}};
+const heads={};
+function headCrop(id){const img=M.images?.[id],b=M.bounds?.[id];if(!img||!b||!img.complete||!img.naturalWidth)return null;if(heads[id])return heads[id];
+ const sw=Math.ceil(b.w*.62),sh=Math.round(b.h*.25),sx=Math.round(b.x+(b.w-b.w*.62)/2),sy=b.y,cv=document.createElement('canvas');cv.width=sw;cv.height=sh;const c=cv.getContext('2d');c.drawImage(img,sx,sy,sw,sh,0,0,sw,sh);
+ const cfg=BEARD[id];if(cfg)try{shave(c,sw,sh,cfg);}catch{}return heads[id]={cv,sw,sh};}
+function shave(c,w,h,cfg){const im=c.getImageData(0,0,w,h),d=im.data,at=(x,y)=>(y*w+x)*4,lum=i=>.3*d[i]+.59*d[i+1]+.11*d[i+2],alpha=(x,y)=>x<0||x>=w||y<0||y>=h?0:d[at(x,y)+3];
+ // Piel de referencia: mejillas sobre la barba.
+ const cand=[];for(let y=Math.max(0,cfg.y-7);y<cfg.y-1;y++)for(let x=cfg.x[0];x<=cfg.x[1];x++){const i=at(x,y);if(d[i+3]>200&&d[i]>d[i+1]&&d[i+1]>d[i+2]&&d[i]>150)cand.push([lum(i),d[i],d[i+1],d[i+2]]);}
+ if(!cand.length)return;cand.sort((a,b)=>a[0]-b[0]);const skin=cand[Math.floor(cand.length*.6)],sl=skin[0],k=cfg.k||.8;
+ const teeth=i=>lum(i)>200&&Math.abs(d[i]-d[i+2])<40,red=i=>d[i]>d[i+1]+55&&d[i]>130,dark=i=>lum(i)<sl*k;
+ const near=(x,y,fn)=>{for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const X=x+dx,Y=y+dy;if(X>=0&&X<w&&Y>=0&&Y<h&&d[at(X,Y)+3]>0&&fn(at(X,Y)))return true;}return false;};
+ const out=[];for(let y=cfg.y;y<h;y++)for(let x=cfg.x[0];x<=cfg.x[1];x++){const i=at(x,y);if(d[i+3]<40||teeth(i)||red(i)||!dark(i)||near(x,y,teeth))continue;
+  const edge=!alpha(x-1,y)||!alpha(x+1,y)||!alpha(x,y+1);const low=!alpha(x,y+2)||y>=h-2;out.push([i,edge?[43,26,18]:low?[skin[1]*.86,skin[2]*.84,skin[3]*.84]:[skin[1],skin[2],skin[3]]]);}
+ for(const [i,col] of out){d[i]=col[0];d[i+1]=col[1];d[i+2]=col[2];d[i+3]=255;}
+ if(cfg.mouth){const [y,x0,x1]=cfg.mouth;for(let x=x0;x<=x1;x++){const i=at(x,y);if(d[i+3]>0){d[i]=122;d[i+1]=58;d[i+2]=46;}}}
+ c.putImageData(im,0,0);}
+D.headCrop=headCrop;
+function spriteHead(g,id,w,dir){const hc=headCrop(id);if(!hc)return false;const dh=w*hc.sh/hc.sw;g.save();if(dir<0)g.scale(-1,1);g.drawImage(hc.cv,0,0,hc.sw,hc.sh,-w/2,-dh,w,dh);g.restore();return dh;}
 const generic=[['#c99c7c','#2d2420'],['#b58468','#191512'],['#d7ae8e','#5a3b24'],['#a8775c','#2a1f1a'],['#cfa184','#7a5233']];
 /* Figura de 100 unidades de alto con los pies en (0,0). o: id, h, dir, t, walk, rot, outfit, collar, bandage, armUp, run, stiff, seed */
 D.kid=function(g,x,y,o={}){const k=(o.h||100)/100,dir=o.dir||1,t=o.t||0,outfit=o.outfit||'uniform';const sp=o.run?16:9,sw=o.walk||o.run?Math.sin(t*sp+(o.seed||0)):0,swing=o.stiff?0:sw;
