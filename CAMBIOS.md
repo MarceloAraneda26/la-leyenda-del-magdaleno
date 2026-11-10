@@ -1,5 +1,11 @@
 # Cambios de versión
 
+## 0.10.10: cuerpos escolares propios · 10 de noviembre de 2026
+
+- En los recuerdos de colegio cada amigo tiene su contextura, según su ficha y su sprite: Marcelo robusto, Tobi de hombros anchos, Ruzio redondeado, Pallo intermedio y Pulga delgado. Cambian el ancho del tronco y los hombros, y el grosor de brazos y piernas.
+- Las manos y el cuello toman el tono de piel de la cara de cada uno. Ruzio lleva sus pulseras.
+- Coté y los compañeros genéricos no cambian. Las estaturas siguen como estaban.
+
 ## 0.10.9: Don Mario más canoso y con el pelo ondulado · 10 de noviembre de 2026
 
 - El pelo de Don Mario tiene más canas, menos volumen y ondas en vez de rizos: cae hasta los hombros con hebras que serpentean.

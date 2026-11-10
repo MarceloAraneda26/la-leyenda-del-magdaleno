@@ -1,6 +1,6 @@
 # La Leyenda del Magdaleno
 
-## Versión móvil 0.10.9 · campaña de cuatro etapas
+## Versión móvil 0.10.10 · campaña de cuatro etapas
 
 La etapa 4 cierra la leyenda: la botella de la Vieja Califa era falsa y la camanchaca lleva al protagonista a sus recuerdos del colegio. De vuelta en el presente, el equipo completo atraviesa la ciudad contra pasteros y viejas sapas hasta los arcades de Don Mario, donde el último Magdaleno se gana en un PONG. [Jugar la etapa 4](etapa4.html) · [Diseño](ETAPA_4.md).
 
@@ -8,7 +8,7 @@ Los cierres de las etapas 2 y 3 tienen conversaciones con retratos, avance manua
 
 La campaña se juega en orden: **1. El Matahombres de la montaña → 2. El Vecino → 3. La Vieja Califa de El Muñeco → 4. Los arcades de Don Mario**. Completar una etapa desbloquea la siguiente. El menú muestra el progreso y los enlaces directos también respetan los bloqueos. Las etapas desbloqueadas se pueden repetir sin perder acceso a las posteriores.
 
-[Jugar la campaña](index.html?v=0.10.9).
+[Jugar la campaña](index.html?v=0.10.10).
 
 Los desbloqueos se guardan en este navegador y dispositivo, aparte de los puntos de control. Las partidas válidas anteriores se reconocen al actualizar: una partida de etapa 2 conserva el acceso a la 2; una de etapa 3 conserva el acceso a las tres. No se borran las partidas existentes. Si el navegador impide el guardado permanente, se intenta conservar la campaña durante la pestaña.
 

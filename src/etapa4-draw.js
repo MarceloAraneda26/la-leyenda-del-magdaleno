@@ -14,7 +14,13 @@ const BEARD={marcelo:{y:27,x:[10,37],mouth:[30,20,28]},ruzio:{y:27,x:[9,37],mout
 const heads={};
 function headCrop(id){const img=M.images?.[id],b=M.bounds?.[id];if(!img||!b||!img.complete||!img.naturalWidth)return null;if(heads[id])return heads[id];
  const sw=Math.ceil(b.w*.62),sh=Math.round(b.h*.25),sx=Math.round(b.x+(b.w-b.w*.62)/2),sy=b.y,cv=document.createElement('canvas');cv.width=sw;cv.height=sh;const c=cv.getContext('2d');c.drawImage(img,sx,sy,sw,sh,0,0,sw,sh);
- const cfg=BEARD[id];if(cfg)try{shave(c,sw,sh,cfg);}catch{}return heads[id]={cv,sw,sh};}
+ const skin=skinOf(c,sw,sh),cfg=BEARD[id];if(cfg)try{shave(c,sw,sh,cfg);}catch{}return heads[id]={cv,sw,sh,...skin};}
+// Piel de la cara: percentil 40 de los pixeles de tono piel en el centro del rostro.
+function skinOf(c,w,h){try{const d=c.getImageData(0,0,w,h).data,px=[];for(let y=Math.round(h*.4);y<h*.75;y++)for(let x=Math.round(w*.3);x<w*.7;x++){const i=(y*w+x)*4;if(d[i+3]>200&&d[i]>d[i+1]&&d[i+1]>d[i+2]&&d[i]>150)px.push([.3*d[i]+.59*d[i+1]+.11*d[i+2],d[i],d[i+1],d[i+2]]);}
+ if(px.length<8)return{};px.sort((a,b)=>a[0]-b[0]);const [,r,g,b]=px[Math.floor(px.length*.4)],hex=(r,g,b)=>'#'+[r,g,b].map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');return{skin:hex(r,g,b),skinDark:hex(r*.86,g*.84,b*.84)};}catch{return{};}}
+// Contextura escolar de cada amigo según su ficha y su sprite: ancho de tronco (w), de hombros (sh), guata, grosor de brazos y piernas.
+// Marcelo robusto, Tobi de hombros anchos, Ruzio de rostro y cuerpo redondeado, Pallo intermedio, Pulga delgado. Coté conserva su figura.
+const KID_BUILD={_:{w:30,sh:30,belly:0,arm:7,leg:9},marcelo:{w:36,sh:36,belly:3,arm:8,leg:10},tobi:{w:31,sh:38,belly:0,arm:8,leg:10},ruzio:{w:34,sh:33,belly:2,arm:8,leg:10},pallo:{w:28,sh:29,belly:0,arm:7,leg:9},pulga:{w:24,sh:26,belly:0,arm:6,leg:7},cote:{w:30,sh:30,belly:0,arm:7,leg:9}};
 function shave(c,w,h,cfg){const im=c.getImageData(0,0,w,h),d=im.data,at=(x,y)=>(y*w+x)*4,lum=i=>.3*d[i]+.59*d[i+1]+.11*d[i+2],alpha=(x,y)=>x<0||x>=w||y<0||y>=h?0:d[at(x,y)+3];
  // Piel de referencia: mejillas sobre la barba.
  const cand=[];for(let y=Math.max(0,cfg.y-7);y<cfg.y-1;y++)for(let x=cfg.x[0];x<=cfg.x[1];x++){const i=at(x,y);if(d[i+3]>200&&d[i]>d[i+1]&&d[i+1]>d[i+2]&&d[i]>150)cand.push([lum(i),d[i],d[i+1],d[i+2]]);}
@@ -32,24 +38,26 @@ const generic=[['#c99c7c','#2d2420'],['#b58468','#191512'],['#d7ae8e','#5a3b24']
 /* Figura de 100 unidades de alto con los pies en (0,0). o: id, h, dir, t, walk, rot, outfit, collar, bandage, armUp, run, stiff, seed */
 D.kid=function(g,x,y,o={}){const k=(o.h||100)/100,dir=o.dir||1,t=o.t||0,outfit=o.outfit||'uniform';const sp=o.run?16:9,sw=o.walk||o.run?Math.sin(t*sp+(o.seed||0)):0,swing=o.stiff?0:sw;
  g.save();g.translate(Math.round(x),Math.round(y));if(o.rot)g.rotate(o.rot);g.scale(k,k);
+ const B=KID_BUILD[o.id]||KID_BUILD._,hw=B.w/2,sh2=B.sh/2,hc=o.id?headCrop(o.id):null,sk=hc?.skin||C.skin,skD=hc?.skinDark||C.skinDark,lg=B.leg;
  const leg=outfit==='huaso'?'#1d1b1d':outfit==='china'?C.skin:outfit==='teacher'?'#5d5145':C.pants,legD=outfit==='huaso'?'#141214':outfit==='china'?C.skinDark:outfit==='teacher'?'#4b4137':C.pantsDark;
  // Piernas y zapatos.
- R(g,-11+swing*4,-40,9,34,leg);R(g,2-swing*4,-40,9,34,legD);
- if(outfit==='skirt'){R(g,-11+swing*4,-24,9,18,'#1b2238');R(g,2-swing*4,-24,9,18,'#1b2238');}
- R(g,-13+swing*4,-7,13,7,C.shoe);R(g,1-swing*4,-7,13,7,C.shoe);
+ R(g,-2-lg+swing*4,-40,lg,34,leg);R(g,2-swing*4,-40,lg,34,legD);
+ if(outfit==='skirt'){R(g,-2-lg+swing*4,-24,lg,18,'#1b2238');R(g,2-swing*4,-24,lg,18,'#1b2238');}
+ R(g,-4-lg+swing*4,-7,lg+4,7,C.shoe);R(g,1-swing*4,-7,lg+4,7,C.shoe);
  if(outfit==='huaso'){R(g,-12+swing*4,-20,11,14,'#2a2522');R(g,1-swing*4,-20,11,14,'#2a2522');R(g,-3+swing*4,-6,3,3,'#b9b4a6');}
  // Tronco según vestimenta.
- if(outfit==='huaso'){R(g,-15,-72,30,34,'#efe9db');P(g,[[-19,-71],[19,-71],[23,-44],[-23,-44]],'#9a2b2b');for(let i=0;i<4;i++)R(g,-21,-66+i*6,42,2,i%2?'#e2c98a':'#3c4b7a');R(g,-16,-42,32,4,'#2b2724');}
+ if(outfit==='huaso'){R(g,-hw,-72,B.w,34,'#efe9db');P(g,[[-sh2-4,-71],[sh2+4,-71],[hw+8,-44],[-hw-8,-44]],'#9a2b2b');for(let i=0;i<4;i++)R(g,-hw-6,-66+i*6,B.w+12,2,i%2?'#e2c98a':'#3c4b7a');R(g,-hw-1,-42,B.w+2,4,'#2b2724');}
  else if(outfit==='china'){P(g,[[-14,-72],[14,-72],[16,-52],[-16,-52]],'#c5476a');P(g,[[-16,-52],[16,-52],[26,-30],[-26,-30]],'#e6c34f');for(let i=0;i<5;i++)R(g,-20+i*9,-44+(i%2)*6,4,4,'#c5476a');R(g,-15,-56,30,3,'#ffffff');}
- else if(outfit==='skirt'){R(g,-15,-72,30,32,C.blazer);P(g,[[-5,-72],[5,-72],[0,-58]],C.shirt);R(g,-1,-64,2,8,C.burdeo);P(g,[[-16,-42],[16,-42],[20,-24],[-20,-24]],C.burdeo);R(g,-18,-27,36,2,C.burdeoLight);}
+ else if(outfit==='skirt'){R(g,-hw,-72,B.w,32,C.blazer);P(g,[[-5,-72],[5,-72],[0,-58]],C.shirt);R(g,-1,-64,2,8,C.burdeo);P(g,[[-16,-42],[16,-42],[20,-24],[-20,-24]],C.burdeo);R(g,-18,-27,36,2,C.burdeoLight);}
  else if(outfit==='teacher'){R(g,-17,-76,34,38,'#6a4f3a');P(g,[[-6,-76],[6,-76],[0,-60]],'#e3ddce');R(g,-1,-70,2,10,'#3c4f6a');}
- else{R(g,-15,-72,30,32,C.sweater);R(g,-15,-44,30,4,C.sweaterDark);P(g,[[-6,-72],[6,-72],[0,-61]],C.shirt);}
+ else{const bl=B.belly;P(g,[[-sh2,-72],[sh2,-72],[hw+bl,-54],[hw+bl,-46],[hw,-40],[-hw,-40],[-hw-bl,-46],[-hw-bl,-54]],C.sweater);P(g,[[-sh2,-72],[-sh2+4,-72],[-hw-bl+4,-50],[-hw+3,-40],[-hw,-40],[-hw-bl,-46],[-hw-bl,-54]],C.sweaterDark);R(g,-hw,-44,B.w,4,C.sweaterDark);P(g,[[-6,-72],[6,-72],[0,-61]],C.shirt);}
  // Brazos.
  const sleeve=outfit==='huaso'?'#9a2b2b':outfit==='skirt'?C.blazer:outfit==='teacher'?'#6a4f3a':outfit==='china'?'#c5476a':C.sweater,top=outfit==='teacher'?-74:-70;
- g.save();g.translate(-15,top);g.rotate(o.armUp?-2.6:o.stiff?0:swing*.5);R(g,-6,0,7,26,sleeve);R(g,-6,26,7,6,C.skin);g.restore();
- g.save();g.translate(15,top);g.rotate(o.armUp?-2.4:o.armOut?-1.2:o.stiff?0:-swing*.5);R(g,-1,0,7,26,sleeve);R(g,-1,26,7,6,C.skin);if(o.bandage){R(g,-2,24,9,9,'#f1eee6');R(g,0,27,5,2,'#b23a3a');}if(o.hanky)R(g,-1,31,10,7,'#ffffff');g.restore();
+ const aw=B.arm,ax=outfit==='teacher'?15:Math.max(sh2,hw+B.belly-2);
+ g.save();g.translate(-ax,top);g.rotate(o.armUp?-2.6:o.stiff?0:swing*.5);R(g,1-aw,0,aw,26,sleeve);R(g,1-aw,26,aw,6,sk);if(o.id==='ruzio'){R(g,1-aw,24,aw,2,'#2b2b2b');R(g,1-aw,22,aw,1,'#8a5a3a');}g.restore();
+ g.save();g.translate(ax,top);g.rotate(o.armUp?-2.4:o.armOut?-1.2:o.stiff?0:-swing*.5);R(g,-1,0,aw,26,sleeve);R(g,-1,26,aw,6,sk);if(o.bandage){R(g,-2,24,9,9,'#f1eee6');R(g,0,27,5,2,'#b23a3a');}if(o.hanky)R(g,-1,31,10,7,'#ffffff');g.restore();
  // Cuello ortopédico, bien notorio.
- let neck=-72;if(o.collar){R(g,-13,-86,26,15,'#e8dcc2');R(g,-13,-86,26,3,'#c9b994');R(g,-13,-74,26,3,'#c9b994');R(g,-2,-84,4,10,'#d6c6a3');neck=-85;}else R(g,-4,-76,8,5,C.skin);
+ let neck=-72;if(o.collar){R(g,-13,-86,26,15,'#e8dcc2');R(g,-13,-86,26,3,'#c9b994');R(g,-13,-74,26,3,'#c9b994');R(g,-2,-84,4,10,'#d6c6a3');neck=-85;}else R(g,-4,-76,8,5,o.id?skD:C.skin);
  // Cabeza.
  g.save();g.translate(0,neck+2);const real=o.id&&spriteHead(g,o.id,32,dir);
  if(!real){const [skin,hair]=generic[(o.seed||0)%generic.length],adult=outfit==='teacher';R(g,-12,-30,24,28,skin);R(g,-13,-33,26,9,adult?'#7d7a74':hair);if((o.seed||0)%2&&!adult)R(g,-13,-28,5,14,hair);R(g,dir>0?3:-7,-18,3,3,'#1e1f24');R(g,dir>0?-5:-1,-18,3,3,'#1e1f24');R(g,-4,-9,8,2,'#7c4c45');if(adult)R(g,-10,-20,20,2,'#2b2b2b');}
