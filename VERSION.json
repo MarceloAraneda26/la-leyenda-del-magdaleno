@@ -1,8 +1,8 @@
 {
-  "gameVersion": "0.10.3",
+  "gameVersion": "0.10.4",
   "saveSchema": 1,
   "stage3SaveSchema": 2,
-  "stage": "12.3: combate con armas y definitivas en la etapa 4",
+  "stage": "12.4: PONG más grande en celular",
   "date": "2026-11-09",
   "campaignSaveSchema": 1,
   "stage4SaveSchema": 1

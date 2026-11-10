@@ -158,24 +158,28 @@ function drawStreet(){const p=st.p;g.save();if(st.shake>0)g.translate((Math.rand
  R(g,30,57,220,6,'#2a3a48');R(g,30,57,220*p.energy/100,6,ready?'#f0ca8a':'#6aa7d8');T(g,ready?(touchMQ.matches?'DEFINITIVA LISTA · ★':'DEFINITIVA LISTA · V'):'ENERGÍA',30,75,10,ready?'#f0ca8a':'#8fa5b5','left');
  const btn=$('e4-ult');if(btn&&btn.classList.contains('is-ready')!==ready)btn.classList.toggle('is-ready',ready);T(g,'TRAMO '+(st.tramo+1)+' / 3',W-24,36,14,'#d8cfb7','right');}
 // ---------- Parte 5: PONG contra Don Mario ----------
-const pg={};const F={x:210,y:96,w:540,h:350};
-function startPongIntro(){save('pong');setMode('pong');pongReset();pg.wait=99;say([['mario',E.mario.hello]],()=>{pg.wait=1.2;caption('PONG A '+E.pong.target+' PUNTOS · ↑ ↓ PARA MOVER',3);},{location:'ARCADES DON MARIO',last:'JUGAR'});}
-function pongReset(){pg.me=0;pg.him=0;pg.py=F.y+F.h/2;pg.my=F.y+F.h/2;pg.ball=null;pg.wait=1.2;pg.err=0;pg.serve=1;pg.over=false;}
-function serve(){pg.ball={x:F.x+F.w/2,y:F.y+F.h/2,vx:pg.serve*330,vy:(rand()-.5)*280};pg.serve*=-1;}
-function updatePong(dt){if(pg.over)return;const up=M.keys.ArrowUp||M.keys.KeyW,down=M.keys.ArrowDown||M.keys.KeyS;pg.py=M.clamp(pg.py+((down?1:0)-(up?1:0))*430*dt,F.y+36,F.y+F.h-36);
- const b=pg.ball,target=b&&b.vx>0?b.y+pg.err:F.y+F.h/2;pg.my+=M.clamp(target-pg.my,-285*dt,285*dt);pg.my=M.clamp(pg.my,F.y+36,F.y+F.h-36);
+// En pantallas táctiles el campo ocupa casi todo el lienzo, la pelota crece y las paletas mantienen su proporción; las velocidades se escalan con el campo para que el partido dure lo mismo.
+const pg={k:1,sx:1,sy:1};const F={x:210,y:96,w:540,h:350};
+function pongLayout(){const t=touchMQ.matches;Object.assign(F,t?{x:130,y:74,w:700,h:400}:{x:210,y:96,w:540,h:350});pg.touch=t;pg.k=t?1.45:1;pg.sx=F.w/540;pg.sy=F.h/350;}
+function startPongIntro(){save('pong');setMode('pong');pongReset();pg.wait=99;say([['mario',E.mario.hello]],()=>{pg.wait=1.2;caption('PONG A '+E.pong.target+' PUNTOS · '+(touchMQ.matches?'▲ ▼':'↑ ↓')+' PARA MOVER',3);},{location:'ARCADES DON MARIO',last:'JUGAR'});}
+function pongReset(){pongLayout();pg.me=0;pg.him=0;pg.py=F.y+F.h/2;pg.my=F.y+F.h/2;pg.ball=null;pg.wait=1.2;pg.err=0;pg.serve=1;pg.over=false;}
+function serve(){pg.ball={x:F.x+F.w/2,y:F.y+F.h/2,vx:pg.serve*330*pg.sx,vy:(rand()-.5)*280*pg.sy};pg.serve*=-1;}
+function updatePong(dt){if(pg.over)return;const k=pg.k,half=36*pg.sy,br=7*k,up=M.keys.ArrowUp||M.keys.KeyW,down=M.keys.ArrowDown||M.keys.KeyS;pg.py=M.clamp(pg.py+((down?1:0)-(up?1:0))*430*pg.sy*dt,F.y+half,F.y+F.h-half);
+ const b=pg.ball,target=b&&b.vx>0?b.y+pg.err:F.y+F.h/2,ms=285*pg.sy*dt;pg.my+=M.clamp(target-pg.my,-ms,ms);pg.my=M.clamp(pg.my,F.y+half,F.y+F.h-half);
  if(!b){pg.wait-=dt;if(pg.wait<=0)serve();return;}
- b.x+=b.vx*dt;b.y+=b.vy*dt;if(b.y<F.y+7){b.y=F.y+7;b.vy=Math.abs(b.vy);}if(b.y>F.y+F.h-7){b.y=F.y+F.h-7;b.vy=-Math.abs(b.vy);}
- const hit=(px,py,dir)=>{if(Math.sign(b.vx)!==-dir)return;if(Math.abs(b.x-px)<14&&Math.abs(b.y-py)<42){b.vx=dir*Math.min(640,Math.abs(b.vx)*1.07);b.vy=(b.y-py)/40*330;b.x=px+dir*14;M.audio.tone(dir>0?520:390,dir>0?520:390,.05);if(dir>0)pg.err=(rand()-.5)*(60+Math.abs(b.vx)*.16);}};
- hit(F.x+24,pg.py,1);hit(F.x+F.w-24,pg.my,-1);
+ b.x+=b.vx*dt;b.y+=b.vy*dt;if(b.y<F.y+br){b.y=F.y+br;b.vy=Math.abs(b.vy);}if(b.y>F.y+F.h-br){b.y=F.y+F.h-br;b.vy=-Math.abs(b.vy);}
+ const hit=(px,py,dir)=>{if(Math.sign(b.vx)!==-dir)return;if(Math.abs(b.x-px)<14*k&&Math.abs(b.y-py)<half+6*k){b.vx=dir*Math.min(640*pg.sx,Math.abs(b.vx)*1.07);b.vy=(b.y-py)/(40*pg.sy)*330*pg.sy;b.x=px+dir*14*k;M.audio.tone(dir>0?520:390,dir>0?520:390,.05);if(dir>0)pg.err=(rand()-.5)*(60+Math.abs(b.vx)/pg.sx*.16)*pg.sy;}};
+ hit(F.x+24*k,pg.py,1);hit(F.x+F.w-24*k,pg.my,-1);
  if(b.x<F.x){pg.him++;pg.ball=null;pg.wait=1;M.audio.sfx('hurt');}else if(b.x>F.x+F.w){pg.me++;pg.ball=null;pg.wait=1;M.audio.sfx('checkpoint');}
  if(pg.me>=E.pong.target){pg.over=true;say([['mario',E.mario.win],['hero','Gracias, Don Mario. Esta vez sabemos qué hacer con él.']],part6,{location:'ARCADES DON MARIO',last:'COMPARTIR EL MAGDALENO'});}
  else if(pg.him>=E.pong.target){pg.over=true;say([['mario',E.mario.lose]],()=>{pongReset();},{location:'ARCADES DON MARIO',last:'REVANCHA'});}}
-function drawPong(){const bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#160f26');bg.addColorStop(1,'#2a1d3d');g.fillStyle=bg;g.fillRect(0,0,W,H);for(let i=0;i<5;i++){R(g,20+i*200,120,120,300,'#21183a');R(g,34+i*200,140,92,70,'#5be3ff22');}
+function drawPong(){const k=pg.k,t=pg.touch,bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#160f26');bg.addColorStop(1,'#2a1d3d');g.fillStyle=bg;g.fillRect(0,0,W,H);for(let i=0;i<5;i++){R(g,20+i*200,120,120,300,'#21183a');R(g,34+i*200,140,92,70,'#5be3ff22');}
  R(g,F.x-40,F.y-56,F.w+80,F.h+150,'#3a2457');R(g,F.x-40,F.y-56,F.w+80,10,'#ff4fa3');R(g,F.x-14,F.y-14,F.w+28,F.h+28,'#0d0a12');R(g,F.x,F.y,F.w,F.h,'#04060a');
- for(let y=F.y+6;y<F.y+F.h;y+=22)R(g,F.x+F.w/2-2,y,4,12,'#3d4a52');T(g,String(pg.me),F.x+F.w/2-70,F.y+46,40,'#e8f4ff');T(g,String(pg.him),F.x+F.w/2+70,F.y+46,40,'#e8f4ff');
- R(g,F.x+18,pg.py-36,10,72,'#e8f4ff');R(g,F.x+F.w-28,pg.my-36,10,72,'#e8f4ff');if(pg.ball)R(g,pg.ball.x-7,pg.ball.y-7,14,14,'#ffffff');
+ for(let y=F.y+6;y<F.y+F.h;y+=22)R(g,F.x+F.w/2-2,y,4,12,'#3d4a52');T(g,String(pg.me),F.x+F.w/2-70*k,F.y+46*k,40*k,'#e8f4ff');T(g,String(pg.him),F.x+F.w/2+70*k,F.y+46*k,40*k,'#e8f4ff');
+ const ph=36*pg.sy;R(g,F.x+18*k,pg.py-ph,10*k,ph*2,'#e8f4ff');R(g,F.x+F.w-28*k,pg.my-ph,10*k,ph*2,'#e8f4ff');
+ if(pg.ball){const b=pg.ball,s=14*k;if(t){g.globalAlpha=.25;R(g,b.x-s/2-b.vx*.03,b.y-s/2-b.vy*.03,s,s,'#9fe7ff');g.globalAlpha=1;}R(g,b.x-s/2,b.y-s/2,s,s,'#ffffff');}
  g.globalAlpha=.08;for(let y=F.y;y<F.y+F.h;y+=4)R(g,F.x,y,F.w,1,'#9fe7ff');g.globalAlpha=1;
+ if(t){R(g,F.x-40,F.y+F.h+16,F.w+80,44,'#2b1b42');T(g,E.names[hero].toUpperCase(),F.x+60,F.y+F.h+44,14,'#f0ca8a');T(g,'DON MARIO',F.x+F.w-60,F.y+F.h+44,14,'#ff8fd0');M.character(hero,62,H-8,112,{time,dir:1});D.mario(g,898,H-8,{h:132,t:time,dir:-1});return;}
  R(g,F.x-40,F.y+F.h+30,F.w+80,64,'#2b1b42');T(g,E.names[hero].toUpperCase(),F.x+60,F.y+F.h+66,14,'#f0ca8a');T(g,'DON MARIO',F.x+F.w-60,F.y+F.h+66,14,'#ff8fd0');
  M.character(hero,100,H-10,150,{time,dir:1});D.mario(g,875,H-10,{h:176,t:time,dir:-1});}
 // ---------- Parte 6: final ----------

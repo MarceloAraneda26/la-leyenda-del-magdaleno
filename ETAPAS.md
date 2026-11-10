@@ -11,6 +11,7 @@
 - [x] Encuadre completo del salto de Marcelo y del retrato de Don Mario (0.10.1).
 - [x] Huincha con pausa en cada recuerdo y avance con SEGUIR (0.10.2).
 - [x] Combate con el arma y la definitiva de cada protagonista, ayudas distintas del equipo y aviso del chisme, con su prueba en `tools/etapa4-combat-check.cjs` (0.10.3).
+- [x] PONG más grande en celular, con su prueba en `tools/etapa4-pong-check.cjs` (0.10.4).
 - [ ] Revisión de los textos base por parte del usuario.
 - [ ] Prueba con personas y teléfonos físicos.
 

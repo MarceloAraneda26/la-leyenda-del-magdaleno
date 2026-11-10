@@ -206,7 +206,7 @@ Qué incluye:
   - Desde 0.10.3 el protagonista pelea con su arma de la etapa 1 (Z) y carga energía para su definitiva (V), con el mismo efecto que en la etapa 1.
   - Los enemigos huyen con una frase al ser derrotados.
   - El equipo ayuda por turnos, cada uno a su manera: Marcelo aturde, Ruzio golpea el suelo, Pulga remata, Tobi empuja, Pallo cura y Coté espanta con su «CORREEEE!!».
-- **Parte 5:** PONG a 5 puntos contra Don Mario, con revancha si pierdes.
+- **Parte 5:** PONG a 5 puntos contra Don Mario, con revancha si pierdes. Desde 0.10.4, en celular el campo, la pelota y las paletas se ven más grandes.
 - **Parte 6:** corte y escena del grupo compartiendo el Magdaleno.
 
 Controles: ← → caminar, Espacio saltar, Z arma, V definitiva, ↑ ↓ en el PONG, Esc pausa. En celular aparecen botones táctiles según la parte.

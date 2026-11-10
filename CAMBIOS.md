@@ -1,5 +1,12 @@
 # Cambios de versión
 
+## 0.10.4: PONG más grande en celular · 9 de noviembre de 2026
+
+- En pantallas táctiles el campo del PONG ocupa casi todo el lienzo (700 de ancho en vez de 540). En un celular de 844×390 la pelota pasa de unos 9 a 13 píxeles y en uno de 568×320, de 7 a 10,5. La pelota deja una estela suave para seguirla mejor.
+- Las velocidades se ajustan al tamaño del campo, así que el partido dura lo mismo que en escritorio. El escritorio no cambia.
+- El aviso inicial muestra ▲ ▼ en celular y queda fuera del área de juego.
+- Prueba nueva en `tools/etapa4-pong-check.cjs`: tamaño visible, botones y aviso sin tapar el juego, victoria y revancha desde 0 a 0.
+
 ## 0.10.3: combate con armas y definitivas en la etapa 4 · 9 de noviembre de 2026
 
 - En el camino a los arcades, cada protagonista pelea con su arma de la etapa 1 (PC notebook, martillo de campo, regla de profesor, taladro minero o fonendoscopio). El golpe solo cuenta donde llega el arma, como en la etapa 1.
