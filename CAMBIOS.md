@@ -1,5 +1,13 @@
 # Cambios de versión
 
+## 0.10.11: acompañantes en la botella falsa y favor pendiente · 10 de noviembre de 2026
+
+- Al descubrir la botella falsa están los dos acompañantes que el protagonista rescató en la etapa 3. Si no hay registro de esa partida, o se eligió otro protagonista, se completa con amigos fijos.
+- Uno lamenta haber cambiado los scooters, con su frase de siempre, y el otro pregunta por el favor. El protagonista responde que quedó pendiente.
+- Los acompañantes se pierden en la camanchaca junto con la botella.
+- Los créditos terminan con «…Y LA VIEJA CALIFA TODAVÍA ESPERA SU FAVOR».
+- Prueba nueva: `tools/etapa4-companions-check.cjs`.
+
 ## 0.10.10: cuerpos escolares propios · 10 de noviembre de 2026
 
 - En los recuerdos de colegio cada amigo tiene su contextura, según su ficha y su sprite: Marcelo robusto, Tobi de hombros anchos, Ruzio redondeado, Pallo intermedio y Pulga delgado. Cambian el ancho del tronco y los hombros, y el grosor de brazos y piernas.

@@ -18,8 +18,8 @@
 - [x] Don Mario con melena crespa, barba gris oscura, contorno y zapatillas blancas (0.10.8).
 - [x] Don Mario más canoso, con el pelo menos abultado y ondulado (0.10.9).
 - [x] Cuerpos escolares con la contextura de cada amigo (0.10.10).
-- [ ] Cierre del «favor» de la Vieja Califa y continuidad con los acompañantes de la etapa 3 (por definir con el usuario).
-- [ ] Revisión de los textos base por parte del usuario.
+- [x] Continuidad con los acompañantes de la etapa 3 en la botella falsa; el «favor» de la Vieja Califa queda abierto (0.10.11).
+- [x] Textos base aprobados por el usuario (10 de noviembre de 2026).
 - [ ] Prueba con personas y teléfonos físicos.
 
 ## Conversaciones de cierre · 0.9.3

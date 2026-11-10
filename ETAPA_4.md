@@ -27,7 +27,7 @@ En total serían unos 13 a 18 minutos. Como referencia, una partida limpia de la
 
 **Confirmado:** la botella de la Vieja Califa era falsa, un truco para atraer a los jóvenes.
 
-**Propuesta:** el grupo la abre o la mira de cerca y descubre el engaño; la Vieja Califa ya no está y la camanchaca entra por la calle y envuelve al protagonista. Así la etapa 3 queda conectada sin cambiar su final («Continuará…»).
+**Confirmado (10 de noviembre de 2026):** junto al protagonista están los dos acompañantes de la etapa 3, los que rescató en esa partida (si no hay registro, o si el protagonista cambió, se completa con amigos fijos). Uno lamenta el trueque de los scooters con su frase y el otro pregunta por el favor. El favor de la Vieja Califa queda abierto: «Algún día va a aparecer a cobrarlo», y los créditos cierran con «…Y LA VIEJA CALIFA TODAVÍA ESPERA SU FAVOR». Luego la camanchaca envuelve al protagonista; los acompañantes se pierden en la niebla. La prueba es `tools/etapa4-companions-check.cjs`.
 
 ## Parte 2 · La huincha de recuerdos
 
@@ -222,7 +222,7 @@ Limitaciones actuales:
 
 ## Preguntas abiertas
 
-1. **Comentarios, reflexión y frases de Don Mario:** revisar la versión base y ajustar lo que no suene a ustedes.
+1. **Comentarios, reflexión y frases de Don Mario:** aprobados por el usuario el 10 de noviembre de 2026.
 
 ## Recursos nuevos que harían falta
 
@@ -232,4 +232,4 @@ Limitaciones actuales:
 
 ## Próximo paso
 
-Revisar los comentarios base. La etapa ya está publicada con esos textos; cualquier ajuste se hace en `src/etapa4-data.js`.
+Prueba con personas en teléfonos físicos. Los textos están aprobados; cualquier ajuste se hace en `src/etapa4-data.js`.

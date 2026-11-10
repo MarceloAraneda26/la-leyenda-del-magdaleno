@@ -35,7 +35,11 @@ function refreshContinue(){const r=readSave(),b=$('e4-continue');b.hidden=!r;if(
 function resumeSave(){const r=readSave();if(!r||!M.campaign.require(4))return false;hero=r.hero;heroButtons();$('e4-title').hidden=true;$('e4-end').hidden=true;M.audio.init();({huincha:()=>startHuincha(r.seen),regreso:part3,calle:()=>startStreet(r.tramo),pong:startPongIntro,final:part6})[r.part]();return true;}
 // ---------- Parte 1 y 3: escenas en El Muñeco ----------
 const cs={sub:'',t:0,fog:0};
-function part1(){cs.sub='bottle';cs.t=0;cs.fog=.15;setMode('cut');caption('');say(E.fakeBottle,()=>{cs.sub='fog';cs.t=0;},{location:'BOTILLERÍA EL MUÑECO · BUENOS AIRES',last:'ENTRAR A LA CAMANCHACA'});}
+// Acompañantes de la etapa 3: los dos rescatados de esa partida (sin repetir al protagonista actual); si no hay registro, dos amigos fijos.
+function stage3Pair(){const pool=[...E.heroes,'cote'];let grp=[];try{const r=JSON.parse(localStorage.getItem('magdaleno_scooter_v1')||'null');if(r&&r.phase==='ending'&&pool.includes(r.hero)&&Array.isArray(r.rescued)&&r.rescued.length===2&&r.rescued.every(id=>pool.includes(id)))grp=[r.hero,...r.rescued];}catch{}
+ const out=grp.filter(id=>id!==hero);for(const id of pool)if(out.length<2&&id!==hero&&!out.includes(id))out.push(id);return out.slice(0,2);}
+function fakeBottleLines(){const [a,b]=cs.pair;return E.fakeBottle.map(([who,text])=>[who==='{a}'?a:who==='{b}'?b:who,text==='{scam}'?E.scam[a]:text]);}
+function part1(){cs.sub='bottle';cs.t=0;cs.fog=.15;cs.pair=stage3Pair();setMode('cut');caption('');say(fakeBottleLines(),()=>{cs.sub='fog';cs.t=0;},{location:'BOTILLERÍA EL MUÑECO · BUENOS AIRES',last:'ENTRAR A LA CAMANCHACA'});}
 function part3(){save('regreso');cs.sub='return';cs.t=0;cs.fog=1;setMode('cut');caption('');const lines=[['hero',E.reflection[hero]],...others().map(id=>[id,E.arrive[id]])];setTimeout(()=>{if(mode==='cut'&&cs.sub==='return')say(lines,()=>startStreet(0),{location:'BUENOS AIRES · DE VUELTA EN EL PRESENTE',last:'IR DONDE DON MARIO'});},qa?0:900);}
 // Con props (solo en la calle de la parte 4) aparecen postes, faroles, hitos de cada tramo y el brillo de neón al acercarse a los arcades.
 const HOUSE_PAL=[['#5e6f7c','#7a6658','#5d6a59','#6b5f72'],['#6f7a5a','#8a7458','#5f7468','#7c6a5a'],['#3d3a52','#47405e','#3a4658','#4a3c50']];
@@ -54,7 +58,7 @@ function drawBottle(x,y){R(g,x,y,10,24,'#5a2a18');R(g,x+3,y-8,4,9,'#5a2a18');R(g
 function updateCut(dt){cs.t+=dt;if(cs.sub==='fog'){cs.fog=Math.min(1.2,.15+cs.t*.7);if(cs.t>1.6)startHuincha();}if(cs.sub==='return')cs.fog=Math.max(0,1-cs.t*.8);if(cs.sub==='give'&&cs.t>3.4)part6();
  if(cs.sub==='share'){if(!cs.done){cs.done=true;M.campaign.complete(4,hero);}if(!cs.salud&&cs.t>1.9){cs.salud=true;M.audio.sfx('win');}if(cs.t>5.2)startCredits();}
  if(cs.sub==='credits'&&(cs.skip||M.tap('interact')||M.tap('jump')||M.tap('attack')||cs.t>creditsTime()+2.5))endCredits();}
-function drawCut(){if(cs.sub==='bottle'||cs.sub==='fog'){muneco(0);M.character(hero,360,G,140,{time,dir:1});drawBottle(382,G-78);fogLayer(cs.fog);return;}
+function drawCut(){if(cs.sub==='bottle'||cs.sub==='fog'){muneco(0);const pair=cs.pair||[];g.save();if(cs.sub==='fog')g.globalAlpha=Math.max(0,1-cs.t*.9);pair.forEach((id,i)=>M.character(id,i?500:220,G,id==='cote'?132:136,{time,dir:i?-1:1}));g.restore();M.character(hero,360,G,140,{time,dir:1});drawBottle(382,G-78);fogLayer(cs.fog);return;}
  if(cs.sub==='return'){muneco(0);const list=others(),shown=dlg?Math.max(0,dlg.i):list.length;M.character(hero,360,G,140,{time,dir:1});if(dlg&&dlg.i===0)T(g,'?',360,G-160,30,'#ffe39a');list.slice(0,shown).forEach((id,i)=>M.character(id,i<3?120+i*72:560+(i-3)*80,G,id==='cote'?132:136,{time,dir:i<3?1:-1}));fogLayer(cs.fog);return;}
  if(cs.sub==='black'){R(g,0,0,W,H,'#000');return;}
  if(cs.sub==='give')drawGive();if(cs.sub==='share')drawShare(cs.t);if(cs.sub==='credits')drawCredits();if(cs.sub==='end')drawShare(4.4);}
@@ -236,5 +240,5 @@ let last=performance.now(),acc=0;function frame(now){const dt=Math.min(.1,(now-l
 async function load(){M.images={};M.bounds={};await Promise.all([...M.order,'cote'].map(id=>new Promise((ok,fail)=>{const i=new Image();i.onload=()=>{M.images[id]=i;M.bounds[id]=M.assetBounds?.[id]||{x:0,y:0,w:i.width,h:i.height};ok();};i.onerror=()=>fail(new Error(id));i.src='assets/'+id+'.png';})));}
 load().then(()=>{checkRotate();heroButtons();$('e4-start').disabled=false;$('e4-start').textContent='COMENZAR LA ETAPA 4';toTitle();E.loaded=true;requestAnimationFrame(frame);}).catch(e=>{$('e4-start').textContent='NO SE PUDIERON CARGAR LOS SPRITES';console.error(e);});
 // Ganchos de prueba con ?qa=1: paso manual y acceso al estado.
-window.__e4={E,M,readSave,resumeSave,step:(n=1)=>{for(let i=0;i<n;i++)step(M.STEP);render();},render,begin,setHero:id=>{hero=id;},mode:()=>mode,dialog:()=>dlg&&{i:dlg.i,n:dlg.lines.length,who:dlg.lines[dlg.i].who},next:nextLine,hu,st,pg,cs,key:(c,down)=>M.input(c,down)};
+window.__e4={E,M,pair:()=>cs.pair,readSave,resumeSave,step:(n=1)=>{for(let i=0;i<n;i++)step(M.STEP);render();},render,begin,setHero:id=>{hero=id;},mode:()=>mode,dialog:()=>dlg&&{i:dlg.i,n:dlg.lines.length,who:dlg.lines[dlg.i].who},next:nextLine,hu,st,pg,cs,key:(c,down)=>M.input(c,down)};
 })();
