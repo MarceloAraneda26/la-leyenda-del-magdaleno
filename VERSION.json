@@ -1,9 +1,9 @@
 {
-  "gameVersion": "0.10.8",
+  "gameVersion": "0.10.9",
   "saveSchema": 1,
   "stage3SaveSchema": 2,
   "stage": "12.6: arte de enemigos y ciudad en la etapa 4",
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "campaignSaveSchema": 1,
   "stage4SaveSchema": 1
 }

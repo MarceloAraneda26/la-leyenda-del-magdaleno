@@ -1,5 +1,10 @@
 # Cambios de versión
 
+## 0.10.9: Don Mario más canoso y con el pelo ondulado · 10 de noviembre de 2026
+
+- El pelo de Don Mario tiene más canas, menos volumen y ondas en vez de rizos: cae hasta los hombros con hebras que serpentean.
+- La barba se aclaró un poco para acompañar las canas.
+
 ## 0.10.8: nuevo aspecto de Don Mario · 9 de noviembre de 2026
 
 - Don Mario tiene unos 60 años, melena larga, crespa y abultada, castaño oscuro con canas, partida al medio y cayendo sobre los hombros, y barba gris oscura con bigote.

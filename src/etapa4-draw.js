@@ -184,19 +184,20 @@ D.prop=function(g,kind,x,G,t){
   R(g,x+150,228,20,28,'#ffd94f');R(g,x+170,234,6,14,'#ffd94f');R(g,x+150,228,20,6,'#fff3d6');g.restore();R(g,x+20,286,74,62,'#1a2028');g.save();g.globalAlpha=.6;R(g,x+24,290,66,54,'#e0b05a');g.restore();R(g,x+55,290,2,54,'#1a2028');R(g,x+120,300,54,G-300,'#1a2028');R(g,x+124,304,46,50,'#e0b05a30');return;}};
 // Farol con cono de luz.
 D.lamp=function(g,x,G,t){R(g,x,250,6,G-250,'#3a4048');R(g,x,250,30,5,'#3a4048');R(g,x+22,253,16,7,'#ffe39a');g.save();g.globalAlpha=.1+Math.sin(t*3+x)*.01;P(g,[[x+24,260],[x+36,260],[x+76,G],[x-16,G]],'#ffe39a');g.restore();};
-// Don Mario: unos 60 años, melena larga, crespa y abultada, castaño oscuro con canas; barba gris oscura;
+// Don Mario: unos 60 años, melena larga y ondulada hasta los hombros, castaño oscuro bien canoso; barba gris oscura;
 // polera gris sin mangas, short rojo y zapatillas blancas. Se dibuja con contorno como los enemigos.
-const MARIO={skin:'#c49473',skinSh:'#a97c5f',hair:'#35261e',hairHi:'#5a4433',gray:'#8a847e',grayDk:'#665e57',beard:'#55524e',beardHi:'#7a7672',beardDk:'#3d3a37'};
-// Mechones crespos: bloques que juntos forman la melena; el contorno les da borde de nube.
-const MARIO_BACK=[[-186,12],[-181,20],[-176,26],[-170,31],[-164,34],[-158,36],[-152,37],[-146,38],[-140,38],[-134,37],[-128,36],[-122,35],[-116,33],[-110,31]].map(([y,hw],i)=>{const j=[0,2,-1,1,-2,1][i%6];return[-hw+j,y,hw*2-j+(i%3?1:-1),7];}).concat([[-33,-106,12,10],[-19,-104,11,9],[-6,-105,10,8],[8,-104,11,9],[21,-106,12,10]]);
-const MARIO_FRONT=[[-16,-176,15,12],[1,-176,15,12],[-21,-170,10,10],[11,-170,10,10],[-20,-164,8,40],[12,-164,8,40],[-27,-130,12,24],[15,-130,12,24]];
-function curls(g,c,list,sw,grey){const ink=c('x')===INK;for(const [x0,y0,w,h] of list){const x=x0+(x0<-10?-sw:x0>4?sw:0);R(g,x,y0,w,h,c(MARIO.hair));if(ink)continue;
- for(let yy=y0+1,r=0;yy<y0+h-2;yy+=4,r++)for(let xx=x+1+(r&1)*3;xx<x+w-3;xx+=6){const n=((xx*73+yy*151)%16+16)%16,hi=n<grey?MARIO.gray:n<grey+2?MARIO.grayDk:MARIO.hairHi;R(g,xx,yy,3,1,hi);R(g,xx-1,yy+1,1,2,hi);R(g,xx+1,yy+2,2,1,'#21160f');}}}
+const MARIO={skin:'#c49473',skinSh:'#a97c5f',hair:'#463a33',hairHi:'#62554b',gray:'#a39d96',grayLt:'#bdb8b2',beard:'#5e5b57',beardHi:'#8a8682',beardDk:'#45423f'};
+// Melena ondulada que cae hasta los hombros: filas que forman el contorno (con un leve vaivén) y puntas al final.
+const MARIO_BACK=[[-185,10],[-180,16],[-175,19],[-170,21],[-164,22],[-158,23],[-152,24],[-146,25],[-140,26],[-134,27],[-128,28],[-122,28],[-116,27]].map(([y,hw],i)=>{const j=Math.round(Math.sin(i*1.3)*1.5);return[-hw+j,y,hw*2+j,7];}).concat([[-27,-112,10,8],[-15,-110,9,6],[6,-110,9,6],[17,-112,10,8]]);
+const MARIO_FRONT=[[-15,-178,14,10],[1,-178,14,10],[-18,-170,7,10],[11,-170,7,10],[-18,-162,6,36],[12,-162,6,36],[-24,-128,10,22],[14,-128,10,22]];
+// Mechones ondulados: hebras verticales que serpentean; algunas son canas (grey de cada 16).
+function waves(g,c,list,sw,grey){const ink=c('x')===INK;for(const [x0,y0,w,h] of list){const x=x0+(x0<-10?-sw:x0>4?sw:0);R(g,x,y0,w,h,c(MARIO.hair));if(ink)continue;
+ for(let xx=x+1;xx<x+w-1;xx+=3){const n=((Math.round(xx)*37+11)%16+16)%16,col=n<grey?MARIO.gray:n<grey+2?MARIO.grayLt:n<grey+7?MARIO.hairHi:'#2f2621';for(let yy=y0;yy<y0+h-1;yy+=2){const ox=Math.round(Math.sin(yy*.24+xx*.15)*2);if(xx+ox>x&&xx+ox<x+w-1)R(g,xx+ox,yy,1,2,col);}}}}
 D.mario=function(g,x,y,o={}){const k=(o.h||150)/150,t=o.t||0,S=MARIO;g.save();g.translate(Math.round(x),Math.round(y));g.scale(k*(o.dir||1),k);
  const sw=Math.round(Math.sin(t*2)*1.2),arm=o.give!=null?-1.35*o.give:o.wave?Math.sin(t*6)*.5-1.4:0;
  outlined(g,c=>{
   // Melena por detrás de la espalda.
-  curls(g,c,MARIO_BACK,sw,2);
+  waves(g,c,MARIO_BACK,sw,5);
   // Brazo de atrás.
   R(g,-28,-120,8,40,c(S.skin));R(g,-28,-120,3,40,c(S.skinSh));R(g,-28,-80,8,8,c('#b4846a'));
   // Piernas, calcetines y zapatillas blancas.
@@ -219,7 +220,7 @@ D.mario=function(g,x,y,o={}){const k=(o.h||150)/150,t=o.t||0,S=MARIO;g.save();g.
   if(c('x')!==INK){for(let yy=-138,r=0;yy<-121;yy+=3,r++)for(let xx=-12+(r&1)*3;xx<11;xx+=5)if(Math.abs(xx+1)<13-(yy>-130?(yy+130)*1.2:0)){const n=((xx*31+yy*17)%8+8)%8;R(g,xx,yy,n<3?2:1,2,n<3?S.beardHi:S.beardDk);}}
   R(g,-4,-135,8,2,c('#6e3e38'));
   // Melena por delante: chasquilla partida al medio y mechones que caen sobre los hombros.
-  curls(g,c,MARIO_FRONT,sw,4);R(g,-1,-176,2,10,c('#21160f'));
+  waves(g,c,MARIO_FRONT,sw,6);R(g,-1,-178,2,10,c('#2f2621'));
   // Brazo de adelante (gira para saludar o entregar la botella).
   g.save();g.translate(20,-120);g.rotate(arm);R(g,0,0,8,40,c(S.skin));R(g,5,0,3,40,c(S.skinSh));R(g,0,40,8,8,c('#b4846a'));
   if(o.bottle){R(g,-2,44,12,26,c('#5a2a18'));R(g,1,36,6,10,c('#5a2a18'));R(g,0,52,10,8,c('#e6d29a'));}g.restore();
